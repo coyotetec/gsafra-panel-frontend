@@ -5,7 +5,7 @@ export function Router() {
     <BrowserRouter>
       <Routes>
         <Route
-          element={<h1 className="text-primary960  text-5xl">Gsafra Panel</h1>}
+          element={<h1 className="text-5xl  text-primary960">Gsafra Panel</h1>}
           path="/"
         />
       </Routes>
