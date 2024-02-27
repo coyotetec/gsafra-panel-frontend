@@ -37,6 +37,18 @@ export default {
         GBlack80: 'rgba(0,0,0,0.8)',
         GBlack100: '#000000',
       },
+      gridTemplateColumns: {
+        init: '56% 1fr',
+      },
+      maxWidth: {
+        content: '1440px',
+      },
+      height: {
+        calcImg: 'calc(100vh - 32px)',
+      },
+      fontFamily: {
+        sans: ['Montserrat', 'sans-serif'],
+      },
     },
   },
   plugins: [],
