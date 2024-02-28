@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Login } from '../view/pages/Login';
 import { CreatePassword } from '../view/pages/CreatePassword';
+import { ForgotPassword } from '../view/pages/ForgotPassword';
 
 export function Router() {
   return (
@@ -9,7 +10,7 @@ export function Router() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/criar-senha" element={<CreatePassword />} />
-        <Route path="recuperar-senha" element={<h1>Recuperar senha</h1>} />
+        <Route path="recuperar-senha" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );
