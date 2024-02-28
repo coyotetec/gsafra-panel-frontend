@@ -1,6 +1,9 @@
-import campImg from '../../assets/camp.png';
+import { IconLogin } from '@tabler/icons-react';
+import campImg from '../../assets/images/camp.png';
 import { Input } from '../components/Input';
 import { Logo } from '../components/Logo';
+import { Button } from '../components/Button';
+import { Link } from 'react-router-dom';
 
 export function Login() {
   return (
@@ -29,15 +32,15 @@ export function Login() {
             name="password"
             type="password"
           />
-          <span className="text-primary-950 text-xs font-medium">
-            Esqueceu a senha?
-          </span>
-          <button
-            type="submit"
-            className="bg-primary-950 mt-6 w-full rounded-full p-4 text-white"
-          >
+          <Link to="/recuperar-senha">
+            <span className="text-primary-950 text-xs font-medium">
+              Esqueceu a senha?
+            </span>
+          </Link>
+          <Button type="submit">
             Entrar
-          </button>
+            <IconLogin size={24} stroke={2} />
+          </Button>
         </form>
       </div>
     </section>

@@ -42,7 +42,7 @@ export function Input({
             <IconEye
               size={24}
               stroke={1.5}
-              className="text-primary-950 absolute right-3 top-6"
+              className="text-primary-700 absolute right-3 top-6"
             />
           </button>
         ) : type === 'password' && showPassword ? (
@@ -50,7 +50,7 @@ export function Input({
             <IconEyeOff
               size={24}
               stroke={1.5}
-              className="text-primary-950 absolute right-3 top-6"
+              className="text-primary-700 absolute right-3 top-6"
             />
           </button>
         ) : null}
