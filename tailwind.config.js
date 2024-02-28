@@ -5,9 +5,9 @@ export default {
     extend: {
       colors: {
         white: '#ffffff',
-        'g-gray-400': '#EEEEEE',
-        'g-gray-500': '#CCCCCC',
-        'g-gray-600': '#646464',
+        'gray-400': '#EEEEEE',
+        'gray-500': '#CCCCCC',
+        'gray-600': '#646464',
         'primary-40': '#CCECDE',
         'primary-50': '#ABDFC8',
         'primary-100': '#8AD1B2',
@@ -32,10 +32,10 @@ export default {
         'secundary-700': '#BF9907',
         'secundary-800': '#9F8104',
         'secundary-900': '#806801',
-        'g-black-50': 'rgba(0,0,0,0.5)',
-        'g-black-70': 'rgba(0,0,0,0.7)',
-        'g-black-80': 'rgba(0,0,0,0.8)',
-        'g-black-100': '#000000',
+        'black-50': 'rgba(0,0,0,0.5)',
+        'black-70': 'rgba(0,0,0,0.7)',
+        'black-80': 'rgba(0,0,0,0.8)',
+        'black-100': '#000000',
       },
       gridTemplateColumns: {
         init: '56% 1fr',
@@ -48,6 +48,9 @@ export default {
         'calc-img': 'calc(100vh - 32px)',
         'calc-sidebar': 'calc(100vh - 7rem)',
         13: '3.25rem',
+      },
+      minHeight: {
+        'calc-main': 'calc(100vh - 7rem)',
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
