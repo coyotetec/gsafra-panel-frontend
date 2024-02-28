@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Login } from '../view/pages/Login';
 import { CreatePassword } from '../view/pages/CreatePassword';
 import { ForgotPassword } from '../view/pages/ForgotPassword';
+import { Panel } from '../view/pages/Panel';
 
 export function Router() {
   return (
@@ -10,7 +11,8 @@ export function Router() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/criar-senha" element={<CreatePassword />} />
-        <Route path="recuperar-senha" element={<ForgotPassword />} />
+        <Route path="/recuperar-senha" element={<ForgotPassword />} />
+        <Route path="/painel" element={<Panel />} />
       </Routes>
     </BrowserRouter>
   );
