@@ -1,13 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Login } from '../view/pages/Login';
 
 export function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          element={<h1 className="text-5xl  text-primary960">Gsafra Panel</h1>}
-          path="/"
-        />
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route element={<Login />} path="/login" />
       </Routes>
     </BrowserRouter>
   );

@@ -42,9 +42,13 @@ export default {
       },
       maxWidth: {
         content: '1440px',
+        104: '24.875rem',
       },
       height: {
         calcImg: 'calc(100vh - 32px)',
+      },
+      margin: {
+        6.5: '1.625rem',
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
