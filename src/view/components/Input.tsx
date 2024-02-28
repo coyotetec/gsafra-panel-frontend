@@ -30,7 +30,7 @@ export function Input({
 
       <div className="relative">
         <input
-          className=" outline-primary-950  mt-2 w-full max-w-104 rounded-xl bg-gray-400 p-4 outline-1"
+          className=" outline-primary-950 max-w-104 mt-2 w-full rounded-xl bg-gray-400 p-4 outline-1"
           type={type === 'password' && showPassword ? 'text' : type}
           ref={refInput}
           id={name}

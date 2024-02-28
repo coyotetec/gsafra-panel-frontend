@@ -60,6 +60,9 @@ export default {
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
       },
+      padding: {
+        18: '4.5rem',
+      },
     },
   },
   plugins: [],

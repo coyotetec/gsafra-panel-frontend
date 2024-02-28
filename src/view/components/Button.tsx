@@ -1,13 +1,21 @@
 import { ButtonHTMLAttributes } from 'react';
+import { cn } from '../../app/utils/cn';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
+  variant?: 'outline' | 'light';
 }
 
-export function Button({ children, ...rest }: ButtonProps) {
+export function Button({ children, className, variant, ...rest }: ButtonProps) {
   return (
     <button
-      className="bg-primary-700 mt-8 flex w-full items-center justify-center gap-1 rounded-full p-4 font-semibold text-white outline-none transition-opacity hover:opacity-95 focus:opacity-95"
+      className={cn(
+        'bg-primary-500 hover:bg-primary-400 flex h-13 w-full items-center justify-center gap-1 rounded-full font-medium leading-none text-white outline-none transition-colors',
+        variant === 'outline' &&
+          'border-primary-950 text-primary-950 border-2 bg-[rgba(3,78,44,0.1)] hover:bg-[rgba(3,78,44,0.25)]',
+        variant === 'light' && 'text-primary-960 bg-white hover:bg-gray-400',
+        className,
+      )}
       {...rest}
     >
       {children}

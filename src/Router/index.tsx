@@ -3,6 +3,10 @@ import { Login } from '../view/pages/Login';
 import { CreatePassword } from '../view/pages/CreatePassword';
 import { ForgotPassword } from '../view/pages/ForgotPassword';
 import { Panel } from '../view/pages/Panel';
+import { Companies } from '../view/pages/Manager/Companies';
+import { Users } from '../view/pages/Manager/Users';
+import { Notifications } from '../view/pages/Manager/Notifications';
+import { ManagerLayout } from '../view/layouts/ManagerLayout';
 
 export function Router() {
   return (
@@ -13,6 +17,13 @@ export function Router() {
         <Route path="/criar-senha" element={<CreatePassword />} />
         <Route path="/recuperar-senha" element={<ForgotPassword />} />
         <Route path="/painel" element={<Panel />} />
+        <Route path="recuperar-senha" element={<ForgotPassword />} />
+
+        <Route element={<ManagerLayout />}>
+          <Route path="/manager/companies" element={<Companies />} />
+          <Route path="/manager/users" element={<Users />} />
+          <Route path="/manager/notifications" element={<Notifications />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
