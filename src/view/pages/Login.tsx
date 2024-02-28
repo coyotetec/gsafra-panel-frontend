@@ -8,7 +8,7 @@ export function Login() {
       <img
         src={campImg}
         alt="plantação"
-        className="h-calcImg w-full rounded-3xl object-cover"
+        className="h-calc-img w-full rounded-3xl object-cover"
       />
       <div className="flex flex-col items-center justify-center">
         <Logo />
@@ -17,19 +17,24 @@ export function Login() {
           className="mt-6 w-full max-w-104"
           onSubmit={(e) => e.preventDefault()}
         >
-          <Input placeholder="Seu Email" label="E-mail" name="email" />
+          <Input
+            placeholder="Seu Email"
+            label="E-mail"
+            name="email"
+            type="email"
+          />
           <Input
             placeholder="Sua Senha"
             label="Senha"
             name="password"
             type="password"
           />
-          <span className="text-xs font-medium text-primary950">
+          <span className="text-primary-950 text-xs font-medium">
             Esqueceu a senha?
           </span>
           <button
             type="submit"
-            className="mt-6 w-full rounded-full bg-primary950 p-4 text-white"
+            className="bg-primary-950 mt-6 w-full rounded-full p-4 text-white"
           >
             Entrar
           </button>

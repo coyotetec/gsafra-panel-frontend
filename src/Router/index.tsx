@@ -6,7 +6,8 @@ export function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
-        <Route element={<Login />} path="/login" />
+        <Route path="/login" element={<Login />} />
+        <Route />
       </Routes>
     </BrowserRouter>
   );
