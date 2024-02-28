@@ -1,13 +1,16 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Login } from '../view/pages/Login';
+import { CreatePassword } from '../view/pages/CreatePassword';
+import { ForgotPassword } from '../view/pages/ForgotPassword';
 
 export function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          element={<h1 className="text-5xl  text-primary960">Gsafra Panel</h1>}
-          path="/"
-        />
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/criar-senha" element={<CreatePassword />} />
+        <Route path="recuperar-senha" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );

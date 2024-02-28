@@ -43,6 +43,7 @@ export default {
       },
       maxWidth: {
         content: '1440px',
+        104: '24.875rem',
         '8xl': '81rem',
       },
       height: {
@@ -52,6 +53,9 @@ export default {
       },
       minHeight: {
         'calc-main': 'calc(100vh - 7rem)',
+      },
+      margin: {
+        6.5: '1.625rem',
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
