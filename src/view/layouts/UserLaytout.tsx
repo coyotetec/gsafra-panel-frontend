@@ -1,18 +1,25 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '../components/Header';
+import { useState } from 'react';
+import { Sidebar } from '../pages/User/Sidebar';
+
+export type CurrentContentType = 'users' | 'notifications';
 
 export function UserLayout() {
+  const [currentContent, setCurrentContent] =
+    useState<CurrentContentType>('users');
+
   return (
     <div className="bg-gray-400">
       <Header />
-      <aside className="fixed left-0 top-28 z-40 flex h-calc-sidebar w-96">
-        <nav className="h-full w-24 bg-primary-900"></nav>
-        <div className="h-full w-full bg-primary-500"></div>
-      </aside>
+      <Sidebar
+        currentContent={currentContent}
+        setCurrentContent={setCurrentContent}
+      />
       <main className="ml-96 mt-28 min-h-calc-main px-9 py-10">
-        <div className="mx-auto w-full max-w-8xl">
+        <section className="mx-auto w-full max-w-8xl">
           <Outlet />
-        </div>
+        </section>
       </main>
     </div>
   );

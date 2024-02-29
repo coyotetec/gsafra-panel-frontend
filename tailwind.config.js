@@ -75,6 +75,7 @@ export default {
       },
       padding: {
         18: '4.5rem',
+        2.5: '0.625rem',
       },
     },
   },

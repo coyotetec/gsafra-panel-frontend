@@ -33,11 +33,11 @@ export function Login() {
             type="password"
           />
           <Link to="/recuperar-senha">
-            <span className="text-xs font-medium text-primary-950">
+            <span className="mt-2 inline-block w-full text-right text-xs font-medium text-primary-950">
               Esqueceu a senha?
             </span>
           </Link>
-          <Button type="submit">
+          <Button type="submit" className="mt-8">
             Entrar
             <IconLogin size={24} stroke={2} />
           </Button>
