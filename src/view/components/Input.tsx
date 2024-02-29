@@ -23,14 +23,14 @@ export function Input({
   return (
     <div className={wrapperStyle || 'mt-3 flex flex-col'}>
       {label && (
-        <label className="text-primary-950 text-xs font-medium" htmlFor={name}>
+        <label className="text-xs font-medium text-primary-950" htmlFor={name}>
           {label}
         </label>
       )}
 
       <div className="relative">
         <input
-          className=" outline-primary-950 max-w-104 mt-2 w-full rounded-xl bg-gray-400 p-4 outline-1"
+          className=" mt-2 w-full rounded-xl bg-gray-400 p-4 outline-1 outline-primary-950"
           type={type === 'password' && showPassword ? 'text' : type}
           ref={refInput}
           id={name}
@@ -42,7 +42,7 @@ export function Input({
             <IconEye
               size={24}
               stroke={1.5}
-              className="text-primary-700 absolute right-3 top-6"
+              className="absolute right-3 top-6 text-primary-700"
             />
           </button>
         ) : type === 'password' && showPassword ? (
@@ -50,7 +50,7 @@ export function Input({
             <IconEyeOff
               size={24}
               stroke={1.5}
-              className="text-primary-700 absolute right-3 top-6"
+              className="absolute right-3 top-6 text-primary-700"
             />
           </button>
         ) : null}

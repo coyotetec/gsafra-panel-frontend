@@ -1,7 +1,7 @@
 import { IconLogin } from '@tabler/icons-react';
 import campImg from '../../assets/images/camp.png';
 import { Input } from '../components/Input';
-import { Logo } from '../components/Logo';
+import { Logo } from '../components/Logos/Logo';
 import { Button } from '../components/Button';
 import { Link } from 'react-router-dom';
 
@@ -33,7 +33,7 @@ export function Login() {
             type="password"
           />
           <Link to="/recuperar-senha">
-            <span className="text-primary-950 text-xs font-medium">
+            <span className="text-xs font-medium text-primary-950">
               Esqueceu a senha?
             </span>
           </Link>

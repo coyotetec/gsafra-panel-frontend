@@ -38,8 +38,16 @@ export default {
         'black-100': '#000000',
         'red-500': '#F03C37',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-linear-green':
+          'linear-gradient(180deg, #2AC763 0%, #2AC764 0.01%, #0E9458 100%)',
+      },
       gridTemplateColumns: {
         init: '56% 1fr',
+      },
+      fontSize: {
+        '3.5xl': '2rem',
       },
       maxWidth: {
         content: '1440px',
@@ -50,12 +58,17 @@ export default {
         'calc-img': 'calc(100vh - 32px)',
         'calc-sidebar': 'calc(100vh - 7rem)',
         13: '3.25rem',
+        50: '12.5rem',
+      },
+      width: {
+        50: '13.75rem',
       },
       minHeight: {
         'calc-main': 'calc(100vh - 7rem)',
       },
       margin: {
         6.5: '1.625rem',
+        1.5: '0.375rem',
       },
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
