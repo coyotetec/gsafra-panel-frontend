@@ -6,7 +6,6 @@ import {
 } from '@tabler/icons-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { cn } from '../../app/utils/cn';
-import { Button } from '../components/Button';
 import { Header } from '../components/Header';
 
 interface NavItem {

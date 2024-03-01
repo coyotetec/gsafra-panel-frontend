@@ -63,15 +63,7 @@ export function Input({
               <IconEye strokeWidth={1.5} />
             )}
           </button>
-        ) : type === 'password' && showPassword ? (
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>
-            <IconEyeOff
-              size={24}
-              stroke={1.5}
-              className="text-primary-700 absolute right-3 top-6"
-            />
-          </button>
-        ) : null}
+        )}
       </div>
       {error && <span>{error}</span>}
     </div>
