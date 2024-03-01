@@ -2,6 +2,8 @@ import { IconEdit, IconPlus } from '@tabler/icons-react';
 import { Switch } from '../../../components/Switch';
 import { Button } from '../../../components/Button';
 import { cn } from '../../../../app/utils/cn';
+import { useState } from 'react';
+import { CreateCompanyModal } from './modals/createCompanyModal';
 
 interface ICompany {
   name: string;
@@ -38,25 +40,31 @@ const companiesMock: ICompany[] = [
 ];
 
 export function Companies() {
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+
   return (
     <>
+      <CreateCompanyModal
+        visible={createModalVisible}
+        onClose={() => setCreateModalVisible(false)}
+      />
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-black-100 text-3xl font-bold">Empresas</h1>
+          <h1 className="text-3xl font-bold text-black-100">Empresas</h1>
           <p className="text-black-80">
             {companiesMock.length === 1
               ? '1 empresa encontrada'
               : `${companiesMock.length} empresas encontradas`}
           </p>
         </div>
-        <Button className="w-56">
+        <Button className="w-56" onClick={() => setCreateModalVisible(true)}>
           <IconPlus />
           Nova Empresa
         </Button>
       </header>
 
-      <table className="text-black-80 mt-5 w-full overflow-hidden rounded-xl text-left text-sm">
-        <thead className="text-primary-500 bg-primary-40">
+      <table className="mt-5 w-full overflow-hidden rounded-xl text-left text-sm text-black-80">
+        <thead className="bg-primary-40 text-primary-500">
           <tr>
             <th scope="col" className="px-4 py-5 font-semibold">
               Nome
