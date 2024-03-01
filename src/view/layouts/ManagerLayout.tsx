@@ -4,7 +4,6 @@ import {
   IconLogout2,
   IconUser,
   Icon,
-  IconPlus,
 } from '@tabler/icons-react';
 import logoHorizontal from '../../assets/images/logo-horizontal.svg';
 import { NavLink, Outlet } from 'react-router-dom';
@@ -38,16 +37,16 @@ export function ManagerLayout() {
 
   return (
     <div className="bg-gray-400">
-      <header className="px-18 fixed left-0 top-0 z-40 flex h-28 w-full items-center justify-center bg-white">
+      <header className="fixed left-0 top-0 z-30 flex h-28 w-full items-center justify-center bg-white px-18">
         <div className="flex w-full max-w-8xl items-center justify-between">
           <div className="flex items-center gap-2">
             <img src={logoHorizontal} alt="logo" />
-            <span className="bg-primary-300 text-primary-50 rounded-full px-3 py-2 text-sm font-bold leading-none">
+            <span className="rounded-full bg-primary-300 px-3 py-2 text-sm font-bold leading-none text-primary-50">
               MANAGER
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <strong className="text-black-80 font-semibold">Iran Adryan</strong>
+            <strong className="font-semibold text-black-80">Iran Adryan</strong>
             <Button variant="outline" className="w-28">
               <IconLogout2 />
               Sair
@@ -55,8 +54,8 @@ export function ManagerLayout() {
           </div>
         </div>
       </header>
-      <aside className="h-calc-sidebar fixed left-0 top-28 z-40 w-80">
-        <nav className="bg-primary-500 h-full overflow-y-auto px-3 py-4">
+      <aside className="fixed left-0 top-28 z-30 h-calc-sidebar w-80">
+        <nav className="h-full overflow-y-auto bg-primary-500 px-3 py-5">
           <ul className="space-y-2 font-semibold">
             {navItems.map(({ Icon, label, path }) => (
               <li key={label}>
@@ -64,7 +63,7 @@ export function ManagerLayout() {
                   to={path}
                   className={({ isActive }) =>
                     cn(
-                      'text-primary-50 hover:bg-primary-400 flex items-center gap-2 rounded-xl p-4 leading-none transition-colors',
+                      'flex items-center gap-2 rounded-xl p-4 leading-none text-primary-50 transition-colors hover:bg-primary-400',
                       isActive && '!bg-primary-300 text-white',
                     )
                   }
@@ -75,13 +74,9 @@ export function ManagerLayout() {
               </li>
             ))}
           </ul>
-          <Button variant="light">
-            <IconPlus />
-            Nova Empresa
-          </Button>
         </nav>
       </aside>
-      <main className="min-h-calc-main ml-80 mt-28 px-9 py-10">
+      <main className="ml-80 mt-28 min-h-calc-main px-9 py-10">
         <div className="mx-auto w-full max-w-8xl">
           <Outlet />
         </div>

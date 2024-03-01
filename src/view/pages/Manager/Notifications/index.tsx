@@ -1,6 +1,8 @@
 import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react';
 import { format } from 'date-fns';
 import { Button } from '../../../components/Button';
+import { CreateNotificationModal } from './modals/createNotificationModal';
+import { useState } from 'react';
 
 interface INotifications {
   title: string;
@@ -31,6 +33,8 @@ const companiesMock: INotifications[] = [
 ];
 
 export function Notifications() {
+  const [createModalVisible, setCreateModalVisible] = useState(true);
+
   function formatRecipient(recipient: string[]) {
     if (recipient.length === 0) {
       return 'Todos';
@@ -47,23 +51,27 @@ export function Notifications() {
 
   return (
     <>
+      <CreateNotificationModal
+        visible={createModalVisible}
+        onClose={() => setCreateModalVisible(false)}
+      />
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-black-100 text-3xl font-bold">Notificações</h1>
+          <h1 className="text-3xl font-bold text-black-100">Notificações</h1>
           <p className="text-black-80">
             {companiesMock.length === 1
               ? '1 notificação encontrada'
               : `${companiesMock.length} notificações encontradas`}
           </p>
         </div>
-        <Button className="w-56">
+        <Button className="w-56" onClick={() => setCreateModalVisible(true)}>
           <IconPlus />
           Nova Notificação
         </Button>
       </header>
 
-      <table className="text-black-80 mt-5 w-full overflow-hidden rounded-xl text-left text-sm">
-        <thead className="text-primary-500 bg-primary-40">
+      <table className="mt-5 w-full overflow-hidden rounded-xl text-left text-sm text-black-80">
+        <thead className="bg-primary-40 text-primary-500">
           <tr>
             <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
               Título
