@@ -62,6 +62,7 @@ export default {
       },
       width: {
         50: '13.75rem',
+        82: '20.5rem',
       },
       minHeight: {
         'calc-main': 'calc(100vh - 7rem)',

@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { IconUserPlus } from '@tabler/icons-react';
 import { Button } from '../../../../components/Button';
 import { UserInformation } from '../components/UserInformation';
+import { NewUserModal } from '../components/NewUserModal';
 
 export function Users() {
+  const [showNewUserModal, setShowNewUserModal] = useState(false);
+
   return (
     <>
       <h1 className="text-2xl font-semibold text-white">Usuários</h1>
@@ -11,10 +15,17 @@ export function Users() {
         <UserInformation userName="Caleb Lima" email="caleb@gmail.com" />
       </div>
 
-      <Button variant="light" className="">
+      <Button variant="light" onClick={() => setShowNewUserModal(true)}>
         <IconUserPlus size={24} />
         Novo usuário
       </Button>
+
+      {showNewUserModal && (
+        <NewUserModal
+          visible={showNewUserModal}
+          onClose={() => setShowNewUserModal(false)}
+        />
+      )}
     </>
   );
 }
