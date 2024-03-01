@@ -44,7 +44,7 @@ export function NewUserModal({ onClose, visible }: NewUserModalProps) {
           labelKey="name"
         />
 
-        <footer className="w-82 mx-auto mt-6 flex gap-2 text-center">
+        <footer className="mx-auto mt-6 flex w-82 gap-2 text-center">
           <Button variant="secondary" onClick={onClose}>
             Cancelar
           </Button>
