@@ -3,7 +3,6 @@ import {
   IconBuildingCommunity,
   IconUser,
   Icon,
-  IconPlus,
 } from '@tabler/icons-react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { cn } from '../../app/utils/cn';
@@ -58,10 +57,6 @@ export function ManagerLayout() {
               </li>
             ))}
           </ul>
-          <Button variant="light">
-            <IconPlus />
-            Nova Empresa
-          </Button>
         </nav>
       </aside>
       <main className="ml-80 mt-28 min-h-calc-main px-9 py-10">
