@@ -12,11 +12,13 @@ export function CreatePassword() {
         alt="plantação"
         className="h-calc-img w-full rounded-3xl object-cover"
       />
+
       <div className="flex flex-col items-center justify-center">
         <Logo />
         <h2 className="text-2xl font-bold">Crie a sua senha</h2>
+
         <form
-          className="mt-6 w-full max-w-104"
+          className="mt-6 flex w-full max-w-104 flex-col gap-3"
           onSubmit={(e) => e.preventDefault()}
         >
           <Input
@@ -31,7 +33,7 @@ export function CreatePassword() {
             name="password"
             type="password"
           />
-          <Button type="submit">
+          <Button type="submit" className="mt-5">
             Criar senha
             <IconPasswordUser size={24} stroke={1.5} />
           </Button>

@@ -28,7 +28,7 @@ export function ForgotPassword() {
             name="email"
             type="email"
           />
-          <Button type="submit">
+          <Button type="submit" className="mt-8">
             Enviar e-mail
             <IconMail size={24} stroke={1.5} />
           </Button>

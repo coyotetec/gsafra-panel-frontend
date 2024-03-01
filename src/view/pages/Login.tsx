@@ -17,21 +17,23 @@ export function Login() {
         <Logo />
         <h2 className="text-2xl font-bold">Acesse sua conta</h2>
         <form
-          className="mt-6 w-full max-w-104"
+          className="mt-6 w-full max-w-104 "
           onSubmit={(e) => e.preventDefault()}
         >
-          <Input
-            placeholder="Seu Email"
-            label="E-mail"
-            name="email"
-            type="email"
-          />
-          <Input
-            placeholder="Sua Senha"
-            label="Senha"
-            name="password"
-            type="password"
-          />
+          <div className=" flex flex-col gap-3">
+            <Input
+              placeholder="Seu Email"
+              label="E-mail"
+              name="email"
+              type="email"
+            />
+            <Input
+              placeholder="Sua Senha"
+              label="Senha"
+              name="password"
+              type="password"
+            />
+          </div>
           <Link to="/recuperar-senha">
             <span className="mt-2 inline-block w-full text-right text-xs font-medium text-primary-950">
               Esqueceu a senha?
