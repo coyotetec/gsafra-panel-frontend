@@ -7,7 +7,7 @@ export function Panel() {
     <>
       <h1 className="text-3.5xl font-bold">Painel de Acessos</h1>
       <span>Clique um dos acessos abaixo para ser redirecionado</span>
-      <section className="mt-6 flex gap-3">
+      <div className="mt-6 flex gap-3">
         <CardPanel
           image={systemIcon}
           descriptionImg="Ícone do sistema"
@@ -20,7 +20,7 @@ export function Panel() {
           title="Dashboard"
           farm="Fazenda Ana Júlia"
         />
-      </section>
+      </div>
     </>
   );
 }

@@ -19,13 +19,10 @@ export function Users() {
         <IconUserPlus size={24} />
         Novo usuário
       </Button>
-
-      {showNewUserModal && (
-        <NewUserModal
-          visible={showNewUserModal}
-          onClose={() => setShowNewUserModal(false)}
-        />
-      )}
+      <NewUserModal
+        visible={showNewUserModal}
+        onClose={() => setShowNewUserModal(false)}
+      />
     </>
   );
 }
