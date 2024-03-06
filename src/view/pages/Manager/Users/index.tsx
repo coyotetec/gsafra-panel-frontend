@@ -2,6 +2,8 @@ import { IconEdit, IconPlus } from '@tabler/icons-react';
 import { Switch } from '../../../components/Switch';
 import { cn } from '../../../../app/utils/cn';
 import { Button } from '../../../components/Button';
+import { CreateUserModal } from './modals/createUserModal';
+import { useState } from 'react';
 
 interface IUser {
   name: string;
@@ -32,25 +34,31 @@ const usersMock: IUser[] = [
 ];
 
 export function Users() {
+  const [createModalVisible, setCreateModalVisible] = useState(false);
+
   return (
     <>
+      <CreateUserModal
+        visible={createModalVisible}
+        onClose={() => setCreateModalVisible(false)}
+      />
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-black-100 text-3xl font-bold">Usuários</h1>
+          <h1 className="text-3xl font-bold text-black-100">Usuários</h1>
           <p className="text-black-80">
             {usersMock.length === 1
               ? '1 usuário encontrada'
               : `${usersMock.length} usuários encontradas`}
           </p>
         </div>
-        <Button className="w-56">
+        <Button className="w-56" onClick={() => setCreateModalVisible(true)}>
           <IconPlus />
           Nova Usuário
         </Button>
       </header>
 
-      <table className="text-black-80 mt-5 w-full overflow-hidden rounded-xl text-left text-sm">
-        <thead className="text-primary-500 bg-primary-40">
+      <table className="mt-5 w-full overflow-hidden rounded-xl text-left text-sm text-black-80">
+        <thead className="bg-primary-40 text-primary-500">
           <tr>
             <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
               Nome
