@@ -29,7 +29,7 @@ export function CreateCompanyModal({
         />
       </form>
 
-      <footer className="mx-auto mt-8 flex justify-center">
+      <footer className="mx-auto mt-8 flex justify-center gap-2">
         <Button variant="secondary" className="w-40" onClick={onClose}>
           Cancelar
         </Button>

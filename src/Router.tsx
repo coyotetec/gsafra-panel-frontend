@@ -1,11 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { Login } from '../view/pages/Login';
-import { CreatePassword } from '../view/pages/CreatePassword';
-import { ForgotPassword } from '../view/pages/ForgotPassword';
-import { Companies } from '../view/pages/Manager/Companies';
-import { Users } from '../view/pages/Manager/Users';
-import { Notifications } from '../view/pages/Manager/Notifications';
-import { ManagerLayout } from '../view/layouts/ManagerLayout';
+import { Login } from './view/pages/Login';
+import { CreatePassword } from './view/pages/CreatePassword';
+import { ForgotPassword } from './view/pages/ForgotPassword';
+import { Companies } from './view/pages/Manager/Companies';
+import { Users } from './view/pages/Manager/Users';
+import { Notifications } from './view/pages/Manager/Notifications';
+import { ManagerLayout } from './view/layouts/ManagerLayout';
 
 export function Router() {
   return (

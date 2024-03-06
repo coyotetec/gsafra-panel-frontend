@@ -1,4 +1,5 @@
-import { Fragment, HTMLAttributes, useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Fragment, HTMLAttributes } from 'react';
 import { cn } from '../../app/utils/cn';
 import { Listbox, Transition } from '@headlessui/react';
 import { IconChevronDown } from '@tabler/icons-react';
@@ -10,6 +11,8 @@ interface SelectProps {
   options: Array<any>;
   valueKey: string;
   labelKey: string;
+  selected: any;
+  setSelected: (value: any) => void;
 }
 
 export function Select({
@@ -19,26 +22,27 @@ export function Select({
   options,
   valueKey,
   labelKey,
+  selected,
+  setSelected,
 }: SelectProps) {
-  const [selected, setSelected] = useState<string | undefined>();
-  const selectedOption = useMemo(
-    () => options.find((option) => selected === option[valueKey]),
-    [options, selected, valueKey],
-  );
-
   return (
     <div className={cn('flex w-full flex-col', wrapperClass)}>
       {label && (
         <label className="text-xs font-medium text-primary-950">{label}</label>
       )}
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox
+        value={selected ? selected[valueKey] : undefined}
+        onChange={(value) =>
+          setSelected(options.find((option) => value === option[valueKey]))
+        }
+      >
         <div className="relative mt-0.5">
           <Listbox.Button
             className="relative flex h-13 w-full items-center justify-between
           rounded-xl bg-gray-400 px-4 outline-primary-500"
           >
             <span className={cn('text-black/80', !selected && 'text-black/50')}>
-              {selectedOption ? selectedOption[labelKey] : placeholder}
+              {selected ? selected[labelKey] : placeholder}
             </span>
             <IconChevronDown className="text-black-80" />
           </Listbox.Button>

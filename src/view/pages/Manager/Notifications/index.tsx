@@ -33,7 +33,7 @@ const companiesMock: INotifications[] = [
 ];
 
 export function Notifications() {
-  const [createModalVisible, setCreateModalVisible] = useState(true);
+  const [createModalVisible, setCreateModalVisible] = useState(false);
 
   function formatRecipient(recipient: string[]) {
     if (recipient.length === 0) {
