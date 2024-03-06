@@ -52,7 +52,7 @@ export function Modal({
                   </Dialog.Title>
                 )}
                 {description && (
-                  <Dialog.Description className="mt-1 text-sm text-black-80">
+                  <Dialog.Description className="mt-1 text-center text-sm text-black-80">
                     Adicione um novo usuário para ter acesso ao portal.
                   </Dialog.Description>
                 )}

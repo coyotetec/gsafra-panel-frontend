@@ -2,7 +2,7 @@ import { IconMail } from '@tabler/icons-react';
 import sojaImg from '../../assets/images/soja2.png';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
-import { Logo } from '../components/Logo';
+import { Logo } from '../components/Logos/Logo';
 
 export function ForgotPassword() {
   return (
@@ -15,7 +15,7 @@ export function ForgotPassword() {
       <div className="flex flex-col items-center justify-center">
         <Logo />
         <h2 className="text-2xl font-bold">Esqueceu a Senha?</h2>
-        <span className="text-black-80 mt-2 text-sm">
+        <span className="mt-2 text-sm text-black-80">
           Digite seu e-mail de cadastro para redefinir sua senha
         </span>
         <form
@@ -28,7 +28,7 @@ export function ForgotPassword() {
             name="email"
             type="email"
           />
-          <Button type="submit">
+          <Button type="submit" className="mt-8">
             Enviar e-mail
             <IconMail size={24} stroke={1.5} />
           </Button>
