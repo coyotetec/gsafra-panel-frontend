@@ -8,24 +8,32 @@ import { Notifications } from '../view/pages/Manager/Notifications';
 import { ManagerLayout } from '../view/layouts/ManagerLayout';
 import { UserLayout } from '../view/layouts/UserLaytout';
 import { Panel } from '../view/pages/User/Panel';
+import AuthGuard from './AuthGuard';
 
 export function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/create-password" element={<CreatePassword />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route element={<UserLayout />}>
-          <Route path="/panel" element={<Panel />} />
+        <Route element={<AuthGuard isPrivate={false} />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/create-password" element={<CreatePassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Route>
 
-        <Route element={<ManagerLayout />}>
-          <Route path="/manager/companies" element={<Companies />} />
-          <Route path="/manager/users" element={<Users />} />
-          <Route path="/manager/notifications" element={<Notifications />} />
+        <Route element={<AuthGuard isPrivate />}>
+          <Route element={<UserLayout />}>
+            <Route path="/" element={<Navigate to="/panel" />} />
+            <Route path="/panel" element={<Panel />} />
+          </Route>
+
+          <Route element={<ManagerLayout />}>
+            <Route path="/manager/companies" element={<Companies />} />
+            <Route path="/manager/users" element={<Users />} />
+            <Route path="/manager/notifications" element={<Notifications />} />
+          </Route>
         </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
