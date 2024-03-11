@@ -49,6 +49,7 @@ export function Input({
           type={type === 'password' && showPassword ? 'text' : type}
           ref={refInput}
           id={name}
+          name={name}
           {...rest}
         />
         {type === 'password' && (
@@ -65,7 +66,7 @@ export function Input({
           </button>
         )}
       </div>
-      {error && <span>{error}</span>}
+      {error && <span className="ml-2 mt-1 text-xs text-red-500">{error}</span>}
     </div>
   );
 }
