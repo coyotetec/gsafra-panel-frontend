@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { IGetUsersResponse } from '../../types/users';
 import { localStorageKeys } from '../config/localStorageKeys';
 import { APIError } from '../errors/APIError';
@@ -15,7 +16,17 @@ export class UserService {
 
       return data;
     } catch (err) {
-      throw new APIError('Problemas no servidor, tente novamente mais tarde');
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 404) {
+          throw new APIError('Não foi possível encontrar os usuários');
+        }
+
+        if (err.response?.status === 500) {
+          throw new APIError(
+            'Problemas no servidor, tente novamente mais tarde',
+          );
+        }
+      }
     }
   }
 
@@ -27,10 +38,20 @@ export class UserService {
           Authorization: `bearer ${token}`,
         },
       });
-      console.log(data);
-      return true;
-    } catch (error) {
-      console.error(error);
+
+      return data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 401) {
+          throw new APIError(err.response.data.error);
+        }
+
+        if (err.response?.status === 500) {
+          throw new APIError(
+            'Problemas no servidor, tente novamente mais tarde',
+          );
+        }
+      }
     }
   }
 
@@ -42,10 +63,20 @@ export class UserService {
           Authorization: `bearer ${token}`,
         },
       });
-      console.log(data);
-      return true;
-    } catch (error) {
-      console.error(error);
+
+      return data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 401) {
+          throw new APIError(err.response.data.error);
+        }
+
+        if (err.response?.status === 500) {
+          throw new APIError(
+            'Problemas no servidor, tente novamente mais tarde',
+          );
+        }
+      }
     }
   }
 }
