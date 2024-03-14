@@ -26,12 +26,15 @@ export function UserInformation({
       setIsLoading(true);
       if (checkedSwitch) {
         const userIsInactive = await UserService.inactivateUser(id);
-        userIsInactive ? setCheckedSwitch(false) : setCheckedSwitch(true);
+        toast.success(userIsInactive!.message);
+        setCheckedSwitch(false);
       } else {
         const userIsActive = await UserService.activateUser(id);
-        userIsActive ? setCheckedSwitch(true) : setCheckedSwitch(false);
+        toast.success(userIsActive!.message);
+        setCheckedSwitch(true);
       }
     } catch (error) {
+      setCheckedSwitch(active);
       if (error instanceof APIError) {
         toast.error(error.message);
       }
@@ -48,7 +51,7 @@ export function UserInformation({
       {isLoading ? (
         <Spinner className="mr-2.5" />
       ) : (
-        <Switch checked={active} onChange={handleChangeUserStatus} />
+        <Switch checked={checkedSwitch} onChange={handleChangeUserStatus} />
       )}
     </div>
   );

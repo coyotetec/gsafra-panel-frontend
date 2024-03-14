@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { IGetUsersResponse } from '../../types/users';
+import { IGetUsersResponse, UserStatusType } from '../../types/users';
 import { localStorageKeys } from '../config/localStorageKeys';
 import { APIError } from '../errors/APIError';
 import { api } from './utils/api';
@@ -33,11 +33,15 @@ export class UserService {
   static async activateUser(id: string) {
     try {
       const token = localStorage.getItem(localStorageKeys.AUTH_TOKEN);
-      const { data } = await api.patch(`/users/${id}/activate`, null, {
-        headers: {
-          Authorization: `bearer ${token}`,
+      const { data } = await api.patch<UserStatusType>(
+        `/users/${id}/activate`,
+        null,
+        {
+          headers: {
+            Authorization: `bearer ${token}`,
+          },
         },
-      });
+      );
 
       return data;
     } catch (err) {
@@ -58,7 +62,7 @@ export class UserService {
   static async inactivateUser(id: string) {
     try {
       const token = localStorage.getItem(localStorageKeys.AUTH_TOKEN);
-      const { data } = await api.delete(`/users/${id}`, {
+      const { data } = await api.delete<UserStatusType>(`/users/${id}`, {
         headers: {
           Authorization: `bearer ${token}`,
         },

@@ -8,3 +8,5 @@ export interface IGetUsersResponse {
   name: string;
   role: UserRoleType;
 }
+
+export type UserStatusType = { message: string };

@@ -9,6 +9,8 @@ import { loginSchema } from './loginShemas';
 import { formErrorType } from '../../../types/global';
 import { formatZodError } from '../../../app/utils/formatZodError';
 import { useAuth } from '../../../app/hooks/useAuth';
+import toast from 'react-hot-toast';
+import { APIError } from '../../../app/errors/APIError';
 
 export function Login() {
   const [userData, setUserData] = useState({
@@ -35,8 +37,8 @@ export function Login() {
       setFormErrors(null);
 
       await signIn(userData);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      if (err instanceof APIError) toast.error(err.message);
     }
   }
 

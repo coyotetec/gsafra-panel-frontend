@@ -16,14 +16,7 @@ export class AuthService {
       if (err instanceof AxiosError) {
         if (err.response?.status === 400) {
           const error = err.response.data.error as string;
-
-          if (error === 'user does not exists') {
-            throw new APIError('Usuário incorreto');
-          }
-
-          if (error === 'incorrect password') {
-            throw new APIError('Senha incorreta');
-          }
+          throw new APIError(error);
         }
 
         if (err.response?.status === 500) {
