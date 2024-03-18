@@ -10,7 +10,7 @@ interface HeaderProps {
 export function Header({ isManager }: HeaderProps) {
   const { signOut, user } = useAuth();
   return (
-    <header className="fixed left-0 top-0 z-40 flex h-28 w-full items-center justify-between bg-white px-18">
+    <header className="fixed left-0 top-0 z-40 flex h-28 w-full items-center justify-between bg-white px-18 shadow-sm">
       <div className="flex items-center gap-2">
         <LogoHorizontal />
         {isManager && (

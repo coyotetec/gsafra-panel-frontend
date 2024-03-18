@@ -4,6 +4,8 @@ import { Notifications } from './content/Notifications';
 import { ButtonSidebar } from './components/ButtonSidebar';
 import { CurrentContentType } from '../../../layouts/UserLaytout';
 import { cn } from '../../../../app/utils/cn';
+import { useAuth } from '../../../../app/hooks/useAuth';
+import { useEffect } from 'react';
 
 interface IContent {
   current: CurrentContentType;
@@ -16,21 +18,37 @@ interface SidebarProps {
   setCurrentContent: (content: CurrentContentType) => void;
 }
 
+const contents: IContent[] = [
+  {
+    current: 'users',
+    icon: IconUserFilled,
+    component: <Users />,
+  },
+  {
+    current: 'notifications',
+    icon: IconBellFilled,
+    component: <Notifications />,
+  },
+];
+
 export function Sidebar({ currentContent, setCurrentContent }: SidebarProps) {
-  const contents: IContent[] = [
-    {
-      current: 'users',
-      icon: IconUserFilled,
-      component: <Users />,
-    },
-    {
-      current: 'notifications',
-      icon: IconBellFilled,
-      component: <Notifications />,
-    },
-  ];
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user?.role === 'USER') {
+      setCurrentContent('notifications');
+    }
+  }, [user?.role, setCurrentContent]);
 
   function Content() {
+    if (user?.role === 'USER') {
+      const content = contents
+        .filter(({ current }) => current !== 'users')
+        .find(({ current }) => current === currentContent);
+
+      return content?.component || null;
+    }
+
     const content = contents.find(({ current }) => current === currentContent);
 
     return content?.component || null;
@@ -39,16 +57,22 @@ export function Sidebar({ currentContent, setCurrentContent }: SidebarProps) {
   return (
     <aside className="fixed left-0 top-28 z-40 flex h-calc-sidebar w-96">
       <nav className="flex h-full w-24 flex-col items-center gap-2 bg-primary-900 px-4 py-5">
-        {contents.map(({ current, icon }) => (
-          <ButtonSidebar
-            className={cn(
-              current === currentContent && 'bg-primary-500 text-white',
-            )}
-            key={current}
-            Icon={icon}
-            onClick={() => setCurrentContent(current)}
-          />
-        ))}
+        {contents.map(({ current, icon }) => {
+          if (user?.role === 'USER' && current === 'users') {
+            return null;
+          }
+
+          return (
+            <ButtonSidebar
+              className={cn(
+                current === currentContent && 'bg-primary-500 text-white',
+              )}
+              key={current}
+              Icon={icon}
+              onClick={() => setCurrentContent(current)}
+            />
+          );
+        })}
       </nav>
       <div className="flex h-full w-full flex-col bg-primary-500 px-5 py-8">
         <Content />
