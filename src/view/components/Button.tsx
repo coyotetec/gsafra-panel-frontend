@@ -1,12 +1,20 @@
 import { ButtonHTMLAttributes } from 'react';
 import { cn } from '../../app/utils/cn';
+import { Spinner } from './Loaders/Spinner';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   variant?: 'outline' | 'light' | 'secondary';
+  loading?: boolean;
 }
 
-export function Button({ children, className, variant, ...rest }: ButtonProps) {
+export function Button({
+  children,
+  className,
+  variant,
+  loading,
+  ...rest
+}: ButtonProps) {
   return (
     <button
       className={cn(
@@ -21,7 +29,7 @@ export function Button({ children, className, variant, ...rest }: ButtonProps) {
       )}
       {...rest}
     >
-      {children}
+      {loading ? <Spinner className="h-7 w-7" /> : children}
     </button>
   );
 }

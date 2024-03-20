@@ -1,7 +1,7 @@
 import { cn } from '../../../app/utils/cn';
 
 interface SpinnerProps {
-  className: React.ComponentProps<'svg'>['className'];
+  className?: React.ComponentProps<'svg'>['className'];
 }
 
 export function Spinner({ className }: SpinnerProps) {
