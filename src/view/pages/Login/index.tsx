@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { IconLogin } from '@tabler/icons-react';
 import campImg from '../../../assets/images/camp.png';
 import { Input } from '../../components/Input';
@@ -11,19 +11,16 @@ import { formatZodError } from '../../../app/utils/formatZodError';
 import { useAuth } from '../../../app/hooks/useAuth';
 import toast from 'react-hot-toast';
 import { APIError } from '../../../app/errors/APIError';
+import { ILoginData } from '../../../types/authentication';
+import { handleChangeInput } from '../../../app/utils/handleChangeInput';
 
 export function Login() {
-  const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState<ILoginData>({
     email: '',
     password: '',
   });
   const [formErrors, setFormErrors] = useState<formErrorType | null>(null);
   const { signIn } = useAuth();
-
-  function handleChange({ target }: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = target;
-    setUserData((prevState) => ({ ...prevState, [name]: value }));
-  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     try {
@@ -59,7 +56,7 @@ export function Login() {
               label="E-mail"
               name="email"
               type="email"
-              onChange={handleChange}
+              onChange={(event) => handleChangeInput(setUserData, event)}
               value={userData.email}
               error={formErrors?.email}
             />
@@ -68,7 +65,7 @@ export function Login() {
               label="Senha"
               name="password"
               type="password"
-              onChange={handleChange}
+              onChange={(event) => handleChangeInput(setUserData, event)}
               value={userData.password}
               error={formErrors?.password}
             />

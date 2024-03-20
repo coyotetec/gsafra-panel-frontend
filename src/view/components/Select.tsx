@@ -7,6 +7,7 @@ import { IconChevronDown } from '@tabler/icons-react';
 interface SelectProps {
   wrapperClass?: HTMLAttributes<HTMLDivElement>['className'];
   label?: string;
+  error?: string;
   placeholder?: string;
   options: Array<any>;
   valueKey: string;
@@ -24,6 +25,7 @@ export function Select({
   labelKey,
   selected,
   setSelected,
+  error,
 }: SelectProps) {
   return (
     <div className={cn('flex w-full flex-col', wrapperClass)}>
@@ -31,7 +33,7 @@ export function Select({
         <label className="text-xs font-medium text-primary-950">{label}</label>
       )}
       <Listbox
-        value={selected ? selected[valueKey] : undefined}
+        value={selected ? selected[valueKey] : ''}
         onChange={(value) =>
           setSelected(options.find((option) => value === option[valueKey]))
         }
@@ -46,6 +48,9 @@ export function Select({
             </span>
             <IconChevronDown className="text-black-80" />
           </Listbox.Button>
+          {error && (
+            <span className="ml-2 mt-1 text-xs text-red-500">{error}</span>
+          )}
           <Transition
             as={Fragment}
             enter="transition transform ease-in-out duration-300 origin-top"

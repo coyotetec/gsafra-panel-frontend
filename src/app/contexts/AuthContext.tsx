@@ -7,15 +7,16 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-type UserDataType = {
+interface IUserDataType {
   name: string;
   role: string;
-};
+  id: string;
+}
 
 interface IAuthContextValue {
   signedIn: boolean;
   signIn: (payload: ILoginData) => Promise<void>;
-  user: UserDataType | null;
+  user: IUserDataType | null;
   signOut: () => void;
 }
 
@@ -26,14 +27,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const storedAuthToken = localStorage.getItem(localStorageKeys.AUTH_TOKEN);
     return !!storedAuthToken;
   });
-  const [user, setUser] = useState<UserDataType | null>(() => {
+  const [user, setUser] = useState<IUserDataType | null>(() => {
     const storedUser = localStorage.getItem(localStorageKeys.USER);
     const storedUserRole = localStorage.getItem(localStorageKeys.USER_ROLE);
+    const storedUserId = localStorage.getItem(localStorageKeys.USER_ID);
 
-    return storedUser && storedUserRole
+    return storedUser && storedUserRole && storedUserId
       ? {
           name: storedUser,
           role: storedUserRole,
+          id: storedUserId,
         }
       : null;
   });
@@ -48,9 +51,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem(localStorageKeys.AUTH_TOKEN, data.token);
     localStorage.setItem(localStorageKeys.USER, data.user.name);
     localStorage.setItem(localStorageKeys.USER_ROLE, data.user.role);
+    localStorage.setItem(localStorageKeys.USER_ID, data.user.id);
 
     setSignedIn(true);
-    setUser({ name: data.user.name, role: data.user.role });
+    setUser({ name: data.user.name, role: data.user.role, id: data.user.id });
   }, []);
 
   const signOut = useCallback(() => {
