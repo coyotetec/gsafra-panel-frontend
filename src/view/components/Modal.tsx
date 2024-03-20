@@ -53,7 +53,7 @@ export function Modal({
                 )}
                 {description && (
                   <Dialog.Description className="mt-1 text-center text-sm text-black-80">
-                    Adicione um novo usuário para ter acesso ao portal.
+                    {description}
                   </Dialog.Description>
                 )}
                 {children}

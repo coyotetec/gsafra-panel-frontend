@@ -14,19 +14,25 @@ export function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AuthGuard isPrivate={false} />}>
+        <Route element={<AuthGuard accessRoles={[]} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/create-password" element={<CreatePassword />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Route>
 
-        <Route element={<AuthGuard isPrivate />}>
+        <Route element={<AuthGuard accessRoles={['ADMIN', 'USER']} />}>
           <Route element={<UserLayout />}>
             <Route path="/" element={<Navigate to="/panel" />} />
             <Route path="/panel" element={<Panel />} />
           </Route>
+        </Route>
 
+        <Route element={<AuthGuard accessRoles={['MANAGER']} />}>
           <Route element={<ManagerLayout />}>
+            <Route
+              path="/manager"
+              element={<Navigate to="/manager/companies" />}
+            />
             <Route path="/manager/companies" element={<Companies />} />
             <Route path="/manager/users" element={<Users />} />
             <Route path="/manager/notifications" element={<Notifications />} />

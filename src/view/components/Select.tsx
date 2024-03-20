@@ -3,6 +3,7 @@ import { Fragment, HTMLAttributes } from 'react';
 import { cn } from '../../app/utils/cn';
 import { Listbox, Transition } from '@headlessui/react';
 import { IconChevronDown } from '@tabler/icons-react';
+import { Spinner } from './Loaders/Spinner';
 
 interface SelectProps {
   wrapperClass?: HTMLAttributes<HTMLDivElement>['className'];
@@ -14,6 +15,7 @@ interface SelectProps {
   labelKey: string;
   selected: any;
   setSelected: (value: any) => void;
+  loading?: boolean;
 }
 
 export function Select({
@@ -26,6 +28,7 @@ export function Select({
   selected,
   setSelected,
   error,
+  loading = false,
 }: SelectProps) {
   return (
     <div className={cn('flex w-full flex-col', wrapperClass)}>
@@ -46,7 +49,11 @@ export function Select({
             <span className={cn('text-black/80', !selected && 'text-black/50')}>
               {selected ? selected[labelKey] : placeholder}
             </span>
-            <IconChevronDown className="text-black-80" />
+            {loading ? (
+              <Spinner className="text-black-80" />
+            ) : (
+              <IconChevronDown className="text-black-80" />
+            )}
           </Listbox.Button>
           {error && (
             <span className="ml-2 mt-1 text-xs text-red-500">{error}</span>

@@ -27,10 +27,11 @@ export function TextArea({
         <textarea
           className="h-full flex-1 resize-none bg-transparent p-4 text-black/80 outline-none placeholder:text-black/50"
           id={name}
+          name={name}
           {...rest}
         />
       </div>
-      {error && <span>{error}</span>}
+      {error && <span className="ml-2 mt-1 text-xs text-red-500">{error}</span>}
     </div>
   );
 }
