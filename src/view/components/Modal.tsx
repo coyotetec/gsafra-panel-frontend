@@ -1,5 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
+import { cn } from '../../app/utils/cn';
 
 interface ModalProps {
   visible: boolean;
@@ -7,6 +8,7 @@ interface ModalProps {
   title?: string;
   description?: string;
   children: React.ReactNode;
+  danger?: boolean;
 }
 
 export function Modal({
@@ -15,6 +17,7 @@ export function Modal({
   title,
   description,
   children,
+  danger = false,
 }: ModalProps) {
   return (
     <Transition appear show={visible} as={Fragment}>
@@ -46,7 +49,10 @@ export function Modal({
                 {title && (
                   <Dialog.Title
                     as="h3"
-                    className="text-center text-2xl font-bold"
+                    className={cn(
+                      'text-center text-2xl font-bold',
+                      danger && 'text-red-500',
+                    )}
                   >
                     {title}
                   </Dialog.Title>
