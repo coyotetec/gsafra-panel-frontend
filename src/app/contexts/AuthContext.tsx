@@ -2,6 +2,7 @@ import { ReactNode, createContext, useCallback, useState } from 'react';
 import { ILoginData } from '../../types/authentication';
 import { AuthService } from '../services/AuthService';
 import { localStorageKeys } from '../config/localStorageKeys';
+import { UserRoleType } from '../../types/users';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -9,7 +10,7 @@ interface AuthProviderProps {
 
 type UserDataType = {
   name: string;
-  role: string;
+  role: UserRoleType;
 };
 
 interface IAuthContextValue {
@@ -33,7 +34,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return storedUser && storedUserRole
       ? {
           name: storedUser,
-          role: storedUserRole,
+          role: storedUserRole as UserRoleType,
         }
       : null;
   });
