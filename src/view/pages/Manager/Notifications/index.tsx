@@ -1,67 +1,92 @@
-import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react';
-import { format } from 'date-fns';
+import { IconPlus } from '@tabler/icons-react';
 import { Button } from '../../../components/Button';
-import { CreateNotificationModal } from './modals/createNotificationModal';
-import { useState } from 'react';
-
-interface INotifications {
-  title: string;
-  body: string;
-  recipient: string[];
-  date: Date;
-}
-
-const companiesMock: INotifications[] = [
-  {
-    title: 'Versão 1.4.3.3',
-    body: 'Melhorias no monitoramento de notas fiscais.',
-    recipient: [],
-    date: new Date(),
-  },
-  {
-    title: 'Aviso de Vencimento',
-    body: 'Sua fatura 02/2024 está próximo do vencimento.',
-    recipient: ['Agricultura Paraíso'],
-    date: new Date(),
-  },
-  {
-    title: 'Instabilidade no Sistema',
-    body: 'No dia 23/02 o sistema passará por instabilidade entre 14h e 17h.',
-    recipient: [],
-    date: new Date(),
-  },
-];
+import { CreateNotificationModal } from './modals/CreateNotificationModal';
+import { useEffect, useState } from 'react';
+import { NotificationService } from '../../../../app/services/NotificationService';
+import { IGetNotificationResponse } from '../../../../types/notification';
+import { APIError } from '../../../../app/errors/APIError';
+import toast from 'react-hot-toast';
+import { NotificationRow } from './components/NotificationRow';
+import { SkeletonNotificationsTable } from '../../../components/Loaders/SkeletonNotificationsTable';
+import { EditNotificationModal } from './modals/EditNotificationModal';
+import { DeleteNotificationModal } from './modals/DeleteNotificationModal';
 
 export function Notifications() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [notifications, setNotifications] = useState<
+    IGetNotificationResponse[]
+  >([]);
+  const [selectedNotification, setSelectedNotification] =
+    useState<IGetNotificationResponse | null>(null);
 
-  function formatRecipient(recipient: string[]) {
-    if (recipient.length === 0) {
-      return 'Todos';
-    }
-
-    if (recipient.length === 1) {
-      return recipient[0];
-    }
-
-    if (recipient.length > 1) {
-      return `${recipient.length} Empresas`;
-    }
+  function handleAddNewNotification(notification: IGetNotificationResponse) {
+    setNotifications((prevState) => [notification].concat(prevState));
   }
+
+  function handleUpdateNotification(notification: IGetNotificationResponse) {
+    setNotifications((prevState) =>
+      prevState.map((item) =>
+        item.id === notification.id ? notification : item,
+      ),
+    );
+  }
+
+  function handleDeleteNotification(notificationId: string) {
+    setNotifications((prevState) =>
+      prevState.filter((notification) => notification.id !== notificationId),
+    );
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setIsLoading(true);
+        const notificationsData = await NotificationService.getNotifications();
+
+        if (notificationsData) {
+          setNotifications(notificationsData);
+        }
+      } catch (err) {
+        if (err instanceof APIError) {
+          toast.error(err.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
 
   return (
     <>
+      <DeleteNotificationModal
+        visible={deleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+        onDelete={handleDeleteNotification}
+        notification={selectedNotification}
+      />
+      <EditNotificationModal
+        visible={editModalVisible}
+        onClose={() => setEditModalVisible(false)}
+        onEdited={handleUpdateNotification}
+        notification={selectedNotification}
+      />
       <CreateNotificationModal
         visible={createModalVisible}
         onClose={() => setCreateModalVisible(false)}
+        onCreated={handleAddNewNotification}
       />
       <header className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-black-100">Notificações</h1>
           <p className="text-black-80">
-            {companiesMock.length === 1
+            {notifications.length === 1
               ? '1 notificação encontrada'
-              : `${companiesMock.length} notificações encontradas`}
+              : `${notifications.length} notificações encontradas`}
           </p>
         </div>
         <Button className="w-56" onClick={() => setCreateModalVisible(true)}>
@@ -91,28 +116,24 @@ export function Notifications() {
           </tr>
         </thead>
         <tbody>
-          {companiesMock.map((notifications) => (
-            <tr className="border-b bg-white" key={notifications.title}>
-              <th scope="row" className="max-w-[0] truncate p-4 font-semibold">
-                {notifications.title}
-              </th>
-              <td className="max-w-[0] truncate p-4">{notifications.body}</td>
-              <td className="max-w-[0] truncate p-4">
-                {formatRecipient(notifications.recipient)}
-              </td>
-              <td className="p-4">
-                {format(notifications.date, 'dd/MM/yyyy - HH:mm')}
-              </td>
-              <td className="flex items-center gap-4 p-4">
-                <button className="text-secondary-500">
-                  <IconEdit size={20} />
-                </button>
-                <button className="text-red-500">
-                  <IconTrash size={20} />
-                </button>
-              </td>
-            </tr>
-          ))}
+          {isLoading ? (
+            <SkeletonNotificationsTable />
+          ) : (
+            notifications.map((notification) => (
+              <NotificationRow
+                key={notification.id}
+                data={notification}
+                onEdit={() => {
+                  setSelectedNotification(notification);
+                  setEditModalVisible(true);
+                }}
+                onDelete={() => {
+                  setSelectedNotification(notification);
+                  setDeleteModalVisible(true);
+                }}
+              />
+            ))
+          )}
         </tbody>
       </table>
     </>

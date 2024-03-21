@@ -1,17 +1,43 @@
-import { IconUserPlus } from '@tabler/icons-react';
-import { Button } from '../../../../components/Button';
-import { Input } from '../../../../components/Input';
 import { Modal } from '../../../../components/Modal';
+import { APIError } from '../../../../../app/errors/APIError';
+import toast from 'react-hot-toast';
+import {
+  ICompanyPayload,
+  IGetCompanyReponse,
+} from '../../../../../types/company';
+import { CompanyService } from '../../../../../app/services/CompanyService';
+import { CompanyForm, ICompanyFormRef } from '../components/CompanyForm';
+import { useRef } from 'react';
+import { IconPlus } from '@tabler/icons-react';
 
 interface CreateCompanyModalProps {
   visible: boolean;
   onClose: () => void;
+  onCreated: (company: IGetCompanyReponse) => void;
 }
 
 export function CreateCompanyModal({
   visible,
   onClose,
+  onCreated,
 }: CreateCompanyModalProps) {
+  const companyFormRef = useRef<ICompanyFormRef>(null);
+
+  async function handleSubmit(payload: ICompanyPayload) {
+    try {
+      const companyCreated = await CompanyService.createCompany(payload);
+
+      onCreated({ ...companyCreated, usersQty: 0 });
+      onClose();
+      toast.success('Empresa criada com sucesso!');
+      companyFormRef.current?.resetFields();
+    } catch (err) {
+      if (err instanceof APIError) {
+        toast.error(err.message);
+      }
+    }
+  }
+
   return (
     <Modal
       visible={visible}
@@ -19,25 +45,13 @@ export function CreateCompanyModal({
       title="Nova Empresa"
       description="Adicione uma nova empresa ao portal."
     >
-      <form className="mt-6 flex flex-col gap-3">
-        <Input label="Nome" placeholder="Nome da empresa" name="name" />
-        <Input
-          label="Código"
-          placeholder="Código da empresa"
-          prefix="#"
-          name="code"
-        />
-      </form>
-
-      <footer className="mx-auto mt-8 flex justify-center gap-2">
-        <Button variant="secondary" className="w-40" onClick={onClose}>
-          Cancelar
-        </Button>
-        <Button className="w-40">
-          <IconUserPlus />
-          Criar
-        </Button>
-      </footer>
+      <CompanyForm
+        ref={companyFormRef}
+        onClose={onClose}
+        onSubmit={handleSubmit}
+        SubmitButtonIcon={IconPlus}
+        submitButtonLabel="Criar"
+      />
     </Modal>
   );
 }

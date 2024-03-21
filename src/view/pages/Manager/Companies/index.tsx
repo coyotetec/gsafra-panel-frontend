@@ -1,60 +1,82 @@
-import { IconEdit, IconPlus } from '@tabler/icons-react';
-import { Switch } from '../../../components/Switch';
+import { IconPlus } from '@tabler/icons-react';
 import { Button } from '../../../components/Button';
-import { cn } from '../../../../app/utils/cn';
-import { useState } from 'react';
-import { CreateCompanyModal } from './modals/createCompanyModal';
-
-interface ICompany {
-  name: string;
-  code: string;
-  usersQty: number;
-  active: boolean;
-}
-
-const companiesMock: ICompany[] = [
-  {
-    name: 'Fazenda 1',
-    code: '000001',
-    usersQty: 21,
-    active: true,
-  },
-  {
-    name: 'Fazenda 2',
-    code: '000002',
-    usersQty: 22,
-    active: true,
-  },
-  {
-    name: 'Fazenda 3',
-    code: '000003',
-    usersQty: 23,
-    active: false,
-  },
-  {
-    name: 'Fazenda 4',
-    code: '000004',
-    usersQty: 24,
-    active: false,
-  },
-];
+import { useEffect, useState } from 'react';
+import { CreateCompanyModal } from './modals/CreateCompanyModal';
+import { CompanyService } from '../../../../app/services/CompanyService';
+import { IGetCompanyReponse } from '../../../../types/company';
+import { APIError } from '../../../../app/errors/APIError';
+import toast from 'react-hot-toast';
+import { CompanyRow } from './components/CompanyRow';
+import { SkeletonCompaniesTable } from '../../../components/Loaders/SkeletonCompaniesTable';
+import { EditCompanyModal } from './modals/EditCompanyModal';
 
 export function Companies() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
+  const [selectedCompany, setSelectedCompany] =
+    useState<IGetCompanyReponse | null>(null);
+
+  function handleToggleCompanyStatus(companyId: string) {
+    setCompanies((prevState) =>
+      prevState.map((company) =>
+        company.id === companyId
+          ? { ...company, active: !company.active }
+          : company,
+      ),
+    );
+  }
+
+  function handleAddNewCompany(company: IGetCompanyReponse) {
+    setCompanies((prevState) => prevState.concat(company));
+  }
+
+  function handleUpdateCompany(company: IGetCompanyReponse) {
+    setCompanies((prevState) =>
+      prevState.map((item) => (item.id === company.id ? company : item)),
+    );
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setIsLoading(true);
+        const companiesData = await CompanyService.getCompanies();
+
+        setCompanies(companiesData);
+      } catch (err) {
+        if (err instanceof APIError) {
+          toast.error(err.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadData();
+  }, []);
 
   return (
     <>
+      <EditCompanyModal
+        visible={editModalVisible}
+        onClose={() => setEditModalVisible(false)}
+        company={selectedCompany}
+        onEdited={handleUpdateCompany}
+      />
       <CreateCompanyModal
         visible={createModalVisible}
         onClose={() => setCreateModalVisible(false)}
+        onCreated={handleAddNewCompany}
       />
       <header className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-black-100">Empresas</h1>
           <p className="text-black-80">
-            {companiesMock.length === 1
+            {companies.length === 1
               ? '1 empresa encontrada'
-              : `${companiesMock.length} empresas encontradas`}
+              : `${companies.length} empresas encontradas`}
           </p>
         </div>
         <Button className="w-56" onClick={() => setCreateModalVisible(true)}>
@@ -84,30 +106,21 @@ export function Companies() {
           </tr>
         </thead>
         <tbody>
-          {companiesMock.map((company) => (
-            <tr className="border-b bg-white" key={company.code}>
-              <th scope="row" className="p-4 font-semibold">
-                {company.name}
-              </th>
-              <td className="p-4">#{company.code}</td>
-              <td className="p-4">{company.usersQty}</td>
-              <td className="p-4">
-                <span
-                  className={cn(
-                    'mr-2 inline-block h-2 w-2 rounded-full',
-                    company.active ? 'bg-primary-300' : 'bg-red-500',
-                  )}
-                />
-                {company.active ? 'Ativo' : 'Inativo'}
-              </td>
-              <td className="flex items-center gap-4 p-4">
-                <button className="text-secondary-500">
-                  <IconEdit size={20} />
-                </button>
-                <Switch />
-              </td>
-            </tr>
-          ))}
+          {isLoading ? (
+            <SkeletonCompaniesTable />
+          ) : (
+            companies.map((company) => (
+              <CompanyRow
+                key={company.id}
+                data={company}
+                onToggleStatus={() => handleToggleCompanyStatus(company.id)}
+                onEdit={() => {
+                  setSelectedCompany(company);
+                  setEditModalVisible(true);
+                }}
+              />
+            ))
+          )}
         </tbody>
       </table>
     </>
