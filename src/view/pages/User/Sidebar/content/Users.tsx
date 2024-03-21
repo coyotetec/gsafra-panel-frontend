@@ -99,7 +99,7 @@ export function Users() {
           ))
         )}
 
-        {!showUsers || showUsers.length === 0 ? (
+        {showUsers?.length === 0 && !isLoading ? (
           <p className="text-sm text-gray-400">Não há usuários para exibir</p>
         ) : (
           ''

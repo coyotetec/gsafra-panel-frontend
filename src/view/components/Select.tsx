@@ -16,7 +16,6 @@ interface SelectProps {
   selected: any;
   setSelected: (value: any) => void;
   loading?: boolean;
-  error?: string;
 }
 
 export function Select({
@@ -30,7 +29,6 @@ export function Select({
   setSelected,
   error,
   loading = false,
-  error,
 }: SelectProps) {
   return (
     <div className={cn('flex w-full flex-col', wrapperClass)}>

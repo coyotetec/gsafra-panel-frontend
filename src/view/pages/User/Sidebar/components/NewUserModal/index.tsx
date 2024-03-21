@@ -53,12 +53,28 @@ const users: IExternalIdSelect[] = [
   { id: 6, name: 'Ana Maria' },
   { id: 7, name: 'Pedro Henrique' },
   { id: 8, name: 'Maria Clara' },
+  { id: 9, name: 'Emanuel Silva' },
+  { id: 10, name: 'Eduardo Costa' },
+  { id: 11, name: 'Larissa Santos' },
+  { id: 12, name: 'Lucas Souza' },
+  { id: 13, name: 'Mariana Silva' },
 ];
 
 const roles: IUserRoleSelect[] = [
   { role: 'USER', label: 'Usuário' },
   { role: 'ADMIN', label: 'Administrador' },
 ];
+
+const headerNewUser = {
+  title: 'Novo Usuário',
+  description: 'Adicione um novo usuário para ter acesso ao portal',
+};
+
+const headerSuccess = {
+  title: 'Usuário criado!',
+  description:
+    'Oriente seu usuário a entrar em seu e-mail cadastrado para finalizar o cadastro no portal.',
+};
 
 export function NewUserModal({
   onClose,
@@ -78,14 +94,12 @@ export function NewUserModal({
     name: '',
   });
   const [formErrors, setFormErrors] = useState<formErrorType | null>(null);
-  const [success, setSuccess] = useState(true);
-  const [headerModal, setHeaderModal] = useState({
-    title: 'Novo Usuário',
-    description: 'Adicione um novo usuário para ter acesso ao portal',
-  });
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     try {
+      setIsLoading(true);
       e.preventDefault();
       const userData = {
         ...newUserData,
@@ -96,6 +110,7 @@ export function NewUserModal({
       const validateData = newUserSchema.safeParse(userData);
 
       if (!validateData.success) {
+        setIsLoading(false);
         return setFormErrors(formatZodError(validateData.error));
       }
       setFormErrors(null);
@@ -108,17 +123,15 @@ export function NewUserModal({
 
       updateUserState((prevState) => [...(prevState || []), formattedUser]);
       setSuccess(true);
-      setHeaderModal({
-        title: 'Usuário Criado!',
-        description:
-          'Oriente seu usuário a entrar em seu e-mail cadastrado para finalizar o cadastro no portal.',
-      });
 
+      setIsLoading(false);
       setNewUserData({ email: '', name: '' });
       setSelectedCompany(null);
       setSelectedExternalId(null);
       setSelectedUserRole(null);
     } catch (err) {
+      setSuccess(false);
+      setIsLoading(false);
       if (err instanceof APIError) toast.error(err.message);
     }
   }
@@ -134,18 +147,14 @@ export function NewUserModal({
         setFormErrors(null);
         onClose();
       }}
-      title={headerModal.title}
-      description={headerModal.description}
+      title={success ? headerSuccess.title : headerNewUser.title}
+      description={
+        success ? headerSuccess.description : headerNewUser.description
+      }
+      afterClose={() => setSuccess(false)}
     >
       {success ? (
-        <Button
-          onClick={() => {
-            onClose();
-            setSuccess(false);
-          }}
-          type="button"
-          className="mt-4"
-        >
+        <Button onClick={onClose} type="button" className="mx-auto mt-6 w-50 ">
           Concluir
         </Button>
       ) : (
@@ -210,7 +219,7 @@ export function NewUserModal({
             <Button type="button" variant="secondary" onClick={onClose}>
               Cancelar
             </Button>
-            <Button type="submit">
+            <Button type="submit" loading={isLoading}>
               <IconUserPlus />
               Criar
             </Button>
