@@ -9,18 +9,20 @@ interface ModalProps {
   description?: string;
   children: React.ReactNode;
   danger?: boolean;
+  afterClose?: () => void;
 }
 
 export function Modal({
   visible,
   onClose,
+  afterClose,
   title,
   description,
   children,
   danger = false,
 }: ModalProps) {
   return (
-    <Transition appear show={visible} as={Fragment}>
+    <Transition appear show={visible} as={Fragment} afterLeave={afterClose}>
       <Dialog as="div" className="relative z-40" onClose={onClose}>
         <Transition.Child
           as={Fragment}

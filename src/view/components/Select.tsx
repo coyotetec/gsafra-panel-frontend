@@ -15,6 +15,7 @@ interface SelectProps {
   selected: any;
   setSelected: (value: any) => void;
   loading?: boolean;
+  error?: string;
 }
 
 export function Select({
@@ -27,6 +28,7 @@ export function Select({
   selected,
   setSelected,
   loading = false,
+  error,
 }: SelectProps) {
   return (
     <div className={cn('flex w-full flex-col', wrapperClass)}>
@@ -84,6 +86,7 @@ export function Select({
           </Transition>
         </div>
       </Listbox>
+      {error && <span className="ml-2 mt-1 text-xs text-red-500">{error}</span>}
     </div>
   );
 }
