@@ -1,8 +1,8 @@
 import { ZodError } from 'zod';
-import { formErrorType } from '../../types/global';
+import { FormErrorType } from '../../types/global';
 
 export function formatZodError(errors: ZodError) {
-  const transformedErrors: formErrorType = {};
+  const transformedErrors: FormErrorType = {};
 
   errors.issues.forEach((error) => {
     const key = error.path.join('.');

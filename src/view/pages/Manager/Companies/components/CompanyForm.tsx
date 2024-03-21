@@ -1,6 +1,6 @@
 import { FormEvent, forwardRef, useImperativeHandle, useState } from 'react';
 import { ICompanyPayload } from '../../../../../types/company';
-import { formErrorType } from '../../../../../types/global';
+import { FormErrorType } from '../../../../../types/global';
 import { handleChangeInput } from '../../../../../app/utils/handleChangeInput';
 import { Input } from '../../../../components/Input';
 import { Button } from '../../../../components/Button';
@@ -23,7 +23,7 @@ export interface ICompanyFormRef {
 export const CompanyForm = forwardRef<ICompanyFormRef, CompanyFormProps>(
   ({ onClose, onSubmit, submitButtonLabel, SubmitButtonIcon }, ref) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [formErrors, setFormErrors] = useState<formErrorType | null>(null);
+    const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
     const [companyData, setCompanyData] = useState<ICompanyPayload>({
       name: '',
       code: '',

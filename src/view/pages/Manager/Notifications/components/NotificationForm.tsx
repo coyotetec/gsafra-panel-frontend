@@ -18,7 +18,7 @@ import toast from 'react-hot-toast';
 import { IGetCompanyReponse } from '../../../../../types/company';
 import { notificationSchema } from '../schemas';
 import { formatZodError } from '../../../../../app/utils/formatZodError';
-import { formErrorType } from '../../../../../types/global';
+import { FormErrorType } from '../../../../../types/global';
 import { handleChangeInput } from '../../../../../app/utils/handleChangeInput';
 
 interface NotificationFormProps {
@@ -40,7 +40,7 @@ export const NotificationForm = forwardRef<
   const [isLoading, setIsLoading] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
-  const [formErrors, setFormErrors] = useState<formErrorType | null>(null);
+  const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<
     IGetCompanyReponse | undefined
   >(undefined);

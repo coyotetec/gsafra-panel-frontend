@@ -1,6 +1,6 @@
 import { IconPlus } from '@tabler/icons-react';
 import { Button } from '../../../components/Button';
-import { CreateNotificationModal } from './modals/createNotificationModal';
+import { CreateNotificationModal } from './modals/CreateNotificationModal';
 import { useEffect, useState } from 'react';
 import { NotificationService } from '../../../../app/services/NotificationService';
 import { IGetNotificationResponse } from '../../../../types/notification';
