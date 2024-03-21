@@ -17,10 +17,10 @@ export type PostUserResponseType = {
   id: string;
   name: string;
   email: string;
-  password: string | null;
-  role: UserRoleType;
-  externalId: number;
   active: boolean;
+  externalId: number;
+  role: UserRoleType;
+  password: string | null;
 };
 
 export type UserStatusType = { message: string };

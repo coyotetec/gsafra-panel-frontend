@@ -38,7 +38,7 @@ export function Users() {
       try {
         setIsLoading(true);
         const usersData = await UserService.getUsers();
-        setUsers(usersData || null);
+        setUsers(usersData);
       } catch (err) {
         if (err instanceof APIError) {
           toast.error(err.message);
@@ -55,10 +55,8 @@ export function Users() {
     async function getUserCompanies(userId: string) {
       const userCompanies =
         await UserCompanyService.getCompaniesByUserId(userId);
-      if (userCompanies) {
-        setSelectedCompany(userCompanies[0].id);
-        setUserCompanies(userCompanies);
-      }
+      setSelectedCompany(userCompanies[0].id);
+      setUserCompanies(userCompanies);
     }
 
     user && getUserCompanies(user.id);
@@ -116,6 +114,7 @@ export function Users() {
         companies={userCompanies}
         visible={showNewUserModal}
         onClose={() => setShowNewUserModal(false)}
+        updateUserState={setUsers}
       />
     </>
   );

@@ -34,7 +34,7 @@ export class UserService {
   }
 
   static async createUser(payload: ICreateUserArgs) {
-    const { data } = await api.post<PostUserResponseType[]>('/users', payload);
+    const { data } = await api.post<PostUserResponseType>('/users', payload);
 
     return data;
   }
