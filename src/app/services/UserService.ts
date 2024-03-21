@@ -1,9 +1,22 @@
-import { IGetUsersResponse, UserStatusType } from '../../types/users';
+import {
+  GetUsersResponseType,
+  PostUserResponseType,
+  UserRoleType,
+  UserStatusType,
+} from '../../types/users';
 import { api } from './utils/api';
+
+interface ICreateUserArgs {
+  name: string;
+  email: string;
+  role: UserRoleType | undefined;
+  externalId?: number | undefined;
+  companyId?: string | undefined;
+}
 
 export class UserService {
   static async getUsers() {
-    const { data } = await api.get<IGetUsersResponse[]>('/users');
+    const { data } = await api.get<GetUsersResponseType[]>('/users');
 
     return data;
   }
@@ -16,6 +29,12 @@ export class UserService {
 
   static async inactivateUser(id: string) {
     const { data } = await api.delete<UserStatusType>(`/users/${id}`);
+
+    return data;
+  }
+
+  static async createUser(payload: ICreateUserArgs) {
+    const { data } = await api.post<PostUserResponseType>('/users', payload);
 
     return data;
   }

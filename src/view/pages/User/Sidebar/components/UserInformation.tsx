@@ -26,11 +26,11 @@ export function UserInformation({
       setIsLoading(true);
       if (checkedSwitch) {
         const userIsInactive = await UserService.inactivateUser(id);
-        toast.success(userIsInactive!.message);
+        toast(userIsInactive!.message);
         setCheckedSwitch(false);
       } else {
         const userIsActive = await UserService.activateUser(id);
-        toast.success(userIsActive!.message);
+        toast(userIsActive!.message);
         setCheckedSwitch(true);
       }
     } catch (error) {

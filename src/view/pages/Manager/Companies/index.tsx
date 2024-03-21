@@ -1,7 +1,7 @@
 import { IconPlus } from '@tabler/icons-react';
 import { Button } from '../../../components/Button';
 import { useEffect, useState } from 'react';
-import { CreateCompanyModal } from './modals/CreateCompanyModal';
+import { CreateCompanyModal } from './modals/createCompanyModal';
 import { CompanyService } from '../../../../app/services/CompanyService';
 import { IGetCompanyReponse } from '../../../../types/company';
 import { APIError } from '../../../../app/errors/APIError';
