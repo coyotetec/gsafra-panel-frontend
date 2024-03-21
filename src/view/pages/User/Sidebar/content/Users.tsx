@@ -4,7 +4,7 @@ import { Button } from '../../../../components/Button';
 import { UserInformation } from '../components/UserInformation';
 import { NewUserModal } from '../components/NewUserModal';
 import { UserService } from '../../../../../app/services/UserService';
-import { GetUsersResponseType } from '../../../../../types/users';
+import { IGetUserResponse } from '../../../../../types/users';
 import { APIError } from '../../../../../app/errors/APIError';
 import toast from 'react-hot-toast';
 import { SkeletonUsers } from '../../../../components/Loaders/SkeletonUsers';
@@ -14,10 +14,8 @@ import { IGetUserCompaniesResponse } from '../../../../../types/userCompanies';
 
 export function Users() {
   const [showNewUserModal, setShowNewUserModal] = useState(false);
-  const [users, setUsers] = useState<GetUsersResponseType[] | null>(null);
-  const [showUsers, setShowUsers] = useState<GetUsersResponseType[] | null>(
-    null,
-  );
+  const [users, setUsers] = useState<IGetUserResponse[] | null>(null);
+  const [showUsers, setShowUsers] = useState<IGetUserResponse[] | null>(null);
   const [userCompanies, setUserCompanies] = useState<
     IGetUserCompaniesResponse[] | null
   >();
