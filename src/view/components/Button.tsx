@@ -4,7 +4,7 @@ import { Spinner } from './Loaders/Spinner';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  variant?: 'outline' | 'light' | 'secondary';
+  variant?: 'outline' | 'light' | 'secondary' | 'danger';
   loading?: boolean;
 }
 
@@ -25,6 +25,7 @@ export function Button({
         variant === 'light' && 'bg-white text-primary-960 hover:bg-gray-400',
         variant === 'secondary' &&
           'bg-gray-400 text-black-70 hover:bg-gray-500',
+        variant === 'danger' && 'bg-red-500 hover:bg-red-600',
         className,
       )}
       {...rest}
