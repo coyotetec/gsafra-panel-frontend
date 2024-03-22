@@ -7,7 +7,7 @@ import { FormEvent, useState } from 'react';
 import { handleChangeInput } from '../../../../../../app/utils/handleChangeInput';
 import { IGetUserCompaniesResponse } from '../../../../../../types/userCompanies';
 import { newUserSchema } from './newUserSchema';
-import { formErrorType } from '../../../../../../types/global';
+import { FormErrorType } from '../../../../../../types/global';
 import { formatZodError } from '../../../../../../app/utils/formatZodError';
 import { UserService } from '../../../../../../app/services/UserService';
 import { UserRoleType } from '../../../../../../types/users';
@@ -89,7 +89,7 @@ export function NewUserModal({
     email: '',
     name: '',
   });
-  const [formErrors, setFormErrors] = useState<formErrorType | null>(null);
+  const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

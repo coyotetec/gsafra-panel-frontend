@@ -1,8 +1,9 @@
 import {
-  GetUsersResponseType,
-  PostUserResponseType,
+  ICreateUserResponse,
+  IGetUserResponse,
+  IUserPayload,
+  IUserStatusResponse,
   UserRoleType,
-  UserStatusType,
 } from '../../types/users';
 import { api } from './utils/api';
 
@@ -16,25 +17,51 @@ interface ICreateUserArgs {
 
 export class UserService {
   static async getUsers() {
-    const { data } = await api.get<GetUsersResponseType[]>('/users');
+    const { data } = await api.get<IGetUserResponse[]>('/users');
+
+    return data;
+  }
+
+  static async managerCreateUser(payload: IUserPayload) {
+    const { data } = await api.post<ICreateUserResponse>('/users', {
+      name: payload.name,
+      email: payload.email,
+      role: payload.userRole?.value,
+      companyId: payload.company?.id,
+      externalId: payload.gsafraUser?.id,
+    });
+
+    return data;
+  }
+
+  static async managerUpdateUser(id: string, payload: IUserPayload) {
+    const { data } = await api.put<ICreateUserResponse>(`/users/${id}`, {
+      name: payload.name,
+      email: payload.email,
+      role: payload.userRole?.value,
+      companyId: payload.company?.id,
+      externalId: payload.gsafraUser?.id,
+    });
 
     return data;
   }
 
   static async activateUser(id: string) {
-    const { data } = await api.patch<UserStatusType>(`/users/${id}/activate`);
+    const { data } = await api.patch<IUserStatusResponse>(
+      `/users/${id}/activate`,
+    );
 
     return data;
   }
 
   static async inactivateUser(id: string) {
-    const { data } = await api.delete<UserStatusType>(`/users/${id}`);
+    const { data } = await api.delete<IUserStatusResponse>(`/users/${id}`);
 
     return data;
   }
 
   static async createUser(payload: ICreateUserArgs) {
-    const { data } = await api.post<PostUserResponseType>('/users', payload);
+    const { data } = await api.post<ICreateUserResponse>('/users', payload);
 
     return data;
   }

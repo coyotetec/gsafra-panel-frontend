@@ -1,1 +1,1 @@
-export type formErrorType = { [key: string]: string } | null;
+export type FormErrorType = { [key: string]: string } | null;

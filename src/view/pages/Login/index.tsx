@@ -6,7 +6,7 @@ import { Logo } from '../../components/Logos/Logo';
 import { Button } from '../../components/Button';
 import { Link } from 'react-router-dom';
 import { loginSchema } from './loginShemas';
-import { formErrorType } from '../../../types/global';
+import { FormErrorType } from '../../../types/global';
 import { formatZodError } from '../../../app/utils/formatZodError';
 import { useAuth } from '../../../app/hooks/useAuth';
 import toast from 'react-hot-toast';
@@ -19,7 +19,7 @@ export function Login() {
     email: '',
     password: '',
   });
-  const [formErrors, setFormErrors] = useState<formErrorType | null>(null);
+  const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
   const { signIn } = useAuth();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
