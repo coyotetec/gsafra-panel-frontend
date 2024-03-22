@@ -1,9 +1,9 @@
 import { IconPlus } from '@tabler/icons-react';
 import { Button } from '../../../components/Button';
 import { useEffect, useState } from 'react';
-import { CreateCompanyModal } from './modals/CreateCompanyModal';
+import { CreateCompanyModal } from './modals/createCompanyModal';
 import { CompanyService } from '../../../../app/services/CompanyService';
-import { IGetCompanyReponse } from '../../../../types/company';
+import { IGetCompanyResponse } from '../../../../types/company';
 import { APIError } from '../../../../app/errors/APIError';
 import toast from 'react-hot-toast';
 import { CompanyRow } from './components/CompanyRow';
@@ -14,9 +14,9 @@ export function Companies() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
+  const [companies, setCompanies] = useState<IGetCompanyResponse[]>([]);
   const [selectedCompany, setSelectedCompany] =
-    useState<IGetCompanyReponse | null>(null);
+    useState<IGetCompanyResponse | null>(null);
 
   function handleToggleCompanyStatus(companyId: string) {
     setCompanies((prevState) =>
@@ -28,11 +28,11 @@ export function Companies() {
     );
   }
 
-  function handleAddNewCompany(company: IGetCompanyReponse) {
+  function handleAddNewCompany(company: IGetCompanyResponse) {
     setCompanies((prevState) => prevState.concat(company));
   }
 
-  function handleUpdateCompany(company: IGetCompanyReponse) {
+  function handleUpdateCompany(company: IGetCompanyResponse) {
     setCompanies((prevState) =>
       prevState.map((item) => (item.id === company.id ? company : item)),
     );

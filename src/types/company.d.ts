@@ -1,4 +1,4 @@
-export interface IGetCompanyReponse {
+export interface IGetCompanyResponse {
   id: string;
   name: string;
   externalId: string;

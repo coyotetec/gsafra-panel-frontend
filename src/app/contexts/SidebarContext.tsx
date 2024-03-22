@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { GetUsersResponseType } from '../../types/users';
+import { IGetUserResponse } from '../../types/users';
 import { APIError } from '../errors/APIError';
 import { UserService } from '../services/UserService';
 import toast from 'react-hot-toast';
@@ -19,11 +19,11 @@ import { NotificationService } from '../services/NotificationService';
 
 interface ISidebarContextValue {
   isLoading: boolean;
-  users: GetUsersResponseType[] | null;
+  users: IGetUserResponse[] | null;
   notifications: IGetNotificationResponse[] | undefined;
   userCompanies: IGetUserCompaniesResponse[] | null;
   selectedCompany: string | undefined;
-  updateUserState: (user: GetUsersResponseType) => void;
+  updateUserState: (user: IGetUserResponse) => void;
   changeSelectedCompany: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -35,10 +35,8 @@ interface SidebarProviderPros {
 
 export function SidebarProvider({ children }: SidebarProviderPros) {
   const [isLoading, setIsLoading] = useState(false);
-  const [users, setUsers] = useState<GetUsersResponseType[] | null>(null);
-  const [showUsers, setShowUsers] = useState<GetUsersResponseType[] | null>(
-    null,
-  );
+  const [users, setUsers] = useState<IGetUserResponse[] | null>(null);
+  const [showUsers, setShowUsers] = useState<IGetUserResponse[] | null>(null);
   const [userCompanies, setUserCompanies] = useState<
     IGetUserCompaniesResponse[] | null
   >(null);
@@ -56,7 +54,7 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
     );
   }, [users, selectedCompany]);
 
-  const updateUserState = useCallback((user: GetUsersResponseType) => {
+  const updateUserState = useCallback((user: IGetUserResponse) => {
     setUsers((prevState) => [...(prevState || []), user]);
   }, []);
   const changeSelectedCompany = useCallback(
@@ -85,7 +83,6 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
       try {
         setIsLoading(true);
         const notifications = await NotificationService.getNotifications();
-        console.log(notifications);
         setNotifications(notifications);
       } catch (err) {
         if (err instanceof APIError) toast.error(err.message);

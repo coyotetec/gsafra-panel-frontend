@@ -1,4 +1,4 @@
-import { IGetCompanyReponse } from './company';
+import { IGetCompanyResponse } from './company';
 import { IGetGsafraUserResponse } from './gsafraUser';
 
 export type UserRoleType = 'ADMIN' | 'USER' | 'MANAGER';
@@ -27,7 +27,7 @@ export interface IUserRole {
 
 export interface IUserPayload {
   userRole?: IUserRole;
-  company?: IGetCompanyReponse;
+  company?: IGetCompanyResponse;
   gsafraUser?: IGetGsafraUserResponse;
   name: string;
   email: string;
