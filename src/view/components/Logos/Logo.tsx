@@ -14,7 +14,7 @@ export function Logo({ className }: LogoProps) {
     >
       <path
         d="M50 100C77.6142 100 100 77.6142 100 50C100 22.3858 77.6142 0 50 0C22.3858 0 0 22.3858 0 50C0 77.6142 22.3858 100 50 100Z"
-        fill="#076B3E"
+        fill="#079A4B"
       />
       <path
         fillRule="evenodd"
