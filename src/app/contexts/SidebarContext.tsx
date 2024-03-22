@@ -14,10 +14,13 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
 import { UserCompanyService } from '../services/UserCompanyService';
 import { IGetUserCompaniesResponse } from '../../types/userCompanies';
+import { IGetNotificationResponse } from '../../types/notification';
+import { NotificationService } from '../services/NotificationService';
 
 interface ISidebarContextValue {
   isLoading: boolean;
   users: GetUsersResponseType[] | null;
+  notifications: IGetNotificationResponse[] | undefined;
   userCompanies: IGetUserCompaniesResponse[] | null;
   selectedCompany: string | undefined;
   updateUserState: (user: GetUsersResponseType) => void;
@@ -40,6 +43,8 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
     IGetUserCompaniesResponse[] | null
   >(null);
   const [selectedCompany, setSelectedCompany] = useState<string>();
+  const [notifications, setNotifications] =
+    useState<IGetNotificationResponse[]>();
 
   const { user } = useAuth();
 
@@ -76,7 +81,19 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
       }
     }
 
+    async function getNotifications() {
+      try {
+        setIsLoading(true);
+        const notifications = await NotificationService.getNotifications();
+        console.log(notifications);
+        setNotifications(notifications);
+      } catch (err) {
+        if (err instanceof APIError) toast.error(err.message);
+      }
+    }
+
     getUsers();
+    getNotifications();
   }, []);
 
   useEffect(() => {
@@ -98,6 +115,7 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
     users: showUsers,
     isLoading,
     selectedCompany,
+    notifications,
     userCompanies,
     updateUserState,
     changeSelectedCompany,
