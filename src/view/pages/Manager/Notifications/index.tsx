@@ -10,17 +10,16 @@ import { NotificationRow } from './components/NotificationRow';
 import { SkeletonNotificationsTable } from '../../../components/Loaders/SkeletonNotificationsTable';
 import { EditNotificationModal } from './modals/EditNotificationModal';
 import { DeleteNotificationModal } from './modals/DeleteNotificationModal';
+import { useManager } from '../../../../app/hooks/useManager';
 
 export function Notifications() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [notifications, setNotifications] = useState<
-    IGetNotificationResponse[]
-  >([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedNotification, setSelectedNotification] =
     useState<IGetNotificationResponse | null>(null);
+  const { notifications, setNotifications, notificationsLoaded } = useManager();
 
   function handleAddNewNotification(notification: IGetNotificationResponse) {
     setNotifications((prevState) => [notification].concat(prevState));
@@ -43,11 +42,13 @@ export function Notifications() {
   useEffect(() => {
     async function loadData() {
       try {
-        setIsLoading(true);
-        const notificationsData = await NotificationService.getNotifications();
+        if (!notificationsLoaded.current) {
+          setIsLoading(true);
+          const notificationsData =
+            await NotificationService.getNotifications();
 
-        if (notificationsData) {
           setNotifications(notificationsData);
+          notificationsLoaded.current = true;
         }
       } catch (err) {
         if (err instanceof APIError) {
@@ -59,7 +60,7 @@ export function Notifications() {
     }
 
     loadData();
-  }, []);
+  }, [notificationsLoaded, setNotifications]);
 
   return (
     <>
@@ -133,6 +134,16 @@ export function Notifications() {
                 }}
               />
             ))
+          )}
+          {!isLoading && notifications.length === 0 && (
+            <tr className="border-b bg-white">
+              <td
+                colSpan={5}
+                className="max-w-[0] truncate p-4 text-center font-semibold"
+              >
+                Nenhuma notificação cadastrada, comece criando uma!
+              </td>
+            </tr>
           )}
         </tbody>
       </table>

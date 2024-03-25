@@ -5,7 +5,6 @@ import {
   useImperativeHandle,
   useState,
 } from 'react';
-import { IGetCompanyReponse } from '../../../../../types/company';
 import { IGetGsafraUserResponse } from '../../../../../types/gsafraUser';
 import { IUserPayload, IUserRole } from '../../../../../types/users';
 import { CompanyService } from '../../../../../app/services/CompanyService';
@@ -20,6 +19,7 @@ import { Icon } from '@tabler/icons-react';
 import { userSchema } from '../schemas';
 import { formatZodError } from '../../../../../app/utils/formatZodError';
 import { FormErrorType } from '../../../../../types/global';
+import { useManager } from '../../../../../app/hooks/useManager';
 
 interface UserFormProps {
   onClose: () => void;
@@ -50,10 +50,9 @@ export const userRoles: IUserRole[] = [
 export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
   ({ onClose, onSubmit, submitButtonLabel, SubmitButtonIcon }, ref) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [companiesIsLoading, setCompaniesIsLoading] = useState(true);
+    const [companiesIsLoading, setCompaniesIsLoading] = useState(false);
     const [gsafraUsersIsLoading, setGsafraUsersIsLoading] = useState(true);
-    const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
-    const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
+    const [formErrors, setFormErrors] = useState<FormErrorType>(null);
     const [gsafraUsers, setGsafraUsers] = useState<IGetGsafraUserResponse[]>(
       [],
     );
@@ -66,6 +65,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
     });
     const [companyId, setCompanyId] = useState<string | undefined>();
     const [gsafraUserId, setGsafraUserId] = useState<number | undefined>();
+    const { companies, companiesLoaded, setCompanies } = useManager();
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
       e.preventDefault();
@@ -113,12 +113,12 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
     useEffect(() => {
       async function loadCompanies() {
         try {
-          if (companies.length === 0) {
+          if (!companiesLoaded.current) {
             setCompaniesIsLoading(true);
-
             const companiesData = await CompanyService.getCompanies();
 
             setCompanies(companiesData);
+            companiesLoaded.current = true;
           } else if (companyId) {
             setUserData((prevState) => ({
               ...prevState,
@@ -135,7 +135,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
       }
 
       loadCompanies();
-    }, [companies, companyId]);
+    }, [companies, companiesLoaded, companyId, setCompanies]);
 
     useEffect(() => {
       async function loadGsafraUsers() {

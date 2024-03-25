@@ -40,7 +40,7 @@ export const NotificationForm = forwardRef<
   const [isLoading, setIsLoading] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
-  const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
+  const [formErrors, setFormErrors] = useState<FormErrorType>(null);
   const [selectedCompany, setSelectedCompany] = useState<
     IGetCompanyReponse | undefined
   >(undefined);
@@ -160,6 +160,8 @@ export const NotificationForm = forwardRef<
       />
       <Checkbox
         checked={notificationData.allCompanies}
+        name="all-companies"
+        label="Todas as empresas"
         onChange={(value) => {
           setSelectedCompany(undefined);
           setNotificationData((prevState) => ({

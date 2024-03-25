@@ -8,3 +8,13 @@ export const companySchema = z.object({
     message: 'Código da empresa é obrigatório',
   }),
 });
+
+export const gsafraUsersSchema = z.array(
+  z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string().email({
+      message: 'Insira um e-mail válido',
+    }),
+  }),
+);

@@ -9,15 +9,16 @@ import toast from 'react-hot-toast';
 import { SkeletonUsersTable } from '../../../components/Loaders/SkeletonUsersTable';
 import { UserRow } from './components/UserRow';
 import { EditUserModal } from './modals/EditUserModal';
+import { useManager } from '../../../../app/hooks/useManager';
 
 export function Users() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [users, setUsers] = useState<IGetUserResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IGetUserResponse | null>(
     null,
   );
+  const { users, setUsers, usersLoaded } = useManager();
 
   function handleToggleUserStatus(userId: string) {
     setUsers((prevState) => {
@@ -42,11 +43,12 @@ export function Users() {
   useEffect(() => {
     async function loadData() {
       try {
-        setIsLoading(true);
-        const usersData = await UserService.getUsers();
+        if (!usersLoaded.current) {
+          setIsLoading(true);
+          const usersData = await UserService.getUsers();
 
-        if (usersData) {
           setUsers(usersData);
+          usersLoaded.current = true;
         }
       } catch (err) {
         if (err instanceof APIError) {
@@ -58,7 +60,7 @@ export function Users() {
     }
 
     loadData();
-  }, []);
+  }, [setUsers, usersLoaded]);
 
   return (
     <>
@@ -123,6 +125,16 @@ export function Users() {
                 }}
               />
             ))
+          )}
+          {!isLoading && users.length === 0 && (
+            <tr className="border-b bg-white">
+              <td
+                colSpan={5}
+                className="max-w-[0] truncate p-4 text-center font-semibold"
+              >
+                Nenhum usuário cadastrada, comece criando uma!
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
