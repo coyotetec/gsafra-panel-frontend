@@ -50,7 +50,6 @@ export function EditCompanyModal({
       onEdited({ ...companyEdited, usersQty: company!.usersQty });
       onClose();
       toast.success('Empresa atualizada com sucesso!');
-      formRef.current?.resetFields();
     } catch (err) {
       if (err instanceof APIError) {
         toast.error(err.message);
@@ -64,6 +63,9 @@ export function EditCompanyModal({
       onClose={onClose}
       title="Editar Empresa"
       description={`Edite os dados da empresa ${company?.name}`}
+      afterClose={() => {
+        formRef.current?.resetFields();
+      }}
     >
       <CompanyForm
         ref={companyFormRef}

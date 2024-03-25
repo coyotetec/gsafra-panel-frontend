@@ -51,7 +51,6 @@ export function EditUserModal({
           : [],
       });
       toast.success('Usuário editado com sucesso!');
-      userFormRef.current?.resetFields();
       onClose();
     } catch (err) {
       if (err instanceof APIError) {
@@ -66,6 +65,9 @@ export function EditUserModal({
       onClose={onClose}
       title="Editar Usuário"
       description={`Edite os dados do usuário ${user?.name}`}
+      afterClose={() => {
+        userFormRef.current?.resetFields();
+      }}
     >
       <UserForm
         ref={userFormCallback}
