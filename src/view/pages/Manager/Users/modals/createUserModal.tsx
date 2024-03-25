@@ -1,5 +1,9 @@
 import { IconUserPlus } from '@tabler/icons-react';
-import { IGetUserResponse, IUserPayload } from '../../../../../types/users';
+import {
+  ICreateUserResponse,
+  IGetUserResponse,
+  IUserPayload,
+} from '../../../../../types/users';
 import { Modal } from '../../../../components/Modal';
 import { IUserFormRef, UserForm } from '../components/UserForm';
 import { UserService } from '../../../../../app/services/UserService';
@@ -24,7 +28,9 @@ export function CreateUserModal({
 
   async function handleSubmit(payload: IUserPayload) {
     try {
-      const userCreated = await UserService.managerCreateUser(payload);
+      const userCreated = (await UserService.managerCreateUser(
+        payload,
+      )) as ICreateUserResponse;
 
       onCreated({
         ...userCreated,
@@ -32,8 +38,9 @@ export function CreateUserModal({
           ? [{ id: payload.company.id, name: payload.company.name }]
           : [],
       });
+
       toast.success('Usuário criado com sucesso!');
-      userFormRef.current?.resetFields();
+
       setConcluded(true);
     } catch (err) {
       if (err instanceof APIError) {
@@ -46,7 +53,10 @@ export function CreateUserModal({
     <Modal
       visible={visible}
       onClose={onClose}
-      afterClose={() => setConcluded(false)}
+      afterClose={() => {
+        setConcluded(false);
+        userFormRef.current?.resetFields();
+      }}
       title={concluded ? 'Usuário Criado!' : 'Novo Usuário'}
       description={
         concluded

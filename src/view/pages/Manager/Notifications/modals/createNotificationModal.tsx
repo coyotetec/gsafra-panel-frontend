@@ -37,7 +37,6 @@ export function CreateNotificationModal({
       });
       onClose();
       toast.success('Notificação criada com sucesso!');
-      notificationFormRef.current?.resetFields();
     } catch (err) {
       if (err instanceof APIError) {
         toast.error(err.message);
@@ -51,6 +50,9 @@ export function CreateNotificationModal({
       onClose={onClose}
       title="Nova Notificação"
       description="Libere uma nova notificação para os usuários."
+      afterClose={() => {
+        notificationFormRef.current?.resetFields();
+      }}
     >
       <NotificationForm
         ref={notificationFormRef}

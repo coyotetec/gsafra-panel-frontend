@@ -20,18 +20,16 @@ export function UserRow({ data, onToggleStatus, onEdit }: UserRowProps) {
   async function handleToggleStatus() {
     try {
       setIsLoading(true);
-      let message = '';
 
       if (data.active) {
-        const response = await UserService.inactivateUser(data.id);
-        message = response?.message || '';
+        const { message } = await UserService.inactivateUser(data.id);
+        toast.success(message);
       } else {
-        const response = await UserService.activateUser(data.id);
-        message = response?.message || '';
+        const { message } = await UserService.activateUser(data.id);
+        toast.success(message);
       }
 
       onToggleStatus();
-      toast.success(message);
     } catch (err) {
       if (err instanceof APIError) {
         toast.error(err.message);
