@@ -1,6 +1,6 @@
 import { IconPlus } from '@tabler/icons-react';
 import { Button } from '../../../components/Button';
-import { CreateUserModal } from './modals/CreateUserModal';
+import { CreateUserModal } from './modals/createUserModal';
 import { useEffect, useState } from 'react';
 import { UserService } from '../../../../app/services/UserService';
 import { IGetUserResponse } from '../../../../types/users';

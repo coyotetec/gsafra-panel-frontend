@@ -5,7 +5,7 @@ import {
   useImperativeHandle,
   useState,
 } from 'react';
-import { IGetCompanyReponse } from '../../../../../types/company';
+import { IGetCompanyResponse } from '../../../../../types/company';
 import { IGetGsafraUserResponse } from '../../../../../types/gsafraUser';
 import { IUserPayload, IUserRole } from '../../../../../types/users';
 import { CompanyService } from '../../../../../app/services/CompanyService';
@@ -52,7 +52,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
     const [isLoading, setIsLoading] = useState(false);
     const [companiesIsLoading, setCompaniesIsLoading] = useState(true);
     const [gsafraUsersIsLoading, setGsafraUsersIsLoading] = useState(true);
-    const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
+    const [companies, setCompanies] = useState<IGetCompanyResponse[]>([]);
     const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
     const [gsafraUsers, setGsafraUsers] = useState<IGetGsafraUserResponse[]>(
       [],

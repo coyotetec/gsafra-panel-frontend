@@ -3,21 +3,21 @@ import { Button } from '../../../../../components/Button';
 import { Input } from '../../../../../components/Input';
 import { Modal } from '../../../../../components/Modal';
 import { Select } from '../../../../../components/Select';
-import { Dispatch, FormEvent, SetStateAction, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { handleChangeInput } from '../../../../../../app/utils/handleChangeInput';
 import { IGetUserCompaniesResponse } from '../../../../../../types/userCompanies';
 import { newUserSchema } from './newUserSchema';
 import { FormErrorType } from '../../../../../../types/global';
 import { formatZodError } from '../../../../../../app/utils/formatZodError';
 import { UserService } from '../../../../../../app/services/UserService';
-import { IGetUserResponse, UserRoleType } from '../../../../../../types/users';
+import { UserRoleType } from '../../../../../../types/users';
 import toast from 'react-hot-toast';
 import { APIError } from '../../../../../../app/errors/APIError';
+import { useSidebarData } from '../../../../../../app/hooks/useSidebarData';
 
 interface NewUserModalProps {
   visible: boolean;
   onClose: () => void;
-  updateUserState: Dispatch<SetStateAction<IGetUserResponse[] | null>>;
   companies?: IGetUserCompaniesResponse[] | null;
 }
 
@@ -77,7 +77,6 @@ export function NewUserModal({
   onClose,
   visible,
   companies,
-  updateUserState,
 }: NewUserModalProps) {
   const [selectedExternalId, setSelectedExternalId] =
     useState<IExternalIdSelect | null>(null);
@@ -93,6 +92,8 @@ export function NewUserModal({
   const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { updateUserState } = useSidebarData();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     try {
@@ -118,7 +119,7 @@ export function NewUserModal({
         companies: selectedCompany ? [selectedCompany] : [],
       };
 
-      updateUserState((prevState) => [...(prevState || []), formattedUser]);
+      updateUserState(formattedUser);
       setSuccess(true);
 
       setIsLoading(false);
