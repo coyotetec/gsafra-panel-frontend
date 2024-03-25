@@ -12,3 +12,12 @@ export interface ILoginData {
   email: string;
   password: string;
 }
+
+export interface ICreatePasswordPayload {
+  userId: string;
+  password: string;
+}
+
+export interface ICreatePasswordResponse {
+  message: string;
+}
