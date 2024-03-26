@@ -3,7 +3,6 @@ import { Users } from './content/Users/';
 import { Notifications } from './content/Notifications';
 import { ButtonSidebar } from './components/ButtonSidebar';
 import { CurrentContentType } from '../../../layouts/UserLayout';
-import { cn } from '../../../../app/utils/cn';
 import { useAuth } from '../../../../app/hooks/useAuth';
 import { useEffect } from 'react';
 
@@ -64,12 +63,10 @@ export function Sidebar({ currentContent, setCurrentContent }: SidebarProps) {
 
           return (
             <ButtonSidebar
-              className={cn(
-                current === currentContent && 'bg-primary-500 text-white',
-              )}
               key={current}
               Icon={icon}
               onClick={() => setCurrentContent(current)}
+              isSelected={current === currentContent}
             />
           );
         })}
