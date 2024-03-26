@@ -30,16 +30,31 @@ export class UserService {
     return data;
   }
 
-  static async managerCreateUser(payload: IUserPayload) {
-    const { data } = await api.post<ICreateUserResponse>('/users', {
-      name: payload.name,
-      email: payload.email,
-      role: payload.userRole?.value,
-      companyId: payload.company?.id,
-      externalId: payload.gsafraUser?.id,
-    });
+  static async managerCreateUser(payload: IUserPayload | IUserPayload[]) {
+    if (Array.isArray(payload)) {
+      const { data } = await api.post<ICreateUserResponse[]>(
+        '/users',
+        payload.map((item) => ({
+          name: item.name,
+          email: item.email,
+          role: item.userRole?.value,
+          companyId: item.company?.id,
+          externalId: item.gsafraUser?.id,
+        })),
+      );
 
-    return data;
+      return data;
+    } else {
+      const { data } = await api.post<ICreateUserResponse>('/users', {
+        name: payload.name,
+        email: payload.email,
+        role: payload.userRole?.value,
+        companyId: payload.company?.id,
+        externalId: payload.gsafraUser?.id,
+      });
+
+      return data;
+    }
   }
 
   static async managerUpdateUser(id: string, payload: IUserPayload) {

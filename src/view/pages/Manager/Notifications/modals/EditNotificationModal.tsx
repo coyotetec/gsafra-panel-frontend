@@ -58,7 +58,6 @@ export function EditNotificationModal({
       });
       onClose();
       toast.success('Notificação atualizada com sucesso!');
-      notificationFormRef.current?.resetFields();
     } catch (err) {
       if (err instanceof APIError) {
         toast.error(err.message);
@@ -72,6 +71,9 @@ export function EditNotificationModal({
       onClose={onClose}
       title="Editar Notificação"
       description={`Edite os dados da notificação ${notification?.title}`}
+      afterClose={() => {
+        notificationFormRef.current?.resetFields();
+      }}
     >
       <NotificationForm
         ref={notificationFormCallback}

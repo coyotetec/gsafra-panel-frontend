@@ -21,7 +21,7 @@ export function Button({
         'flex h-13 w-full items-center justify-center gap-1 rounded-full bg-primary-500 font-medium leading-none text-white outline-none transition-colors hover:bg-primary-400',
         'flex h-13 w-full items-center justify-center gap-1 rounded-full bg-primary-500 font-medium leading-none text-white outline-none transition-colors hover:bg-primary-400',
         variant === 'outline' &&
-          'border-2 border-primary-950 bg-primary-950/10 text-primary-950 hover:bg-primary-950/25',
+          'border-2 border-primary-500 bg-primary-500/10 text-primary-500 hover:bg-primary-500/20',
         variant === 'light' && 'bg-white text-primary-960 hover:bg-gray-400',
         variant === 'secondary' &&
           'bg-gray-400 text-black-70 hover:bg-gray-500',

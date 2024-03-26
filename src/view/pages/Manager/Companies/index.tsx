@@ -9,14 +9,15 @@ import toast from 'react-hot-toast';
 import { CompanyRow } from './components/CompanyRow';
 import { SkeletonCompaniesTable } from '../../../components/Loaders/SkeletonCompaniesTable';
 import { EditCompanyModal } from './modals/EditCompanyModal';
+import { useManager } from '../../../../app/hooks/useManager';
 
 export function Companies() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [companies, setCompanies] = useState<IGetCompanyResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCompany, setSelectedCompany] =
-    useState<IGetCompanyResponse | null>(null);
+    useState<IGetCompanyReponse | null>(null);
+  const { companies, setCompanies, companiesLoaded } = useManager();
 
   function handleToggleCompanyStatus(companyId: string) {
     setCompanies((prevState) =>
@@ -41,10 +42,13 @@ export function Companies() {
   useEffect(() => {
     async function loadData() {
       try {
-        setIsLoading(true);
-        const companiesData = await CompanyService.getCompanies();
+        if (!companiesLoaded.current) {
+          setIsLoading(true);
+          const companiesData = await CompanyService.getCompanies();
 
-        setCompanies(companiesData);
+          setCompanies(companiesData);
+          companiesLoaded.current = true;
+        }
       } catch (err) {
         if (err instanceof APIError) {
           toast.error(err.message);
@@ -55,7 +59,7 @@ export function Companies() {
     }
 
     loadData();
-  }, []);
+  }, [companiesLoaded, setCompanies]);
 
   return (
     <>
@@ -120,6 +124,16 @@ export function Companies() {
                 }}
               />
             ))
+          )}
+          {!isLoading && companies.length === 0 && (
+            <tr className="border-b bg-white">
+              <td
+                colSpan={5}
+                className="max-w-[0] truncate p-4 text-center font-semibold"
+              >
+                Nenhuma empresa cadastrada, comece criando uma!
+              </td>
+            </tr>
           )}
         </tbody>
       </table>

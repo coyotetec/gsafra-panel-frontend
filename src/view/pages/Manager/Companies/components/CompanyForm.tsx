@@ -23,7 +23,7 @@ export interface ICompanyFormRef {
 export const CompanyForm = forwardRef<ICompanyFormRef, CompanyFormProps>(
   ({ onClose, onSubmit, submitButtonLabel, SubmitButtonIcon }, ref) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
+    const [formErrors, setFormErrors] = useState<FormErrorType>(null);
     const [companyData, setCompanyData] = useState<ICompanyPayload>({
       name: '',
       code: '',
