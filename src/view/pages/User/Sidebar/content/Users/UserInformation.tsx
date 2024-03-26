@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { Switch } from '../../../../components/Switch';
-import { UserService } from '../../../../../app/services/UserService';
-import { APIError } from '../../../../../app/errors/APIError';
-import { Spinner } from '../../../../components/Loaders/Spinner';
+import { Switch } from '../../../../../components/Switch';
+import { UserService } from '../../../../../../app/services/UserService';
+import { APIError } from '../../../../../../app/errors/APIError';
+import { Spinner } from '../../../../../components/Loaders/Spinner';
 import toast from 'react-hot-toast';
+import { IconEdit } from '@tabler/icons-react';
 
 interface UserInformationProps {
   userName: string;
   email: string;
   active: boolean;
   id: string;
+  handleEditUser: () => void;
 }
 
 export function UserInformation({
@@ -17,6 +19,7 @@ export function UserInformation({
   email,
   active,
   id,
+  handleEditUser,
 }: UserInformationProps) {
   const [checkedSwitch, setCheckedSwitch] = useState(active);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +48,15 @@ export function UserInformation({
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-col">
-        <strong className="font-semibold text-white">{userName}</strong>
+        <strong className="flex items-center gap-1 font-semibold text-white">
+          {userName}
+          <IconEdit
+            stroke={2}
+            size={14}
+            className="cursor-pointer"
+            onClick={handleEditUser}
+          />
+        </strong>
         <small className="text-sm text-white/90">{email}</small>
       </div>
       {isLoading ? (

@@ -1,5 +1,5 @@
 import { Icon, IconBellFilled, IconUserFilled } from '@tabler/icons-react';
-import { Users } from './content/Users';
+import { Users } from './content/Users/';
 import { Notifications } from './content/Notifications';
 import { ButtonSidebar } from './components/ButtonSidebar';
 import { CurrentContentType } from '../../../layouts/UserLaytout';

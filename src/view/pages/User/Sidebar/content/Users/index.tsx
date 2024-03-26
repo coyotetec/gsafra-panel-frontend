@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { IconUserPlus } from '@tabler/icons-react';
-import { Button } from '../../../../components/Button';
-import { UserInformation } from '../components/UserInformation';
-import { NewUserModal } from '../components/NewUserModal';
-import { SkeletonUsers } from '../../../../components/Loaders/SkeletonUsers';
-import { useSidebarData } from '../../../../../app/hooks/useSidebarData';
+import { Button } from '../../../../../components/Button';
+import { UserInformation } from './UserInformation';
+import { NewUserModal } from './modals/NewUserModal';
+import { SkeletonUsers } from '../../../../../components/Loaders/SkeletonUsers';
+import { usePanelContext } from '../../../../../../app/hooks/usePanelContext';
+import { UpdateUserModal } from './modals/UpdateUserModal';
+import { IGetUserResponse } from '../../../../../../types/users';
 
 export function Users() {
   const [showNewUserModal, setShowNewUserModal] = useState(false);
+  const [showUpdateUserModal, setShowUpdateUserModal] = useState(false);
+  const [userToEdit, setUserToEdit] = useState<IGetUserResponse | null>(null);
 
   const {
     isLoading,
@@ -15,13 +19,13 @@ export function Users() {
     selectedCompany,
     userCompanies,
     changeSelectedCompany,
-  } = useSidebarData();
+  } = usePanelContext();
 
   return (
     <>
       <h1 className="text-2xl font-semibold text-white">Usuários</h1>
 
-      {userCompanies && userCompanies.length !== 0 ? (
+      {userCompanies && userCompanies.length > 1 ? (
         <select
           value={selectedCompany}
           className="w-1/2 bg-transparent text-sm text-gray-400 outline-none"
@@ -39,13 +43,17 @@ export function Users() {
         {isLoading ? (
           <SkeletonUsers />
         ) : (
-          users?.map(({ id, email, active, name }) => (
+          users?.map((user) => (
             <UserInformation
-              key={id}
-              email={email}
-              userName={name}
-              active={active}
-              id={id}
+              key={user.id}
+              email={user.email}
+              userName={user.name}
+              active={user.active}
+              id={user.id}
+              handleEditUser={() => {
+                setShowUpdateUserModal(true);
+                setUserToEdit(user);
+              }}
             />
           ))
         )}
@@ -62,9 +70,13 @@ export function Users() {
         Novo usuário
       </Button>
       <NewUserModal
-        companies={userCompanies}
         visible={showNewUserModal}
         onClose={() => setShowNewUserModal(false)}
+      />
+      <UpdateUserModal
+        visible={showUpdateUserModal}
+        onClose={() => setShowUpdateUserModal(false)}
+        user={userToEdit}
       />
     </>
   );

@@ -1,8 +1,8 @@
-import { useSidebarData } from '../../../../../app/hooks/useSidebarData';
-import { Notification } from '../components/Notification';
+import { usePanelContext } from '../../../../../../app/hooks/usePanelContext';
+import { Notification } from './Notification';
 
 export function Notifications() {
-  const { notifications } = useSidebarData();
+  const { notifications } = usePanelContext();
 
   return (
     <>
