@@ -6,7 +6,7 @@ import { Companies } from '../view/pages/Manager/Companies';
 import { Users } from '../view/pages/Manager/Users';
 import { Notifications } from '../view/pages/Manager/Notifications';
 import { ManagerLayout } from '../view/layouts/ManagerLayout';
-import { UserLayout } from '../view/layouts/UserLaytout';
+import { UserLayout } from '../view/layouts/UserLayout';
 import { Panel } from '../view/pages/User/Panel';
 import AuthGuard from './AuthGuard';
 

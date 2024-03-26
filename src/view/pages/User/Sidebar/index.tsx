@@ -2,7 +2,7 @@ import { Icon, IconBellFilled, IconUserFilled } from '@tabler/icons-react';
 import { Users } from './content/Users/';
 import { Notifications } from './content/Notifications';
 import { ButtonSidebar } from './components/ButtonSidebar';
-import { CurrentContentType } from '../../../layouts/UserLaytout';
+import { CurrentContentType } from '../../../layouts/UserLayout';
 import { cn } from '../../../../app/utils/cn';
 import { useAuth } from '../../../../app/hooks/useAuth';
 import { useEffect } from 'react';
