@@ -16,6 +16,15 @@ export interface IGetUserResponse {
   }[];
 }
 
+export interface IPutUserResponse {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRoleType;
+  externalId: number;
+  active: boolean;
+}
+
 export interface IUserStatusResponse {
   message: string;
 }
