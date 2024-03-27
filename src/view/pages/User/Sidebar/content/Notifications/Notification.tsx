@@ -1,4 +1,4 @@
-import { formatUTCtoDateString } from '../../../../../app/utils/formatUTCtoDateString';
+import { formatUTCtoDateString } from '../../../../../../app/utils/formatUTCtoDateString';
 
 interface NotificationProps {
   title: string;

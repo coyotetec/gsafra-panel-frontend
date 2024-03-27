@@ -1,6 +1,7 @@
 import {
   ICreateUserResponse,
   IGetUserResponse,
+  IPutUserResponse,
   IUserPayload,
   IUserStatusResponse,
   UserRoleType,
@@ -13,6 +14,13 @@ interface ICreateUserArgs {
   role: UserRoleType | undefined;
   externalId?: number | undefined;
   companyId?: string | undefined;
+}
+
+interface IUpdateUserArgs {
+  name: string;
+  email: string;
+  role: UserRoleType | undefined;
+  externalId: number | undefined;
 }
 
 export class UserService {
@@ -78,6 +86,14 @@ export class UserService {
   static async createUser(payload: ICreateUserArgs) {
     const { data } = await api.post<ICreateUserResponse>('/users', payload);
 
+    return data;
+  }
+
+  static async updateUser(payload: IUpdateUserArgs, userId: string) {
+    const { data } = await api.put<IPutUserResponse>(
+      `/users/${userId}`,
+      payload,
+    );
     return data;
   }
 }

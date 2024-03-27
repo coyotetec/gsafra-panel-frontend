@@ -1,4 +1,8 @@
 export interface IGetUserCompaniesResponse {
-  id: string;
-  name: string;
+  externalUserId: number;
+  companies: {
+    name: string;
+    id: string;
+    externalId: string;
+  }[];
 }

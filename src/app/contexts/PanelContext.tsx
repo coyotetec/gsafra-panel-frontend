@@ -17,29 +17,28 @@ import { IGetUserCompaniesResponse } from '../../types/userCompanies';
 import { IGetNotificationResponse } from '../../types/notification';
 import { NotificationService } from '../services/NotificationService';
 
-interface ISidebarContextValue {
+interface IPanelContextValue {
   isLoading: boolean;
   users: IGetUserResponse[] | null;
   notifications: IGetNotificationResponse[] | undefined;
-  userCompanies: IGetUserCompaniesResponse[] | null;
+  userCompanies: IGetUserCompaniesResponse | null;
   selectedCompany: string | undefined;
   updateUserState: (user: IGetUserResponse) => void;
   changeSelectedCompany: (event: ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const SidebarContext = createContext({} as ISidebarContextValue);
+export const PanelContext = createContext({} as IPanelContextValue);
 
-interface SidebarProviderPros {
+interface PanelProviderPros {
   children: ReactNode;
 }
 
-export function SidebarProvider({ children }: SidebarProviderPros) {
+export function PanelProvider({ children }: PanelProviderPros) {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState<IGetUserResponse[] | null>(null);
   const [showUsers, setShowUsers] = useState<IGetUserResponse[] | null>(null);
-  const [userCompanies, setUserCompanies] = useState<
-    IGetUserCompaniesResponse[] | null
-  >(null);
+  const [userCompanies, setUserCompanies] =
+    useState<IGetUserCompaniesResponse | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string>();
   const [notifications, setNotifications] =
     useState<IGetNotificationResponse[]>();
@@ -54,9 +53,25 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
     );
   }, [users, selectedCompany]);
 
-  const updateUserState = useCallback((user: IGetUserResponse) => {
-    setUsers((prevState) => [...(prevState || []), user]);
-  }, []);
+  const updateUserState = useCallback(
+    (user: IGetUserResponse) => {
+      const userExists = users?.find(({ id }) => id === user.id);
+
+      if (userExists) {
+        const updatedUsers = users!
+          .map((u) => (u.id === user.id ? user : u))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        setUsers(updatedUsers);
+        return;
+      }
+
+      const orderedUsers = [...(users || []), user].sort((a, b) =>
+        a.name.localeCompare(b.name),
+      );
+      setUsers(orderedUsers);
+    },
+    [users],
+  );
   const changeSelectedCompany = useCallback(
     ({ target }: ChangeEvent<HTMLSelectElement>) => {
       setSelectedCompany(target.value);
@@ -81,7 +96,6 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
 
     async function getNotifications() {
       try {
-        setIsLoading(true);
         const notifications = await NotificationService.getNotifications();
         setNotifications(notifications);
       } catch (err) {
@@ -97,7 +111,7 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
     async function getUserCompanies(userId: string) {
       const userCompanies =
         await UserCompanyService.getCompaniesByUserId(userId);
-      setSelectedCompany(userCompanies[0].id);
+      setSelectedCompany(userCompanies.companies[0].id);
       setUserCompanies(userCompanies);
     }
 
@@ -108,7 +122,7 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
     setShowUsers(filteredUsersByCompany);
   }, [filteredUsersByCompany]);
 
-  const value: ISidebarContextValue = {
+  const value: IPanelContextValue = {
     users: showUsers,
     isLoading,
     selectedCompany,
@@ -118,6 +132,6 @@ export function SidebarProvider({ children }: SidebarProviderPros) {
     changeSelectedCompany,
   };
   return (
-    <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
+    <PanelContext.Provider value={value}>{children}</PanelContext.Provider>
   );
 }
