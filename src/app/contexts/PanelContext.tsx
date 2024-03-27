@@ -19,12 +19,14 @@ import { NotificationService } from '../services/NotificationService';
 
 interface IPanelContextValue {
   isLoading: boolean;
+  notificationIsLoading: boolean;
   users: IGetUserResponse[] | null;
   notifications: IGetNotificationResponse[] | undefined;
   userCompanies: IGetUserCompaniesResponse | null;
   selectedCompany: string | undefined;
   updateUserState: (user: IGetUserResponse) => void;
   changeSelectedCompany: (event: ChangeEvent<HTMLSelectElement>) => void;
+  getNotifications: () => void;
 }
 
 export const PanelContext = createContext({} as IPanelContextValue);
@@ -42,6 +44,7 @@ export function PanelProvider({ children }: PanelProviderPros) {
   const [selectedCompany, setSelectedCompany] = useState<string>();
   const [notifications, setNotifications] =
     useState<IGetNotificationResponse[]>();
+  const [notificationIsLoading, setNotificationIsLoading] = useState(false);
 
   const { user } = useAuth();
 
@@ -79,6 +82,18 @@ export function PanelProvider({ children }: PanelProviderPros) {
     [],
   );
 
+  const getNotifications = useCallback(async () => {
+    try {
+      setNotificationIsLoading(true);
+      const notifications = await NotificationService.getNotifications();
+      setNotifications(notifications);
+    } catch (err) {
+      if (err instanceof APIError) toast.error(err.message);
+    } finally {
+      setNotificationIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     async function getUsers() {
       try {
@@ -91,15 +106,6 @@ export function PanelProvider({ children }: PanelProviderPros) {
         }
       } finally {
         setIsLoading(false);
-      }
-    }
-
-    async function getNotifications() {
-      try {
-        const notifications = await NotificationService.getNotifications();
-        setNotifications(notifications);
-      } catch (err) {
-        if (err instanceof APIError) toast.error(err.message);
       }
     }
 
@@ -125,11 +131,13 @@ export function PanelProvider({ children }: PanelProviderPros) {
   const value: IPanelContextValue = {
     users: showUsers,
     isLoading,
+    notificationIsLoading,
     selectedCompany,
     notifications,
     userCompanies,
     updateUserState,
     changeSelectedCompany,
+    getNotifications,
   };
   return (
     <PanelContext.Provider value={value}>{children}</PanelContext.Provider>
