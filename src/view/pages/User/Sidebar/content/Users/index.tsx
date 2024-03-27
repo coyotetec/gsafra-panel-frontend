@@ -25,13 +25,13 @@ export function Users() {
     <>
       <h1 className="text-2xl font-semibold text-white">Usuários</h1>
 
-      {userCompanies && userCompanies.length > 1 ? (
+      {userCompanies && userCompanies.companies.length > 1 ? (
         <select
           value={selectedCompany}
           className="w-1/2 bg-transparent text-sm text-gray-400 outline-none"
           onChange={changeSelectedCompany}
         >
-          {userCompanies?.map(({ name, id }) => (
+          {userCompanies?.companies.map(({ name, id }) => (
             <option className="text-black" value={id} key={id}>
               {name}
             </option>

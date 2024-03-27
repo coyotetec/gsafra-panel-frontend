@@ -21,7 +21,7 @@ interface IPanelContextValue {
   isLoading: boolean;
   users: IGetUserResponse[] | null;
   notifications: IGetNotificationResponse[] | undefined;
-  userCompanies: IGetUserCompaniesResponse[] | null;
+  userCompanies: IGetUserCompaniesResponse | null;
   selectedCompany: string | undefined;
   updateUserState: (user: IGetUserResponse) => void;
   changeSelectedCompany: (event: ChangeEvent<HTMLSelectElement>) => void;
@@ -37,9 +37,8 @@ export function PanelProvider({ children }: PanelProviderPros) {
   const [isLoading, setIsLoading] = useState(false);
   const [users, setUsers] = useState<IGetUserResponse[] | null>(null);
   const [showUsers, setShowUsers] = useState<IGetUserResponse[] | null>(null);
-  const [userCompanies, setUserCompanies] = useState<
-    IGetUserCompaniesResponse[] | null
-  >(null);
+  const [userCompanies, setUserCompanies] =
+    useState<IGetUserCompaniesResponse | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string>();
   const [notifications, setNotifications] =
     useState<IGetNotificationResponse[]>();
@@ -112,7 +111,7 @@ export function PanelProvider({ children }: PanelProviderPros) {
     async function getUserCompanies(userId: string) {
       const userCompanies =
         await UserCompanyService.getCompaniesByUserId(userId);
-      setSelectedCompany(userCompanies[0].id);
+      setSelectedCompany(userCompanies.companies[0].id);
       setUserCompanies(userCompanies);
     }
 
