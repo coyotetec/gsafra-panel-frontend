@@ -1,5 +1,5 @@
 import { IconEdit } from '@tabler/icons-react';
-import { IGetCompanyReponse } from '../../../../../types/company';
+import { IGetCompanyResponse } from '../../../../../types/company';
 import { Switch } from '../../../../components/Switch';
 import { cn } from '../../../../../app/utils/cn';
 import { useState } from 'react';
@@ -9,7 +9,7 @@ import { CompanyService } from '../../../../../app/services/CompanyService';
 import { Spinner } from '../../../../components/Loaders/Spinner';
 
 interface CompanyRowProps {
-  data: IGetCompanyReponse;
+  data: IGetCompanyResponse;
   onToggleStatus: () => void;
   onEdit: () => void;
 }

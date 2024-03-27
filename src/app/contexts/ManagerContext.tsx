@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { IGetCompanyReponse } from '../../types/company';
+import { IGetCompanyResponse } from '../../types/company';
 import { IGetUserResponse } from '../../types/users';
 import { IGetNotificationResponse } from '../../types/notification';
 
@@ -16,8 +16,8 @@ interface ManagerProviderProps {
 }
 
 interface IManagerContextValue {
-  companies: IGetCompanyReponse[];
-  setCompanies: Dispatch<SetStateAction<IGetCompanyReponse[]>>;
+  companies: IGetCompanyResponse[];
+  setCompanies: Dispatch<SetStateAction<IGetCompanyResponse[]>>;
   companiesLoaded: MutableRefObject<boolean>;
 
   users: IGetUserResponse[];
@@ -32,7 +32,7 @@ interface IManagerContextValue {
 export const ManagerContext = createContext({} as IManagerContextValue);
 
 export function ManagerProvider({ children }: ManagerProviderProps) {
-  const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
+  const [companies, setCompanies] = useState<IGetCompanyResponse[]>([]);
   const companiesLoaded = useRef<boolean>(false);
   const [users, setUsers] = useState<IGetUserResponse[]>([]);
   const usersLoaded = useRef<boolean>(false);

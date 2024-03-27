@@ -1,8 +1,9 @@
 import {
-  ICreatePasswordPayload,
-  ICreatePasswordResponse,
+  IResetPasswordPayload,
+  IResetPasswordResponse,
   ILoginData,
   ILoginResponse,
+  IRequestResetResponse,
 } from '../../types/authentication';
 import { api } from './utils/api';
 
@@ -16,12 +17,19 @@ export class AuthService {
     return data;
   }
 
-  static async createPassword({ userId, password }: ICreatePasswordPayload) {
-    const { data } = await api.post<ICreatePasswordResponse>(
-      `/users/${userId}/password`,
-      {
-        password,
-      },
+  static async resetPassword(payload: IResetPasswordPayload) {
+    const { data } = await api.post<IResetPasswordResponse>(
+      '/auth/password',
+      payload,
+    );
+
+    return data;
+  }
+
+  static async requestReset(email: string) {
+    const { data } = await api.post<IRequestResetResponse>(
+      '/auth/request-reset',
+      { email },
     );
 
     return data;

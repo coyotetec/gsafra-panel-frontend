@@ -10,6 +10,7 @@ import { SkeletonUsersTable } from '../../../components/Loaders/SkeletonUsersTab
 import { UserRow } from './components/UserRow';
 import { EditUserModal } from './modals/EditUserModal';
 import { useManager } from '../../../../app/hooks/useManager';
+import { orderUsersByCompany } from '../../../../app/utils/orderUserssByCOmpany';
 
 export function Users() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
@@ -47,7 +48,7 @@ export function Users() {
           setIsLoading(true);
           const usersData = await UserService.getUsers();
 
-          setUsers(usersData);
+          setUsers(orderUsersByCompany(usersData));
           usersLoaded.current = true;
         }
       } catch (err) {
