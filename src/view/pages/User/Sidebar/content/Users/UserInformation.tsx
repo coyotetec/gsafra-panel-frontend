@@ -46,8 +46,8 @@ export function UserInformation({
     }
   }
   return (
-    <div className="flex items-center justify-between gap-2">
-      <div className="flex max-w-52 flex-col truncate">
+    <div className="g flex items-center justify-between">
+      <div className="flex max-w-48 flex-col truncate">
         <strong className="flex items-center gap-1 font-semibold text-white">
           {userName}
           <IconEdit
