@@ -1,7 +1,6 @@
 import { IconRefresh } from '@tabler/icons-react';
 import { usePanelContext } from '../../../../../../app/hooks/usePanelContext';
 import { Notification } from './Notification';
-import { SkeletonNotificationsTable } from '../../../../../components/Loaders/SkeletonNotificationsTable';
 import { SkeletonNotifications } from '../../../../../components/Loaders/SkeletonNotifications';
 
 export function Notifications() {
