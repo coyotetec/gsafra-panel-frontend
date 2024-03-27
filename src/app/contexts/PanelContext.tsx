@@ -24,6 +24,7 @@ interface IPanelContextValue {
   notifications: IGetNotificationResponse[] | undefined;
   userCompanies: IGetUserCompaniesResponse | null;
   selectedCompany: string | undefined;
+  setSelectedCompany: (companyId: string) => void;
   updateUserState: (user: IGetUserResponse) => void;
   changeSelectedCompany: (event: ChangeEvent<HTMLSelectElement>) => void;
   getNotifications: () => void;
@@ -130,6 +131,7 @@ export function PanelProvider({ children }: PanelProviderPros) {
 
   const value: IPanelContextValue = {
     users: showUsers,
+    setSelectedCompany,
     isLoading,
     notificationIsLoading,
     selectedCompany,

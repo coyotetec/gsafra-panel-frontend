@@ -7,39 +7,26 @@ import { SkeletonUsers } from '../../../../../components/Loaders/SkeletonUsers';
 import { usePanelContext } from '../../../../../../app/hooks/usePanelContext';
 import { UpdateUserModal } from './modals/UpdateUserModal';
 import { IGetUserResponse } from '../../../../../../types/users';
+import { SelectCompany } from '../../../../../components/SelectCompany';
 
 export function Users() {
   const [showNewUserModal, setShowNewUserModal] = useState(false);
   const [showUpdateUserModal, setShowUpdateUserModal] = useState(false);
   const [userToEdit, setUserToEdit] = useState<IGetUserResponse | null>(null);
 
-  const {
-    isLoading,
-    users,
-    selectedCompany,
-    userCompanies,
-    changeSelectedCompany,
-  } = usePanelContext();
+  const { isLoading, users, userCompanies } = usePanelContext();
 
   return (
     <>
       <h1 className="text-2xl font-semibold text-white">Usuários</h1>
 
-      {userCompanies && userCompanies.companies.length > 1 ? (
-        <select
-          value={selectedCompany}
-          className="w-1/2 bg-transparent text-sm text-gray-400 outline-none"
-          onChange={changeSelectedCompany}
-        >
-          {userCompanies?.companies.map(({ name, id }) => (
-            <option className="text-black" value={id} key={id}>
-              {name}
-            </option>
-          ))}
-        </select>
-      ) : null}
+      {userCompanies && userCompanies.companies.length > 1 && (
+        <div className="absolute top-16">
+          <SelectCompany />
+        </div>
+      )}
 
-      <div className="sidebar-scroll sidebar-scroll-thumb mb-4 mt-4 flex h-full flex-1 flex-col items-stretch gap-6 overflow-auto pr-2">
+      <div className="sidebar-scroll sidebar-scroll-thumb mb-4 mt-8 flex h-full flex-1 flex-col items-stretch gap-6 overflow-auto pr-2">
         {isLoading ? (
           <SkeletonUsers />
         ) : (
