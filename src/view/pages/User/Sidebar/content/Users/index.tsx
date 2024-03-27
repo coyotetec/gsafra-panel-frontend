@@ -39,7 +39,7 @@ export function Users() {
         </select>
       ) : null}
 
-      <div className="mt-6 flex flex-1 flex-col items-stretch gap-6">
+      <div className="sidebar-scroll sidebar-scroll-thumb mb-4 mt-4 flex h-full flex-1 flex-col items-stretch gap-6 overflow-auto pr-2">
         {isLoading ? (
           <SkeletonUsers />
         ) : (

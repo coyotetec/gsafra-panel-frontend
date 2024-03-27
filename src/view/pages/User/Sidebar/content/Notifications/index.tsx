@@ -19,7 +19,7 @@ export function Notifications() {
           <IconRefresh size={16} />
         </button>
       </div>
-      <div className="mt-6 flex flex-col gap-3">
+      <div className="sidebar-scroll sidebar-scroll-thumb mt-6 flex flex-col gap-3 overflow-auto pr-2">
         {notificationIsLoading ? (
           <SkeletonNotifications />
         ) : (
