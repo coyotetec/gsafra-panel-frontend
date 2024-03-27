@@ -16,7 +16,7 @@ export function Companies() {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCompany, setSelectedCompany] =
-    useState<IGetCompanyReponse | null>(null);
+    useState<IGetCompanyResponse | null>(null);
   const { companies, setCompanies, companiesLoaded } = useManager();
 
   function handleToggleCompanyStatus(companyId: string) {

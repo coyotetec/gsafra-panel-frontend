@@ -3,12 +3,12 @@ import {
   ICompanyPayload,
   ICompanyStatusResponse,
   ICreateCompanyResponse,
-  IGetCompanyReponse,
+  IGetCompanyResponse,
 } from '../../types/company';
 
 export class CompanyService {
   static async getCompanies() {
-    const { data } = await api.get<IGetCompanyReponse[]>('/companies');
+    const { data } = await api.get<IGetCompanyResponse[]>('/companies');
 
     return data;
   }

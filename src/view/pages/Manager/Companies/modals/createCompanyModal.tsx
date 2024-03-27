@@ -3,7 +3,7 @@ import { APIError } from '../../../../../app/errors/APIError';
 import toast from 'react-hot-toast';
 import {
   ICompanyPayload,
-  IGetCompanyReponse,
+  IGetCompanyResponse,
 } from '../../../../../types/company';
 import { CompanyService } from '../../../../../app/services/CompanyService';
 import { CompanyForm, ICompanyFormRef } from '../components/CompanyForm';
@@ -17,7 +17,7 @@ import { Button } from '../../../../components/Button';
 interface CreateCompanyModalProps {
   visible: boolean;
   onClose: () => void;
-  onCreated: (company: IGetCompanyReponse) => void;
+  onCreated: (company: IGetCompanyResponse) => void;
 }
 
 export function CreateCompanyModal({
@@ -27,7 +27,7 @@ export function CreateCompanyModal({
 }: CreateCompanyModalProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [gsafraUsers, setGsafraUsers] = useState<IGetGsafraUserResponse[]>([]);
-  const [company, setCompany] = useState<IGetCompanyReponse | null>(null);
+  const [company, setCompany] = useState<IGetCompanyResponse | null>(null);
   const companyFormRef = useRef<ICompanyFormRef>(null);
   const steps = [
     {
