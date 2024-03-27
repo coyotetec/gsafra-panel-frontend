@@ -16,7 +16,6 @@ import { userFormSchema } from './userFormSchema';
 import { GsafraUserService } from '../../../../../../../../app/services/GsafraUserService';
 import { APIError } from '../../../../../../../../app/errors/APIError';
 import { IUserData } from '../NewUserModal/index';
-import { IGetUserCompaniesResponse } from '../../../../../../../../types/userCompanies';
 import { IGetGsafraUserResponse } from '../../../../../../../../types/gsafraUser';
 import {
   IGetUserResponse,
@@ -28,6 +27,10 @@ import toast from 'react-hot-toast';
 interface IUserRoleSelect {
   role: UserRoleType;
   label: string;
+}
+export interface IUserCompanySelect {
+  id: string;
+  name: string;
 }
 
 interface INewUserData {
@@ -64,7 +67,7 @@ export const UserForm = forwardRef(
     }: UserFormProps,
     ref,
   ) => {
-    const { userCompanies: companies } = usePanelContext();
+    const { userCompanies } = usePanelContext();
 
     const [isLoading, setIsLoading] = useState(false);
     const [gsafraUsersIsLoading, setGsafraUsersIsLoading] = useState(false);
@@ -73,7 +76,9 @@ export const UserForm = forwardRef(
     const [selectedUserRole, setSelectedUserRole] =
       useState<IUserRoleSelect | null>(null);
     const [selectedCompany, setSelectedCompany] =
-      useState<IGetUserCompaniesResponse | null>(companies && companies[0]);
+      useState<IUserCompanySelect | null>(
+        userCompanies && userCompanies.companies[0],
+      );
     const [newUserData, setNewUserData] = useState<INewUserData>({
       email: '',
       name: '',
@@ -160,18 +165,20 @@ export const UserForm = forwardRef(
 
     return (
       <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
-        {companies && companies.length > 1 && typeForm === 'create' && (
-          <Select
-            options={companies}
-            error={formErrors?.companyId}
-            labelKey="name"
-            valueKey="id"
-            selected={selectedCompany}
-            setSelected={setSelectedCompany}
-            label="Empresa"
-            placeholder="Selecione uma empresa"
-          />
-        )}
+        {userCompanies &&
+          userCompanies.companies.length > 1 &&
+          typeForm === 'create' && (
+            <Select
+              options={userCompanies.companies}
+              error={formErrors?.companyId}
+              labelKey="name"
+              valueKey="id"
+              selected={selectedCompany}
+              setSelected={setSelectedCompany}
+              label="Empresa"
+              placeholder="Selecione uma empresa"
+            />
+          )}
 
         <Select
           options={gsafraUsers}

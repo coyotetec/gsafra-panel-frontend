@@ -1,13 +1,12 @@
 import { useRef, useState } from 'react';
 import { Button } from '../../../../../../../components/Button';
 import { Modal } from '../../../../../../../components/Modal';
-import { IUserFormRef, UserForm } from '../UserForm';
+import { IUserCompanySelect, IUserFormRef, UserForm } from '../UserForm';
 import toast from 'react-hot-toast';
 import { UserService } from '../../../../../../../../app/services/UserService';
 import { APIError } from '../../../../../../../../app/errors/APIError';
 import { usePanelContext } from '../../../../../../../../app/hooks/usePanelContext';
 import { UserRoleType } from '../../../../../../../../types/users';
-import { IGetUserCompaniesResponse } from '../../../../../../../../types/userCompanies';
 import { IconUserPlus } from '@tabler/icons-react';
 
 interface NewUserModalProps {
@@ -30,7 +29,7 @@ export interface IUserData {
   name: string;
   email: string;
   role: UserRoleType | undefined;
-  company: IGetUserCompaniesResponse | null;
+  company: IUserCompanySelect | null;
   externalId: number | undefined;
 }
 
