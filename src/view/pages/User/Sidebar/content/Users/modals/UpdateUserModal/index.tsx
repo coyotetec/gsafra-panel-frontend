@@ -73,7 +73,7 @@ export function UpdateUserModal({
     <Modal
       visible={visible}
       onClose={onClose}
-      title="Editar usuário"
+      title={success ? 'Usuário editado' : 'Editar usuário'}
       afterClose={() => {
         setSuccess(false);
         userFormRef.current?.resetFields();
