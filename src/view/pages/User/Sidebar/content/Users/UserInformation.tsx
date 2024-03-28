@@ -47,7 +47,7 @@ export function UserInformation({
   }
   return (
     <div className="flex items-center justify-between">
-      <div className="flex flex-col">
+      <div className="flex max-w-48 flex-col truncate">
         <strong className="flex items-center gap-1 font-semibold text-white">
           {userName}
           <IconEdit
@@ -57,7 +57,7 @@ export function UserInformation({
             onClick={handleEditUser}
           />
         </strong>
-        <small className="text-sm text-white/90">{email}</small>
+        <small className="truncate text-sm text-white/90">{email}</small>
       </div>
       {isLoading ? (
         <Spinner className="mr-2.5" />

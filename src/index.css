@@ -9,3 +9,11 @@
 ::-webkit-scrollbar-thumb {
   @apply rounded-full bg-gray-500;
 }
+
+.sidebar-scroll::-webkit-scrollbar {
+  @apply w-1 bg-primary-700 rounded-full transition-all duration-500;
+}
+
+.sidebar-scroll-thumb::-webkit-scrollbar-thumb {
+  @apply bg-primary-800 rounded-full;
+}
