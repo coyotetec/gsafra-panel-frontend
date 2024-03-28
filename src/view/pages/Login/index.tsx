@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { IconLogin } from '@tabler/icons-react';
-import campImg from '../../../assets/images/camp.png';
+import campImg from '../../../assets/images/camp.webp';
 import { Input } from '../../components/Input';
 import { Logo } from '../../components/Logos/Logo';
 import { Button } from '../../components/Button';

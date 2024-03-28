@@ -1,5 +1,5 @@
 import { IconPasswordUser } from '@tabler/icons-react';
-import sojaImg from '../../../assets/images/soja.png';
+import sojaImg from '../../../assets/images/soja.webp';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Logo } from '../../components/Logos/Logo';
