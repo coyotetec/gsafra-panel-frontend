@@ -32,6 +32,7 @@ export function EditCompanyModal({
         if (company) {
           node.setFieldsValue({
             name: company.name,
+            host: company.host,
             code: company.externalId,
           });
         }

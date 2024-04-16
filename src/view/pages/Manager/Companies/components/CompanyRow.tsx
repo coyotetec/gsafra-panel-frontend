@@ -44,6 +44,7 @@ export function CompanyRow({ data, onToggleStatus, onEdit }: CompanyRowProps) {
       <th scope="row" className="p-4 font-semibold">
         {data.name}
       </th>
+      <td className="p-4">{data.host}</td>
       <td className="p-4">#{data.externalId}</td>
       <td className="p-4">{data.usersQty}</td>
       <td className="p-4">

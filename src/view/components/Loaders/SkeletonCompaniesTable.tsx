@@ -12,6 +12,9 @@ export function SkeletonCompaniesTable() {
           <div className="h-4 w-20 rounded-full bg-gray-500"></div>
         </td>
         <td className="animate-pulse p-4">
+          <div className="h-4 w-20 rounded-full bg-gray-500"></div>
+        </td>
+        <td className="animate-pulse p-4">
           <div className="h-4 w-6 rounded-full bg-gray-500"></div>
         </td>
         <td className="animate-pulse p-4">
@@ -35,6 +38,9 @@ export function SkeletonCompaniesTable() {
           <div className="h-4 w-20 rounded-full bg-gray-500"></div>
         </td>
         <td className="animate-pulse p-4">
+          <div className="h-4 w-20 rounded-full bg-gray-500"></div>
+        </td>
+        <td className="animate-pulse p-4">
           <div className="h-4 w-6 rounded-full bg-gray-500"></div>
         </td>
         <td className="animate-pulse p-4">
@@ -54,6 +60,9 @@ export function SkeletonCompaniesTable() {
             <div className="ml-2 h-4 w-16 rounded-full bg-gray-500"></div>
           </div>
         </th>
+        <td className="animate-pulse p-4">
+          <div className="h-4 w-20 rounded-full bg-gray-500"></div>
+        </td>
         <td className="animate-pulse p-4">
           <div className="h-4 w-20 rounded-full bg-gray-500"></div>
         </td>

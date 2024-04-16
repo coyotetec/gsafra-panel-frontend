@@ -95,16 +95,19 @@ export function Companies() {
             <th scope="col" className="px-4 py-5 font-semibold">
               Nome
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
+              Servidor
+            </th>
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Código
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Nº Usuários
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Status
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Ações
             </th>
           </tr>
