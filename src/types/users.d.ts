@@ -3,6 +3,12 @@ import { IGetGsafraUserResponse } from './gsafraUser';
 
 export type UserRoleType = 'ADMIN' | 'USER' | 'MANAGER';
 
+export interface IUserDataAuthenticated {
+  id: string;
+  name: string;
+  role: UserRoleType;
+}
+
 export interface IGetUserResponse {
   id: string;
   name: string;
