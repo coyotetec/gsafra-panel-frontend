@@ -15,7 +15,7 @@ import { Select } from '../../../../components/Select';
 import { CompanyService } from '../../../../../app/services/CompanyService';
 import { APIError } from '../../../../../app/errors/APIError';
 import toast from 'react-hot-toast';
-import { IGetCompanyReponse } from '../../../../../types/company';
+import { IGetCompanyResponse } from '../../../../../types/company';
 import { notificationSchema } from '../schemas';
 import { formatZodError } from '../../../../../app/utils/formatZodError';
 import { FormErrorType } from '../../../../../types/global';
@@ -39,10 +39,10 @@ export const NotificationForm = forwardRef<
 >(({ onClose, onSubmit, submitButtonLabel, SubmitButtonIcon }, ref) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(false);
-  const [companies, setCompanies] = useState<IGetCompanyReponse[]>([]);
+  const [companies, setCompanies] = useState<IGetCompanyResponse[]>([]);
   const [formErrors, setFormErrors] = useState<FormErrorType>(null);
   const [selectedCompany, setSelectedCompany] = useState<
-    IGetCompanyReponse | undefined
+    IGetCompanyResponse | undefined
   >(undefined);
   const [notificationData, setNotificationData] =
     useState<INotificationPayload>({
@@ -52,7 +52,7 @@ export const NotificationForm = forwardRef<
       selectedCompanies: [],
     });
 
-  function handleAddSelectedCompany(company: IGetCompanyReponse) {
+  function handleAddSelectedCompany(company: IGetCompanyResponse) {
     const companyIncluded = notificationData.selectedCompanies.find(
       (item) => item.id === company.id,
     );

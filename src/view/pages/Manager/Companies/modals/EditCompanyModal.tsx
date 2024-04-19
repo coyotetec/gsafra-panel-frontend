@@ -3,7 +3,7 @@ import { APIError } from '../../../../../app/errors/APIError';
 import toast from 'react-hot-toast';
 import {
   ICompanyPayload,
-  IGetCompanyReponse,
+  IGetCompanyResponse,
 } from '../../../../../types/company';
 import { CompanyForm, ICompanyFormRef } from '../components/CompanyForm';
 import { useCallback, useRef } from 'react';
@@ -13,8 +13,8 @@ import { IconEdit } from '@tabler/icons-react';
 interface EditCompanyModalProps {
   visible: boolean;
   onClose: () => void;
-  onEdited: (company: IGetCompanyReponse) => void;
-  company: IGetCompanyReponse | null;
+  onEdited: (company: IGetCompanyResponse) => void;
+  company: IGetCompanyResponse | null;
 }
 
 export function EditCompanyModal({
@@ -32,6 +32,7 @@ export function EditCompanyModal({
         if (company) {
           node.setFieldsValue({
             name: company.name,
+            host: company.host,
             code: company.externalId,
           });
         }

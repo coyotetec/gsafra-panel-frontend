@@ -1,5 +1,5 @@
 import { IconPasswordUser } from '@tabler/icons-react';
-import sojaImg from '../../../assets/images/soja.png';
+import sojaImg from '../../../assets/images/soja.webp';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Logo } from '../../components/Logos/Logo';
@@ -20,7 +20,8 @@ interface IFormData {
 
 export function CreatePassword() {
   const [isLoading, setIsLoading] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | undefined>();
+  const [token, setToken] = useState<string | undefined>();
   const [formData, setFormData] = useState<IFormData>({
     password: '',
     confirmPassword: '',
@@ -41,14 +42,16 @@ export function CreatePassword() {
       const createPasswordValidation = createPasswordSchema.safeParse(formData);
 
       if (!createPasswordValidation.success) {
+        setIsLoading(false);
         return setFormErrors(formatZodError(createPasswordValidation.error));
       }
 
       setFormErrors(null);
 
-      const { message } = await AuthService.createPassword({
+      const { message } = await AuthService.resetPassword({
         password: createPasswordValidation.data.password,
         userId,
+        token,
       });
 
       toast.success(message);
@@ -66,9 +69,14 @@ export function CreatePassword() {
 
   useEffect(() => {
     const u = searchParams.get('u');
+    const t = searchParams.get('t');
 
     if (u) {
-      setUserId(searchParams.get('u'));
+      setUserId(u);
+    }
+
+    if (t) {
+      setToken(t);
     }
   }, [searchParams]);
 
@@ -87,6 +95,7 @@ export function CreatePassword() {
         <form
           className="mt-6 flex w-full max-w-104 flex-col gap-3"
           onSubmit={handleSubmit}
+          noValidate
         >
           <Input
             placeholder="Sua nova senha"

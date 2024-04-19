@@ -13,11 +13,16 @@ export interface ILoginData {
   password: string;
 }
 
-export interface ICreatePasswordPayload {
+export interface IResetPasswordPayload {
   userId: string;
   password: string;
+  token?: string;
 }
 
-export interface ICreatePasswordResponse {
+export interface IResetPasswordResponse {
+  message: string;
+}
+
+export interface IRequestResetResponse {
   message: string;
 }

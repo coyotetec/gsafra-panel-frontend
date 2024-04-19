@@ -1,5 +1,5 @@
 import { IconEdit } from '@tabler/icons-react';
-import { IGetCompanyReponse } from '../../../../../types/company';
+import { IGetCompanyResponse } from '../../../../../types/company';
 import { Switch } from '../../../../components/Switch';
 import { cn } from '../../../../../app/utils/cn';
 import { useState } from 'react';
@@ -9,7 +9,7 @@ import { CompanyService } from '../../../../../app/services/CompanyService';
 import { Spinner } from '../../../../components/Loaders/Spinner';
 
 interface CompanyRowProps {
-  data: IGetCompanyReponse;
+  data: IGetCompanyResponse;
   onToggleStatus: () => void;
   onEdit: () => void;
 }
@@ -44,6 +44,7 @@ export function CompanyRow({ data, onToggleStatus, onEdit }: CompanyRowProps) {
       <th scope="row" className="p-4 font-semibold">
         {data.name}
       </th>
+      <td className="p-4">{data.host}</td>
       <td className="p-4">#{data.externalId}</td>
       <td className="p-4">{data.usersQty}</td>
       <td className="p-4">

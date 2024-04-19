@@ -16,7 +16,7 @@ export function Companies() {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCompany, setSelectedCompany] =
-    useState<IGetCompanyReponse | null>(null);
+    useState<IGetCompanyResponse | null>(null);
   const { companies, setCompanies, companiesLoaded } = useManager();
 
   function handleToggleCompanyStatus(companyId: string) {
@@ -95,16 +95,19 @@ export function Companies() {
             <th scope="col" className="px-4 py-5 font-semibold">
               Nome
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
+              Servidor
+            </th>
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Código
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Nº Usuários
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Status
             </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+            <th scope="col" className="w-[14%] px-4 py-5 font-semibold">
               Ações
             </th>
           </tr>

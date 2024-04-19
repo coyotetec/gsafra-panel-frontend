@@ -9,14 +9,14 @@ import { gsafraUsersSchema } from '../schemas';
 import { FormErrorType } from '../../../../../types/global';
 import { UserService } from '../../../../../app/services/UserService';
 import { ICreateUserResponse } from '../../../../../types/users';
-import { IGetCompanyReponse } from '../../../../../types/company';
+import { IGetCompanyResponse } from '../../../../../types/company';
 import { useManager } from '../../../../../app/hooks/useManager';
 import { APIError } from '../../../../../app/errors/APIError';
 import toast from 'react-hot-toast';
 
 interface CreateUsersFormProps {
   users: IGetGsafraUserResponse[];
-  company: IGetCompanyReponse | null;
+  company: IGetCompanyResponse | null;
   onClose: () => void;
   goNextStep: () => void;
 }

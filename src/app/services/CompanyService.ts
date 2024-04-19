@@ -3,12 +3,12 @@ import {
   ICompanyPayload,
   ICompanyStatusResponse,
   ICreateCompanyResponse,
-  IGetCompanyReponse,
+  IGetCompanyResponse,
 } from '../../types/company';
 
 export class CompanyService {
   static async getCompanies() {
-    const { data } = await api.get<IGetCompanyReponse[]>('/companies');
+    const { data } = await api.get<IGetCompanyResponse[]>('/companies');
 
     return data;
   }
@@ -16,6 +16,7 @@ export class CompanyService {
   static async createCompany(payload: ICompanyPayload) {
     const { data } = await api.post<ICreateCompanyResponse>('/companies', {
       name: payload.name,
+      host: payload.host,
       externalId: payload.code,
     });
 
@@ -25,6 +26,7 @@ export class CompanyService {
   static async updateCompany(id: string, payload: ICompanyPayload) {
     const { data } = await api.put<ICreateCompanyResponse>(`/companies/${id}`, {
       name: payload.name,
+      host: payload.host,
       externalId: payload.code,
     });
 

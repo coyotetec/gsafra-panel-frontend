@@ -26,6 +26,7 @@ export const CompanyForm = forwardRef<ICompanyFormRef, CompanyFormProps>(
     const [formErrors, setFormErrors] = useState<FormErrorType>(null);
     const [companyData, setCompanyData] = useState<ICompanyPayload>({
       name: '',
+      host: '',
       code: '',
     });
 
@@ -53,6 +54,7 @@ export const CompanyForm = forwardRef<ICompanyFormRef, CompanyFormProps>(
         resetFields: () => {
           setCompanyData({
             name: '',
+            host: '',
             code: '',
           });
         },
@@ -78,6 +80,16 @@ export const CompanyForm = forwardRef<ICompanyFormRef, CompanyFormProps>(
             handleChangeInput<ICompanyPayload>(setCompanyData, e)
           }
           error={formErrors?.name}
+        />
+        <Input
+          label="Servidor (IP ou URL)"
+          placeholder="IP do servidor"
+          name="host"
+          value={companyData.host}
+          onChange={(e) =>
+            handleChangeInput<ICompanyPayload>(setCompanyData, e)
+          }
+          error={formErrors?.host}
         />
         <Input
           label="Código"

@@ -1,6 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { IconLogin } from '@tabler/icons-react';
-import campImg from '../../../assets/images/camp.png';
+import campImg from '../../../assets/images/camp.webp';
 import { Input } from '../../components/Input';
 import { Logo } from '../../components/Logos/Logo';
 import { Button } from '../../components/Button';
@@ -49,7 +49,11 @@ export function Login() {
       <div className="flex flex-col items-center justify-center">
         <Logo />
         <h2 className="text-2xl font-bold">Acesse sua conta</h2>
-        <form className="mt-6 w-full max-w-104 " onSubmit={handleSubmit}>
+        <form
+          className="mt-6 w-full max-w-104 "
+          onSubmit={handleSubmit}
+          noValidate
+        >
           <div className=" flex flex-col gap-3">
             <Input
               placeholder="Seu Email"
@@ -70,7 +74,7 @@ export function Login() {
               error={formErrors?.password}
             />
           </div>
-          <Link to="/recuperar-senha">
+          <Link to="/forgot-password">
             <span className="mt-2 inline-block w-full text-right text-xs font-medium text-primary-950">
               Esqueceu a senha?
             </span>
