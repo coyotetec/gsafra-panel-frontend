@@ -2,22 +2,16 @@ import { ReactNode, createContext, useCallback, useState } from 'react';
 import { ILoginData } from '../../types/authentication';
 import { AuthService } from '../services/AuthService';
 import { localStorageKeys } from '../config/localStorageKeys';
-import { UserRoleType } from '../../types/users';
+import { IUserDataAuthenticated, UserRoleType } from '../../types/users';
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-interface IUserDataType {
-  id: string;
-  name: string;
-  role: UserRoleType;
-}
-
 interface IAuthContextValue {
   signedIn: boolean;
   signIn: (payload: ILoginData) => Promise<void>;
-  user: IUserDataType | null;
+  user: IUserDataAuthenticated | null;
   signOut: () => void;
 }
 
@@ -28,7 +22,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const storedAuthToken = localStorage.getItem(localStorageKeys.AUTH_TOKEN);
     return !!storedAuthToken;
   });
-  const [user, setUser] = useState<IUserDataType | null>(() => {
+  const [user, setUser] = useState<IUserDataAuthenticated | null>(() => {
     const storedUser = localStorage.getItem(localStorageKeys.USER);
     const storedUserRole = localStorage.getItem(localStorageKeys.USER_ROLE);
     const storedUserId = localStorage.getItem(localStorageKeys.USER_ID);

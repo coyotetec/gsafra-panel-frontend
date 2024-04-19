@@ -5,6 +5,7 @@ import { ButtonSidebar } from './components/ButtonSidebar';
 import { CurrentContentType } from '../../../layouts/UserLayout';
 import { useAuth } from '../../../../app/hooks/useAuth';
 import { useEffect } from 'react';
+import { Content } from './components/Content';
 
 interface IContent {
   current: CurrentContentType;
@@ -39,20 +40,6 @@ export function Sidebar({ currentContent, setCurrentContent }: SidebarProps) {
     }
   }, [user?.role, setCurrentContent]);
 
-  function Content() {
-    if (user?.role === 'USER') {
-      const content = contents
-        .filter(({ current }) => current !== 'users')
-        .find(({ current }) => current === currentContent);
-
-      return content?.component || null;
-    }
-
-    const content = contents.find(({ current }) => current === currentContent);
-
-    return content?.component || null;
-  }
-
   return (
     <aside className="fixed left-0 top-28 z-40 flex h-calc-sidebar w-96">
       <nav className="flex h-full w-24 flex-col items-center gap-2 bg-primary-900 px-4 py-5">
@@ -72,7 +59,11 @@ export function Sidebar({ currentContent, setCurrentContent }: SidebarProps) {
         })}
       </nav>
       <div className="flex h-full w-full flex-col bg-primary-500 px-5 py-8">
-        <Content />
+        <Content
+          contents={contents}
+          user={user}
+          currentContent={currentContent}
+        />
       </div>
     </aside>
   );
