@@ -34,6 +34,7 @@ export function EditCompanyModal({
             name: company.name,
             host: company.host,
             code: company.externalId,
+            password: company.password,
           });
         }
       }
@@ -48,7 +49,11 @@ export function EditCompanyModal({
         payload,
       );
 
-      onEdited({ ...companyEdited, usersQty: company!.usersQty });
+      onEdited({
+        ...companyEdited,
+        usersQty: company!.usersQty,
+        password: company!.password,
+      });
       onClose();
       toast.success('Empresa atualizada com sucesso!');
     } catch (err) {

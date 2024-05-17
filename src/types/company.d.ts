@@ -1,6 +1,7 @@
 export interface IGetCompanyResponse {
   id: string;
   name: string;
+  password: string;
   host: string;
   externalId: string;
   usersQty: number;
@@ -9,6 +10,7 @@ export interface IGetCompanyResponse {
 
 interface ICompanyPayload {
   name: string;
+  password?: string;
   host: string;
   code: string;
 }
@@ -16,6 +18,7 @@ interface ICompanyPayload {
 interface ICreateCompanyResponse {
   id: string;
   name: string;
+  password: string;
   host: string;
   externalId: string;
   active: boolean;

@@ -46,7 +46,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div
           className={cn(
             'mt-0.5 flex h-13 w-full overflow-hidden rounded-xl bg-gray-400 focus-within:outline focus-within:outline-2 focus-within:outline-primary-500',
-            disabled && 'opacity-70',
+            disabled && 'bg-gray-500 opacity-70',
             className,
           )}
         >

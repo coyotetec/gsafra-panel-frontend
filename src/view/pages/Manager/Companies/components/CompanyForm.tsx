@@ -43,7 +43,7 @@ export const CompanyForm = forwardRef<ICompanyFormRef, CompanyFormProps>(
 
       setFormErrors(null);
 
-      await onSubmit(companyData);
+      await onSubmit(companyValidation.data);
 
       setIsLoading(false);
     }
@@ -105,6 +105,17 @@ export const CompanyForm = forwardRef<ICompanyFormRef, CompanyFormProps>(
           maxLength={6}
           error={formErrors?.code}
         />
+        {companyData.password && (
+          <Input
+            label="Senha do Mobile"
+            name="password"
+            value={companyData.password}
+            onChange={(e) =>
+              handleChangeInput<ICompanyPayload>(setCompanyData, e)
+            }
+            disabled
+          />
+        )}
 
         <footer className="mx-auto mt-5 flex justify-center gap-2">
           <Button
