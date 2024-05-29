@@ -5,7 +5,7 @@ import { Sidebar } from '../pages/User/Sidebar';
 import { ContactWidget } from '../pages/User/ContactWidget';
 import { PanelProvider } from '../../app/contexts/PanelContext';
 
-export type CurrentContentType = 'users' | 'notifications';
+export type CurrentContentType = 'users' | 'notifications' | 'mobileAccess';
 
 export function UserLayout() {
   const [currentContent, setCurrentContent] =

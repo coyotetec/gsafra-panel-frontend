@@ -26,7 +26,7 @@ export function Users() {
         </div>
       )}
 
-      <div className="sidebar-scroll sidebar-scroll-thumb mb-4 mt-8 flex h-full flex-1 flex-col items-stretch gap-6 overflow-auto pr-2">
+      <div className="sidebar-scroll sidebar-scroll-thumb mb-4 mt-6 flex h-full flex-1 flex-col items-stretch gap-6 overflow-auto pr-2">
         {isLoading ? (
           <SkeletonUsers />
         ) : (

@@ -13,7 +13,10 @@ import { UserService } from '../services/UserService';
 import toast from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
 import { UserCompanyService } from '../services/UserCompanyService';
-import { IGetUserCompaniesResponse } from '../../types/userCompanies';
+import {
+  IGetUserCompaniesResponse,
+  IUserCompany,
+} from '../../types/userCompanies';
 import { IGetNotificationResponse } from '../../types/notification';
 import { NotificationService } from '../services/NotificationService';
 
@@ -24,6 +27,7 @@ interface IPanelContextValue {
   notifications: IGetNotificationResponse[] | undefined;
   userCompanies: IGetUserCompaniesResponse | null;
   selectedCompany: string | undefined;
+  companyData: IUserCompany | undefined;
   setSelectedCompany: (companyId: string) => void;
   updateUserState: (user: IGetUserResponse) => void;
   changeSelectedCompany: (event: ChangeEvent<HTMLSelectElement>) => void;
@@ -43,6 +47,8 @@ export function PanelProvider({ children }: PanelProviderPros) {
   const [userCompanies, setUserCompanies] =
     useState<IGetUserCompaniesResponse | null>(null);
   const [selectedCompany, setSelectedCompany] = useState<string>();
+  const [selectedCompanyData, setSelectedCompanyData] =
+    useState<IUserCompany>();
   const [notifications, setNotifications] =
     useState<IGetNotificationResponse[]>();
   const [notificationIsLoading, setNotificationIsLoading] = useState(false);
@@ -56,6 +62,13 @@ export function PanelProvider({ children }: PanelProviderPros) {
       companies.some(({ id }) => id === selectedCompany),
     );
   }, [users, selectedCompany]);
+
+  const companyData = useMemo(
+    () =>
+      userCompanies?.companies.find(({ id }) => id === selectedCompany) ||
+      undefined,
+    [selectedCompany, userCompanies],
+  );
 
   const updateUserState = useCallback(
     (user: IGetUserResponse) => {
@@ -122,15 +135,22 @@ export function PanelProvider({ children }: PanelProviderPros) {
       setUserCompanies(userCompanies);
     }
 
-    user && getUserCompanies(user.id);
+    if (user && user.role === 'ADMIN') {
+      getUserCompanies(user.id);
+    }
   }, [user]);
 
   useEffect(() => {
     setShowUsers(filteredUsersByCompany);
   }, [filteredUsersByCompany]);
 
+  useEffect(() => {
+    setSelectedCompanyData(companyData);
+  }, [companyData]);
+
   const value: IPanelContextValue = {
     users: showUsers,
+    companyData: selectedCompanyData,
     setSelectedCompany,
     isLoading,
     notificationIsLoading,

@@ -14,9 +14,9 @@ export function Notifications() {
         <button
           type="button"
           onClick={getNotifications}
-          className="rounded-[4px] bg-primary-700 p-1 text-white"
+          className="rounded-md bg-primary-600 p-2 text-white"
         >
-          <IconRefresh size={16} />
+          <IconRefresh size={20} />
         </button>
       </div>
       <div className="sidebar-scroll sidebar-scroll-thumb mt-6 flex flex-col gap-3 overflow-auto pr-2">

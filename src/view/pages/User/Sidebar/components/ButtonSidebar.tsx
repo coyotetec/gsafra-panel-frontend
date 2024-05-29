@@ -19,9 +19,9 @@ export function ButtonSidebar({
     <button
       {...rest}
       className={cn(
-        'relative flex h-16 w-16 items-center justify-center rounded-xl border-2 border-transparent text-primary-300 transition-all duration-100',
+        'relative flex h-16 w-16 items-center justify-center rounded-xl border-2 border-transparent text-primary-300 transition-all duration-200',
         className,
-        !isSelected && 'hover:border-primary-500',
+        !isSelected && 'hover:bg-primary-700',
       )}
     >
       <Icon size={28} className={cn('z-10', isSelected && 'text-white')} />

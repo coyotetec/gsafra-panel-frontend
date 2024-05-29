@@ -1,8 +1,11 @@
+export interface IUserCompany {
+  name: string;
+  id: string;
+  externalId: string;
+  password: string;
+}
+
 export interface IGetUserCompaniesResponse {
   externalUserId: number;
-  companies: {
-    name: string;
-    id: string;
-    externalId: string;
-  }[];
+  companies: IUserCompany[];
 }

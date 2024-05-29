@@ -48,6 +48,7 @@ export default {
       },
       fontSize: {
         '3.5xl': '2rem',
+        '2xs': '0.625rem'
       },
       maxWidth: {
         content: '1440px',
@@ -74,10 +75,16 @@ export default {
       fontFamily: {
         sans: ['Montserrat', 'sans-serif'],
       },
+      lineHeight: {
+        '2xs': '0.75rem'
+      },
       padding: {
         18: '4.5rem',
         2.5: '0.625rem',
       },
+      boxShadow: {
+        '2xl': `rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;`
+      }
     },
   },
   plugins: [],

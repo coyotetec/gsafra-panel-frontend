@@ -9,6 +9,7 @@ import { ManagerLayout } from '../view/layouts/ManagerLayout';
 import { UserLayout } from '../view/layouts/UserLayout';
 import { Panel } from '../view/pages/User/Panel';
 import AuthGuard from './AuthGuard';
+import { AppLinks } from '../view/pages/AppLinks';
 
 export function Router() {
   return (
@@ -18,6 +19,7 @@ export function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/create-password" element={<CreatePassword />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/app-links" element={<AppLinks />} />
         </Route>
 
         <Route element={<AuthGuard accessRoles={['ADMIN', 'USER']} />}>
