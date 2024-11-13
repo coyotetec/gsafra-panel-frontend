@@ -1,23 +1,23 @@
-import { FormEvent, useState } from 'react';
-import { IconLogin } from '@tabler/icons-react';
-import campImg from '../../../assets/images/camp.webp';
-import { Input } from '../../components/Input';
-import { Logo } from '../../components/Logos/Logo';
-import { Button } from '../../components/Button';
-import { Link } from 'react-router-dom';
-import { loginSchema } from './loginShemas';
-import { FormErrorType } from '../../../types/global';
-import { formatZodError } from '../../../app/utils/formatZodError';
-import { useAuth } from '../../../app/hooks/useAuth';
-import toast from 'react-hot-toast';
-import { APIError } from '../../../app/errors/APIError';
-import { ILoginData } from '../../../types/authentication';
-import { handleChangeInput } from '../../../app/utils/handleChangeInput';
+import { FormEvent, useState } from "react";
+import { IconLogin, IconLogin2 } from "@tabler/icons-react";
+import campImg from "../../../assets/images/camp.webp";
+import { Input } from "../../components/Input";
+import { Logo } from "../../components/Logos/Logo";
+import { Button } from "../../components/Button";
+import { Link } from "react-router-dom";
+import { loginSchema } from "./loginShemas";
+import { FormErrorType } from "../../../types/global";
+import { formatZodError } from "../../../app/utils/formatZodError";
+import { useAuth } from "../../../app/hooks/useAuth";
+import toast from "react-hot-toast";
+import { APIError } from "../../../app/errors/APIError";
+import { ILoginData } from "../../../types/authentication";
+import { handleChangeInput } from "../../../app/utils/handleChangeInput";
 
 export function Login() {
   const [userData, setUserData] = useState<ILoginData>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
   const { signIn } = useAuth();
@@ -79,9 +79,9 @@ export function Login() {
               Esqueceu a senha?
             </span>
           </Link>
-          <Button type="submit" className="mt-8">
+          <Button type="submit" className="mt-8 gap-4">
             Entrar
-            <IconLogin size={24} stroke={2} />
+            <IconLogin2 size={24} stroke={2} />
           </Button>
         </form>
       </div>

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment, HTMLAttributes } from 'react';
-import { cn } from '../../app/utils/cn';
-import { Listbox, Transition } from '@headlessui/react';
-import { IconChevronDown } from '@tabler/icons-react';
-import { Spinner } from './Loaders/Spinner';
+import { Listbox, Transition } from "@headlessui/react";
+import { IconChevronDown } from "@tabler/icons-react";
+import { Fragment, HTMLAttributes } from "react";
+import { cn } from "../../app/utils/cn";
+import { Spinner } from "./Loaders/Spinner";
 
 interface SelectProps {
-  wrapperClass?: HTMLAttributes<HTMLDivElement>['className'];
+  wrapperClass?: HTMLAttributes<HTMLDivElement>["className"];
   label?: string;
   error?: string;
   placeholder?: string;
@@ -16,11 +16,13 @@ interface SelectProps {
   selected: any;
   setSelected: (value: any) => void;
   loading?: boolean;
+  isSecondary?: boolean;
+  prefix?: string;
 }
 
 export function Select({
   label,
-  placeholder = 'Selecione...',
+  placeholder = "Selecione...",
   wrapperClass,
   options,
   valueKey,
@@ -29,30 +31,47 @@ export function Select({
   setSelected,
   error,
   loading = false,
+  isSecondary = false,
+  prefix,
 }: SelectProps) {
   return (
-    <div className={cn('flex w-full flex-col', wrapperClass)}>
+    <div className={cn("flex w-full flex-col", wrapperClass)}>
       {label && (
         <label className="text-xs font-medium text-primary-950">{label}</label>
       )}
       <Listbox
-        value={selected ? selected[valueKey] : ''}
+        value={selected ? selected[valueKey] : ""}
         onChange={(value) =>
           setSelected(options.find((option) => value === option[valueKey]))
         }
       >
         <div className="relative mt-0.5">
           <Listbox.Button
-            className="relative flex h-13 w-full items-center justify-between
-          rounded-xl bg-gray-400 px-4 outline-primary-500"
+            className={`relative flex h-13 w-full items-center justify-between
+          rounded-xl bg-gray-400 px-4 outline-primary-500
+          ${isSecondary && "!h-11 !rounded-lg bg-white !px-2 !text-white ring-primary-500 hover:ring-2"}
+          `}
           >
-            <span className={cn('text-black/80', !selected && 'text-black/50')}>
+            <span
+              className={cn(
+                "text-black/80",
+                isSecondary && "text-xs text-gray-700",
+                !selected && "text-black/50",
+              )}
+            >
+              {prefix ? (
+                <strong className="mr-2 text-sm text-primary-500">
+                  {prefix}
+                </strong>
+              ) : null}
               {selected ? selected[labelKey] : placeholder}
             </span>
             {loading ? (
               <Spinner className="text-black-80" />
             ) : (
-              <IconChevronDown className="text-black-80" />
+              <IconChevronDown
+                className={cn("text-black-80", isSecondary && "!text-black")}
+              />
             )}
           </Listbox.Button>
           {error && (
@@ -74,11 +93,11 @@ export function Select({
                   value={option[valueKey]}
                   className={({ active, selected }) =>
                     cn(
-                      'cursor-pointer select-none rounded-lg px-4 py-3 text-black-80',
+                      "cursor-pointer select-none rounded-lg px-4 py-3 text-black-80",
                       active &&
-                        'bg-primary-500/20 font-medium text-primary-800',
+                        "bg-primary-500/20 font-medium text-primary-800",
                       selected &&
-                        'bg-primary-500/40 font-semibold text-primary-600',
+                        "bg-primary-500/40 font-semibold text-primary-600",
                     )
                   }
                 >

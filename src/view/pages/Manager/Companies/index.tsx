@@ -1,15 +1,16 @@
-import { IconPlus } from '@tabler/icons-react';
-import { Button } from '../../../components/Button';
-import { useEffect, useState } from 'react';
-import { CreateCompanyModal } from './modals/createCompanyModal';
-import { CompanyService } from '../../../../app/services/CompanyService';
-import { IGetCompanyResponse } from '../../../../types/company';
-import { APIError } from '../../../../app/errors/APIError';
-import toast from 'react-hot-toast';
-import { CompanyRow } from './components/CompanyRow';
-import { SkeletonCompaniesTable } from '../../../components/Loaders/SkeletonCompaniesTable';
-import { EditCompanyModal } from './modals/EditCompanyModal';
-import { useManager } from '../../../../app/hooks/useManager';
+import { IconPlus } from "@tabler/icons-react";
+import { Button } from "../../../components/Button";
+import { useEffect, useState } from "react";
+import { CreateCompanyModal } from "./modals/createCompanyModal";
+import { CompanyService } from "../../../../app/services/CompanyService";
+import { IGetCompanyResponse } from "../../../../types/company";
+import { APIError } from "../../../../app/errors/APIError";
+import toast from "react-hot-toast";
+import { CompanyRow } from "./components/CompanyRow";
+import { SkeletonCompaniesTable } from "../../../components/Loaders/SkeletonCompaniesTable";
+import { EditCompanyModal } from "./modals/EditCompanyModal";
+import { useManager } from "../../../../app/hooks/useManager";
+import { Select } from "../../../components/Select";
 
 export function Companies() {
   const [createModalVisible, setCreateModalVisible] = useState(false);
@@ -18,6 +19,14 @@ export function Companies() {
   const [selectedCompany, setSelectedCompany] =
     useState<IGetCompanyResponse | null>(null);
   const { companies, setCompanies, companiesLoaded } = useManager();
+  const [selectedStatus, setSelectedStatus] = useState<{
+    value: string;
+    label: string;
+  }>({
+    value: "active",
+    label: "ativos",
+  });
+  const [tempCompanies, setTempCompanies] = useState(companies);
 
   function handleToggleCompanyStatus(companyId: string) {
     setCompanies((prevState) =>
@@ -28,17 +37,28 @@ export function Companies() {
       ),
     );
   }
+  function filterCompanies() {
+    let filteredUsers = companies;
+    if (selectedStatus.value !== "all") {
+      filteredUsers = filteredUsers.filter((user) =>
+        selectedStatus.value === "active" ? user.active : !user.active,
+      );
+    }
 
+    setTempCompanies(filteredUsers);
+  }
   function handleAddNewCompany(company: IGetCompanyResponse) {
     setCompanies((prevState) => prevState.concat(company));
   }
-
   function handleUpdateCompany(company: IGetCompanyResponse) {
     setCompanies((prevState) =>
       prevState.map((item) => (item.id === company.id ? company : item)),
     );
   }
 
+  useEffect(() => {
+    filterCompanies();
+  }, [companies, selectedStatus]);
   useEffect(() => {
     async function loadData() {
       try {
@@ -78,9 +98,9 @@ export function Companies() {
         <div>
           <h1 className="text-3xl font-bold text-black-100">Empresas</h1>
           <p className="text-black-80">
-            {companies.length === 1
-              ? '1 empresa encontrada'
-              : `${companies.length} empresas encontradas`}
+            {tempCompanies.length === 1
+              ? "1 empresa encontrada"
+              : `${tempCompanies.length} empresas encontradas`}
           </p>
         </div>
         <Button className="w-56" onClick={() => setCreateModalVisible(true)}>
@@ -88,7 +108,32 @@ export function Companies() {
           Nova Empresa
         </Button>
       </header>
-
+      <div className="mt-4 flex w-full flex-row gap-2">
+        <div className="w-[240px]">
+          <Select
+            prefix="Status:"
+            options={[
+              {
+                value: "all",
+                label: "Todos",
+              },
+              {
+                value: "inactive",
+                label: "Inativo",
+              },
+              {
+                value: "active",
+                label: "Ativo",
+              },
+            ]}
+            valueKey="value"
+            labelKey="label"
+            isSecondary
+            selected={selectedStatus}
+            setSelected={setSelectedStatus}
+          />
+        </div>
+      </div>
       <table className="mt-5 w-full overflow-hidden rounded-xl text-left text-sm text-black-80">
         <thead className="bg-primary-40 text-primary-500">
           <tr>
@@ -116,7 +161,7 @@ export function Companies() {
           {isLoading ? (
             <SkeletonCompaniesTable />
           ) : (
-            companies.map((company) => (
+            tempCompanies.map((company) => (
               <CompanyRow
                 key={company.id}
                 data={company}
@@ -128,7 +173,7 @@ export function Companies() {
               />
             ))
           )}
-          {!isLoading && companies.length === 0 && (
+          {!isLoading && tempCompanies.length === 0 && (
             <tr className="border-b bg-white">
               <td
                 colSpan={5}
