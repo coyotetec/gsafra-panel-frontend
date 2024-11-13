@@ -176,7 +176,7 @@ export function Companies() {
           {!isLoading && tempCompanies.length === 0 && (
             <tr className="border-b bg-white">
               <td
-                colSpan={5}
+                colSpan={6}
                 className="max-w-[0] truncate p-4 text-center font-semibold"
               >
                 Nenhuma empresa cadastrada, comece criando uma!

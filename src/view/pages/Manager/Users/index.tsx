@@ -1,4 +1,9 @@
-import { IconFilterDiscount, IconPlus } from "@tabler/icons-react";
+import {
+  IconFilterDiscount,
+  IconGridDots,
+  IconList,
+  IconPlus,
+} from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { APIError } from "../../../../app/errors/APIError";
@@ -21,6 +26,8 @@ export function Users() {
   const [selectedUser, setSelectedUser] = useState<IGetUserResponse | null>(
     null,
   );
+  const [showType, setShowType] = useState<"list" | "grid">("list");
+  const [usersGrouped, setUsersGrouped] = useState<any>({});
   const [companies, setCompanies] = useState<
     { value: string; label: string }[]
   >([]);
@@ -29,12 +36,12 @@ export function Users() {
     label: string;
   }>({
     value: "active",
-    label: "ativos",
+    label: "Ativos",
   });
   const [selectedCompanies, setSelectedCompanies] = useState<{
     value: string;
     label: string;
-  } | null>(null);
+  } | null>({ value: "all", label: "Todos" });
   const { users, setUsers, usersLoaded } = useManager();
   const [tempUsers, setTempUsers] = useState(users);
 
@@ -70,6 +77,7 @@ export function Users() {
         ),
       );
     }
+    groupByCompanies(filteredUsers);
     setTempUsers(filteredUsers);
   }
   async function loadCompanies() {
@@ -82,7 +90,18 @@ export function Users() {
       }));
     setCompanies(treatCompanies);
   }
-
+  function groupByCompanies(filteredUsers: any) {
+    const data = filteredUsers.reduce((acc, user) => {
+      user.companies.forEach((company) => {
+        if (!acc[company.name]) {
+          acc[company.name] = [];
+        }
+        acc[company.name].push(user);
+      });
+      return acc;
+    }, {});
+    setUsersGrouped(data);
+  }
   useEffect(() => {
     filterUsers();
   }, [users, selectedStatus, selectedCompanies]);
@@ -143,7 +162,7 @@ export function Users() {
           </Button>
         </div>
       </header>
-      <div className="mt-4 flex w-full flex-row gap-2">
+      <div className="mt-4 flex w-full flex-row items-center gap-2">
         <div className="w-[240px]">
           <Select
             prefix="Status:"
@@ -154,11 +173,11 @@ export function Users() {
               },
               {
                 value: "inactive",
-                label: "Inativo",
+                label: "Inativos",
               },
               {
                 value: "active",
-                label: "Ativo",
+                label: "Ativos",
               },
             ]}
             valueKey="value"
@@ -179,56 +198,138 @@ export function Users() {
             setSelected={setSelectedCompanies}
           />
         </div>
+        <div className="flex flex-row  overflow-hidden rounded-md bg-white">
+          <button
+            onClick={() => setShowType("list")}
+            className=" flex max-h-12 flex-row items-center  bg-white p-4 hover:bg-gray-200"
+          >
+            <IconList
+              size={16}
+              className={`cursor-pointer  ${showType === "list" && "text-primary-500"}`}
+            />
+          </button>
+          <button
+            onClick={() => setShowType("grid")}
+            className=" flex max-h-12 flex-row items-center  bg-white p-4 hover:bg-gray-200"
+          >
+            <IconGridDots
+              size={16}
+              className={`cursor-pointer  ${showType === "grid" && "text-primary-500"}`}
+            />
+          </button>
+        </div>
       </div>
-
-      <table className="mt-5 w-full overflow-hidden rounded-xl text-left text-sm text-black-80">
-        <thead className="bg-primary-40 text-primary-500">
-          <tr>
-            <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
-              Nome
-            </th>
-            <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
-              Empresa
-            </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
-              Papel
-            </th>
-            <th scope="col" className="flex w-[20%] px-4 py-5 font-semibold ">
-              Status <IconFilterDiscount size={12} />
-            </th>
-            <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
-              Ações
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
-            <SkeletonUsersTable />
-          ) : (
-            tempUsers.map((user) => (
-              <UserRow
-                key={user.id}
-                data={user}
-                onToggleStatus={() => handleToggleUserStatus(user.id)}
-                onEdit={() => {
-                  setSelectedUser(user);
-                  setEditModalVisible(true);
-                }}
-              />
-            ))
-          )}
-          {!isLoading && tempUsers.length === 0 && (
-            <tr className="border-b bg-white">
-              <td
-                colSpan={5}
-                className="max-w-[0] truncate p-4 text-center font-semibold"
-              >
-                Nenhum usuário cadastrada, comece criando uma!
-              </td>
+      {showType === "grid" &&
+        Object.entries(usersGrouped).map(([companyName, data]) => {
+          return (
+            <>
+              <h1 className="font-xs mt-4 font-bold text-primary-500">
+                {companyName}
+              </h1>
+              <table className="mb-5 mt-1 w-full overflow-hidden rounded-xl text-left text-sm text-black-80">
+                <thead className="bg-primary-40 text-primary-500">
+                  <tr>
+                    <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
+                      Nome
+                    </th>
+                    <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
+                      Empresa
+                    </th>
+                    <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+                      Papel
+                    </th>
+                    <th
+                      scope="col"
+                      className="flex w-[20%] px-4 py-5 font-semibold "
+                    >
+                      Status <IconFilterDiscount size={12} />
+                    </th>
+                    <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+                      Ações
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {isLoading ? (
+                    <SkeletonUsersTable />
+                  ) : (
+                    data.map((user) => (
+                      <UserRow
+                        key={user.id}
+                        data={user}
+                        onToggleStatus={() => handleToggleUserStatus(user.id)}
+                        onEdit={() => {
+                          setSelectedUser(user);
+                          setEditModalVisible(true);
+                        }}
+                      />
+                    ))
+                  )}
+                  {!isLoading && tempUsers.length === 0 && (
+                    <tr className="border-b bg-white">
+                      <td
+                        colSpan={5}
+                        className="max-w-[0] truncate p-4 text-center font-semibold"
+                      >
+                        Nenhum usuário cadastrada, comece criando uma!
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </>
+          );
+        })}
+      {showType === "list" && (
+        <table className="mt-5 w-full overflow-hidden rounded-xl text-left text-sm text-black-80">
+          <thead className="bg-primary-40 text-primary-500">
+            <tr>
+              <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
+                Nome
+              </th>
+              <th scope="col" className="w-[26%] px-4 py-5 font-semibold">
+                Empresa
+              </th>
+              <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+                Papel
+              </th>
+              <th scope="col" className="flex w-[20%] px-4 py-5 font-semibold ">
+                Status <IconFilterDiscount size={12} />
+              </th>
+              <th scope="col" className="w-[16%] px-4 py-5 font-semibold">
+                Ações
+              </th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <SkeletonUsersTable />
+            ) : (
+              tempUsers.map((user) => (
+                <UserRow
+                  key={user.id}
+                  data={user}
+                  onToggleStatus={() => handleToggleUserStatus(user.id)}
+                  onEdit={() => {
+                    setSelectedUser(user);
+                    setEditModalVisible(true);
+                  }}
+                />
+              ))
+            )}
+            {!isLoading && tempUsers.length === 0 && (
+              <tr className="border-b bg-white">
+                <td
+                  colSpan={5}
+                  className="max-w-[0] truncate p-4 text-center font-semibold"
+                >
+                  Nenhum usuário cadastrada, comece criando uma!
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      )}
     </>
   );
 }
