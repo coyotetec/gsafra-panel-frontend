@@ -91,8 +91,8 @@ export function Users() {
     setCompanies(treatCompanies);
   }
   function groupByCompanies(filteredUsers: any) {
-    const data = filteredUsers.reduce((acc, user) => {
-      user.companies.forEach((company) => {
+    const data = filteredUsers.reduce((acc: any, user: any) => {
+      user.companies.forEach((company: any) => {
         if (!acc[company.name]) {
           acc[company.name] = [];
         }
@@ -220,7 +220,7 @@ export function Users() {
         </div>
       </div>
       {showType === "grid" &&
-        Object.entries(usersGrouped).map(([companyName, data]) => {
+        Object.entries(usersGrouped).map(([companyName, data]: any) => {
           return (
             <>
               <h1 className="font-xs mt-4 font-bold text-primary-500">
@@ -253,7 +253,7 @@ export function Users() {
                   {isLoading ? (
                     <SkeletonUsersTable />
                   ) : (
-                    data.map((user) => (
+                    data.map((user: any) => (
                       <UserRow
                         key={user.id}
                         data={user}

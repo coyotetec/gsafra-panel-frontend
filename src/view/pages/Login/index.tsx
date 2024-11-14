@@ -1,18 +1,18 @@
+import { IconLogin2 } from "@tabler/icons-react";
 import { FormEvent, useState } from "react";
-import { IconLogin, IconLogin2 } from "@tabler/icons-react";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { APIError } from "../../../app/errors/APIError";
+import { useAuth } from "../../../app/hooks/useAuth";
+import { formatZodError } from "../../../app/utils/formatZodError";
+import { handleChangeInput } from "../../../app/utils/handleChangeInput";
 import campImg from "../../../assets/images/camp.webp";
+import { ILoginData } from "../../../types/authentication";
+import { FormErrorType } from "../../../types/global";
+import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Logo } from "../../components/Logos/Logo";
-import { Button } from "../../components/Button";
-import { Link } from "react-router-dom";
 import { loginSchema } from "./loginShemas";
-import { FormErrorType } from "../../../types/global";
-import { formatZodError } from "../../../app/utils/formatZodError";
-import { useAuth } from "../../../app/hooks/useAuth";
-import toast from "react-hot-toast";
-import { APIError } from "../../../app/errors/APIError";
-import { ILoginData } from "../../../types/authentication";
-import { handleChangeInput } from "../../../app/utils/handleChangeInput";
 
 export function Login() {
   const [userData, setUserData] = useState<ILoginData>({
