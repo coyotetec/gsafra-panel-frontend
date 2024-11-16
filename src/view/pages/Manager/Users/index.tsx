@@ -87,7 +87,11 @@ export function Users() {
       .map((item) => ({
         value: item.id,
         label: item.name,
-      }));
+      }))
+      .sort((a, b) =>
+        a.label.toLowerCase().localeCompare(b.label.toLowerCase()),
+      );
+
     setCompanies(treatCompanies);
   }
   function groupByCompanies(filteredUsers: any) {
