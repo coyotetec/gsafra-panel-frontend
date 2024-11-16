@@ -25,9 +25,9 @@ export function Users() {
   });
   const [tempUsers, setTempUsers] = useState(users);
   function filterUsers() {
-    let filteredUsers = users;
+    let filteredUsers: any = users;
     if (selectedStatus.value !== "all") {
-      filteredUsers = filteredUsers?.filter((user) =>
+      filteredUsers = filteredUsers?.filter((user: IGetUserResponse) =>
         selectedStatus.value === "active" ? user.active : !user.active,
       );
     }
