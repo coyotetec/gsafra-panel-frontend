@@ -6,19 +6,19 @@ import {
   useEffect,
   useMemo,
   useState,
-} from 'react';
-import { IGetUserResponse } from '../../types/users';
-import { APIError } from '../errors/APIError';
-import { UserService } from '../services/UserService';
-import toast from 'react-hot-toast';
-import { useAuth } from '../hooks/useAuth';
-import { UserCompanyService } from '../services/UserCompanyService';
+} from "react";
+import { IGetUserResponse } from "../../types/users";
+import { APIError } from "../errors/APIError";
+import { UserService } from "../services/UserService";
+import toast from "react-hot-toast";
+import { useAuth } from "../hooks/useAuth";
+import { UserCompanyService } from "../services/UserCompanyService";
 import {
   IGetUserCompaniesResponse,
   IUserCompany,
-} from '../../types/userCompanies';
-import { IGetNotificationResponse } from '../../types/notification';
-import { NotificationService } from '../services/NotificationService';
+} from "../../types/userCompanies";
+import { IGetNotificationResponse } from "../../types/notification";
+import { NotificationService } from "../services/NotificationService";
 
 interface IPanelContextValue {
   isLoading: boolean;
@@ -135,9 +135,7 @@ export function PanelProvider({ children }: PanelProviderPros) {
       setUserCompanies(userCompanies);
     }
 
-    if (user && user.role === 'ADMIN') {
-      getUserCompanies(user.id);
-    }
+    getUserCompanies(user.id);
   }, [user]);
 
   useEffect(() => {
