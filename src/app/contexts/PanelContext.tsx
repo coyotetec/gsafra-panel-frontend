@@ -135,7 +135,7 @@ export function PanelProvider({ children }: PanelProviderPros) {
       setUserCompanies(userCompanies);
     }
 
-    getUserCompanies(user.id);
+    user && getUserCompanies(user.id);
   }, [user]);
 
   useEffect(() => {
