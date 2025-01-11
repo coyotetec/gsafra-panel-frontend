@@ -73,7 +73,6 @@ export function PanelProvider({ children }: PanelProviderPros) {
   const updateUserState = useCallback(
     (user: IGetUserResponse) => {
       const userExists = users?.find(({ id }) => id === user.id);
-
       if (userExists) {
         const updatedUsers = users!
           .map((u) => (u.id === user.id ? user : u))

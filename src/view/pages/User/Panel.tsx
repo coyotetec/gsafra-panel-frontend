@@ -1,10 +1,12 @@
-import systemIcon from '../../../assets/icon/system.svg';
-import dashboardIcon from '../../../assets/icon/dashboard.svg';
-import { CardPanel } from '../../components/CardPanel';
-import { usePanelContext } from '../../../app/hooks/usePanelContext';
+import systemIcon from "../../../assets/icon/system.svg";
+import dashboardIcon from "../../../assets/icon/dashboard.svg";
+import { CardPanel } from "../../components/CardPanel";
+import { usePanelContext } from "../../../app/hooks/usePanelContext";
+import { useAuth } from "../../../app/hooks/useAuth";
 
 export function Panel() {
   const { userCompanies } = usePanelContext();
+  const { user } = useAuth();
   return (
     <>
       <h1 className="text-3.5xl font-bold">Painel de Acessos</h1>
@@ -14,7 +16,11 @@ export function Panel() {
           <div key={id}>
             <h2 className="text-lg font-medium">{name}</h2>
             <div className="mt-2 flex gap-3">
-              <a target="_blank" rel="noopener noreferrer">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`http://92.246.130.139/index2.html?userId=${userCompanies.userFirebirdId}&email=${user?.name}&companyId=${externalId}`}
+              >
                 <CardPanel
                   image={systemIcon}
                   descriptionImg="Ícone do sistema"

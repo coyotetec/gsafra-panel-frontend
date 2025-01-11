@@ -1,18 +1,18 @@
-import { Modal } from '../../../../components/Modal';
-import { APIError } from '../../../../../app/errors/APIError';
-import toast from 'react-hot-toast';
+import { Modal } from "../../../../components/Modal";
+import { APIError } from "../../../../../app/errors/APIError";
+import toast from "react-hot-toast";
 import {
   ICompanyPayload,
   IGetCompanyResponse,
-} from '../../../../../types/company';
-import { CompanyService } from '../../../../../app/services/CompanyService';
-import { CompanyForm, ICompanyFormRef } from '../components/CompanyForm';
-import { useRef, useState } from 'react';
-import { IconPlus } from '@tabler/icons-react';
-import { CreateUsersForm } from '../components/CreateUsersForm';
-import { GsafraUserService } from '../../../../../app/services/GsafraUserService';
-import { IGetGsafraUserResponse } from '../../../../../types/gsafraUser';
-import { Button } from '../../../../components/Button';
+} from "../../../../../types/company";
+import { CompanyService } from "../../../../../app/services/CompanyService";
+import { CompanyForm, ICompanyFormRef } from "../components/CompanyForm";
+import { useRef, useState } from "react";
+import { IconPlus } from "@tabler/icons-react";
+import { CreateUsersForm } from "../components/CreateUsersForm";
+import { GsafraUserService } from "../../../../../app/services/GsafraUserService";
+import { IGetGsafraUserResponse } from "../../../../../types/gsafraPaper";
+import { Button } from "../../../../components/Button";
 
 interface CreateCompanyModalProps {
   visible: boolean;
@@ -32,22 +32,22 @@ export function CreateCompanyModal({
   const companyFormRef = useRef<ICompanyFormRef>(null);
   const steps = [
     {
-      title: 'Nova Empresa',
-      description: 'Adicione uma nova empresa ao portal.',
+      title: "Nova Empresa",
+      description: "Adicione uma nova empresa ao portal.",
     },
     {
-      title: 'Empresa Criada!',
+      title: "Empresa Criada!",
       description: `A empresa ${company?.name} (#${company?.externalId}) foi criada com sucesso!`,
     },
     {
-      title: 'Encontramos Usuários',
+      title: "Encontramos Usuários",
       description:
-        'Esses são os usuários que já estão criados no sistema selecione os que deseja adicionar ao portal.',
+        "Esses são os usuários que já estão criados no sistema selecione os que deseja adicionar ao portal.",
     },
     {
-      title: 'Usuários Criados!',
+      title: "Usuários Criados!",
       description:
-        'Oriente seus usuários a entrarem em seus e-mails cadastrados para finalizar o cadastro no portal.',
+        "Oriente seus usuários a entrarem em seus e-mails cadastrados para finalizar o cadastro no portal.",
     },
   ];
 

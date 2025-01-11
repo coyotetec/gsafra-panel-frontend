@@ -1,10 +1,10 @@
-import axios, { AxiosError } from 'axios';
-import { localStorageKeys } from '../../config/localStorageKeys';
-import { APIError } from '../../errors/APIError';
+import axios, { AxiosError } from "axios";
+import { localStorageKeys } from "../../config/localStorageKeys";
+import { APIError } from "../../errors/APIError";
 
 export const api = axios.create({
-  baseURL: 'https://api.painel.gsafra.com', // Prod baseURL
-  // baseURL: 'http://192.168.2.94:3003', // Iran baseURL
+  // baseURL: 'https://api.painel.gsafra.com', // Prod baseURL
+  baseURL: "http://localhost:3003", // Iran baseURL
 });
 
 api.interceptors.request.use(function (config) {
@@ -29,12 +29,12 @@ api.interceptors.response.use(
         throw new APIError(error);
       }
 
-      if (err.code === 'ERR_NETWORK') {
-        throw new APIError('Não foi possível se conectar ao servidor');
+      if (err.code === "ERR_NETWORK") {
+        throw new APIError("Não foi possível se conectar ao servidor");
       }
 
       if (err.response?.status === 500) {
-        throw new APIError('Problemas no servidor, tente novamente mais tarde');
+        throw new APIError("Problemas no servidor, tente novamente mais tarde");
       }
     }
   },

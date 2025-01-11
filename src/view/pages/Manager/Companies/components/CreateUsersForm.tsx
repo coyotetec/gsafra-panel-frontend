@@ -1,18 +1,18 @@
-import { FormEvent, useState } from 'react';
-import { IGetGsafraUserResponse } from '../../../../../types/gsafraUser';
-import { Checkbox } from '../../../../components/Checkbox';
-import { Input } from '../../../../components/Input';
-import { cn } from '../../../../../app/utils/cn';
-import { Button } from '../../../../components/Button';
-import { IconUsersPlus } from '@tabler/icons-react';
-import { gsafraUsersSchema } from '../schemas';
-import { FormErrorType } from '../../../../../types/global';
-import { UserService } from '../../../../../app/services/UserService';
-import { ICreateUserResponse } from '../../../../../types/users';
-import { IGetCompanyResponse } from '../../../../../types/company';
-import { useManager } from '../../../../../app/hooks/useManager';
-import { APIError } from '../../../../../app/errors/APIError';
-import toast from 'react-hot-toast';
+import { FormEvent, useState } from "react";
+import { IGetGsafraUserResponse } from "../../../../../types/gsafraPaper";
+import { Checkbox } from "../../../../components/Checkbox";
+import { Input } from "../../../../components/Input";
+import { cn } from "../../../../../app/utils/cn";
+import { Button } from "../../../../components/Button";
+import { IconUsersPlus } from "@tabler/icons-react";
+import { gsafraUsersSchema } from "../schemas";
+import { FormErrorType } from "../../../../../types/global";
+import { UserService } from "../../../../../app/services/UserService";
+import { ICreateUserResponse } from "../../../../../types/users";
+import { IGetCompanyResponse } from "../../../../../types/company";
+import { useManager } from "../../../../../app/hooks/useManager";
+import { APIError } from "../../../../../app/errors/APIError";
+import toast from "react-hot-toast";
 
 interface CreateUsersFormProps {
   users: IGetGsafraUserResponse[];
@@ -36,7 +36,7 @@ export function CreateUsersForm({
     users.map(({ id, name, email }) => ({
       id,
       name,
-      email: email || '',
+      email: email || "",
       checked: !!email,
     })),
   );
@@ -99,7 +99,7 @@ export function CreateUsersForm({
 
       const usersCreated = (await UserService.managerCreateUser(
         gsafraUsersValidation.data.map((user) => ({
-          userRole: { value: 'USER', label: 'Usuário Comum' },
+          userRole: { value: "USER", label: "Usuário Comum" },
           company: company || undefined,
           name: user.name,
           email: user.email,
@@ -111,7 +111,7 @@ export function CreateUsersForm({
         })),
       )) as ICreateUserResponse[];
 
-      toast.success('Usuários criados com sucesso!');
+      toast.success("Usuários criados com sucesso!");
       handleAddNewUsers(usersCreated);
       goNextStep();
     } catch (err) {
@@ -137,13 +137,13 @@ export function CreateUsersForm({
             <Checkbox
               checked={user.checked}
               onChange={(value) =>
-                handleChangeUserData(user.id, 'checked', value)
+                handleChangeUserData(user.id, "checked", value)
               }
             />
             <span
               className={cn(
-                'text-sm font-semibold text-black/80',
-                !user.checked && 'text-black/40 line-through',
+                "text-sm font-semibold text-black/80",
+                !user.checked && "text-black/40 line-through",
               )}
             >
               {user.name}
@@ -155,7 +155,7 @@ export function CreateUsersForm({
               disabled={!user.checked}
               value={user.email}
               onChange={(e) =>
-                handleChangeUserData(user.id, 'email', e.target.value)
+                handleChangeUserData(user.id, "email", e.target.value)
               }
               error={formErrors ? formErrors[`${user.id}-email`] : undefined}
             />

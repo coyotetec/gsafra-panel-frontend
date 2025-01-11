@@ -1,17 +1,17 @@
-import { IconPasswordUser } from '@tabler/icons-react';
-import sojaImg from '../../../assets/images/soja.webp';
-import { Button } from '../../components/Button';
-import { Input } from '../../components/Input';
-import { Logo } from '../../components/Logos/Logo';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { FormEvent, useEffect, useState } from 'react';
-import { handleChangeInput } from '../../../app/utils/handleChangeInput';
-import { createPasswordSchema } from './schema';
-import { FormErrorType } from '../../../types/global';
-import { formatZodError } from '../../../app/utils/formatZodError';
-import { AuthService } from '../../../app/services/AuthService';
-import toast from 'react-hot-toast';
-import { APIError } from '../../../app/errors/APIError';
+import { IconPasswordUser } from "@tabler/icons-react";
+import sojaImg from "../../../assets/images/soja.webp";
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
+import { Logo } from "../../components/Logos/Logo";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { handleChangeInput } from "../../../app/utils/handleChangeInput";
+import { createPasswordSchema } from "./schema";
+import { FormErrorType } from "../../../types/global";
+import { formatZodError } from "../../../app/utils/formatZodError";
+import { AuthService } from "../../../app/services/AuthService";
+import toast from "react-hot-toast";
+import { APIError } from "../../../app/errors/APIError";
 
 interface IFormData {
   password: string;
@@ -21,10 +21,12 @@ interface IFormData {
 export function CreatePassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [userId, setUserId] = useState<string | undefined>();
+  const [userFirebirdId, setUserFirebirdId] = useState<string>();
+  const [companyId, setCompanyId] = useState<string>();
   const [token, setToken] = useState<string | undefined>();
   const [formData, setFormData] = useState<IFormData>({
-    password: '',
-    confirmPassword: '',
+    password: "",
+    confirmPassword: "",
   });
   const [formErrors, setFormErrors] = useState<FormErrorType>(null);
   const [searchParams] = useSearchParams();
@@ -51,25 +53,29 @@ export function CreatePassword() {
       const { message } = await AuthService.resetPassword({
         password: createPasswordValidation.data.password,
         userId,
+        firebirdId: userFirebirdId,
+        companyId,
         token,
       });
 
       toast.success(message);
+      navigate("/login", {
+        replace: true,
+      });
     } catch (err) {
       if (err instanceof APIError) {
         toast.error(err.message);
       }
     } finally {
-      navigate('/login', {
-        replace: true,
-      });
       setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    const u = searchParams.get('u');
-    const t = searchParams.get('t');
+    const u = searchParams.get("u");
+    const t = searchParams.get("t");
+    const f = searchParams.get("f");
+    const c = searchParams.get("c");
 
     if (u) {
       setUserId(u);
@@ -77,6 +83,12 @@ export function CreatePassword() {
 
     if (t) {
       setToken(t);
+    }
+    if (f) {
+      setUserFirebirdId(f);
+    }
+    if (c) {
+      setCompanyId(c);
     }
   }, [searchParams]);
 

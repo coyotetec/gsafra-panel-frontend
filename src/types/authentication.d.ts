@@ -3,7 +3,7 @@ export interface ILoginResponse {
   user: {
     id: string;
     name: string;
-    role: 'MANAGER' | 'ADMIN' | 'USER';
+    role: "MANAGER" | "ADMIN" | "USER";
     externalId: number;
   };
 }
@@ -16,6 +16,8 @@ export interface ILoginData {
 export interface IResetPasswordPayload {
   userId: string;
   password: string;
+  companyId?: string;
+  firebirdId?: string;
   token?: string;
 }
 

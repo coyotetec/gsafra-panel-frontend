@@ -4,25 +4,28 @@ import {
   useState,
   forwardRef,
   useImperativeHandle,
-} from 'react';
-import { Icon } from '@tabler/icons-react';
-import { Button } from '../../../../../../../components/Button';
-import { Input } from '../../../../../../../components/Input';
-import { Select } from '../../../../../../../components/Select';
-import { handleChangeInput } from '../../../../../../../../app/utils/handleChangeInput';
-import { formatZodError } from '../../../../../../../../app/utils/formatZodError';
-import { usePanelContext } from '../../../../../../../../app/hooks/usePanelContext';
-import { userFormSchema } from './userFormSchema';
-import { GsafraUserService } from '../../../../../../../../app/services/GsafraUserService';
-import { APIError } from '../../../../../../../../app/errors/APIError';
-import { IUserData } from '../NewUserModal/index';
-import { IGetGsafraUserResponse } from '../../../../../../../../types/gsafraUser';
+} from "react";
+import { Icon } from "@tabler/icons-react";
+import { Button } from "../../../../../../../components/Button";
+import { Input } from "../../../../../../../components/Input";
+import { Select } from "../../../../../../../components/Select";
+import { handleChangeInput } from "../../../../../../../../app/utils/handleChangeInput";
+import { formatZodError } from "../../../../../../../../app/utils/formatZodError";
+import { usePanelContext } from "../../../../../../../../app/hooks/usePanelContext";
+import { userFormSchema } from "./userFormSchema";
+import { APIError } from "../../../../../../../../app/errors/APIError";
+import { IUserData } from "../NewUserModal/index";
+import {
+  IGetGsafraPaperResponse,
+  IGetGsafraUserResponse,
+} from "../../../../../../../../types/gsafraPaper";
 import {
   IGetUserResponse,
   UserRoleType,
-} from '../../../../../../../../types/users';
-import { FormErrorType } from '../../../../../../../../types/global';
-import toast from 'react-hot-toast';
+} from "../../../../../../../../types/users";
+import { FormErrorType } from "../../../../../../../../types/global";
+import toast from "react-hot-toast";
+import { GsafraPapelService } from "../../../../../../../../app/services/GsafraPapel";
 
 interface IUserRoleSelect {
   role: UserRoleType;
@@ -43,7 +46,7 @@ export interface UserFormProps {
   onSubmit: (userData: IUserData) => void;
   submitButtonLabel: string;
   SubmitButtonIcon: Icon;
-  typeForm: 'create' | 'update';
+  typeForm: "create" | "update";
 }
 
 export interface IUserFormRef {
@@ -52,8 +55,8 @@ export interface IUserFormRef {
 }
 
 const roles: IUserRoleSelect[] = [
-  { role: 'USER', label: 'Usuário' },
-  { role: 'ADMIN', label: 'Administrador' },
+  { role: "USER", label: "Usuário" },
+  { role: "ADMIN", label: "Administrador" },
 ];
 
 export const UserForm = forwardRef(
@@ -79,24 +82,29 @@ export const UserForm = forwardRef(
       useState<IUserCompanySelect | null>(
         userCompanies && userCompanies.companies[0],
       );
+    const [selectedPaper, setSelectedPaper] = useState<Omit<
+      IGetGsafraPaperResponse,
+      "DESCRICAO"
+    > | null>(null);
     const [newUserData, setNewUserData] = useState<INewUserData>({
-      email: '',
-      name: '',
+      email: "",
+      name: "",
     });
     const [formErrors, setFormErrors] = useState<FormErrorType | null>(null);
-    const [gsafraUsers, setGsafraUsers] = useState<IGetGsafraUserResponse[]>(
+    const [gsafraPapers, setGsafraPapers] = useState<IGetGsafraPaperResponse[]>(
       [],
     );
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
       e.preventDefault();
       setIsLoading(true);
-
       const userData = {
         ...newUserData,
         role: selectedUserRole?.role,
+        name: newUserData.email,
+        idPapel: selectedPaper?.ID,
         companyId: selectedCompany?.id,
-        externalId: selectedGsafraUser?.id,
+        externalId: Number(userCompanies?.companies[0].externalId),
       };
       const validateData = userFormSchema.safeParse(userData);
 
@@ -107,16 +115,17 @@ export const UserForm = forwardRef(
       setFormErrors(null);
 
       await onSubmit({ ...userData, company: selectedCompany });
+      setIsLoading(false);
     }
 
     useEffect(() => {
       async function getGsafraUsers() {
         try {
           setGsafraUsersIsLoading(true);
-          const gsafraUsers =
-            selectedCompany &&
-            (await GsafraUserService.getGsafraUsers(selectedCompany.id));
-          gsafraUsers && setGsafraUsers(gsafraUsers);
+          const gsafraUsers = await GsafraPapelService.getGsafraPapel(
+            selectedCompany?.id,
+          );
+          setGsafraPapers(gsafraUsers);
         } catch (err) {
           onClose();
           if (err instanceof APIError) toast.error(err.message);
@@ -131,8 +140,8 @@ export const UserForm = forwardRef(
 
     useEffect(() => {
       setNewUserData({
-        name: selectedGsafraUser?.name || '',
-        email: selectedGsafraUser?.email || '',
+        name: selectedGsafraUser?.name || "",
+        email: selectedGsafraUser?.email || "",
       });
     }, [selectedGsafraUser]);
 
@@ -140,7 +149,7 @@ export const UserForm = forwardRef(
       ref,
       () => ({
         resetFields: () => {
-          setNewUserData({ email: '', name: '' });
+          setNewUserData({ email: "", name: "" });
           setIsLoading(false);
           setSelectedCompany(null);
           setSelectedGsafraUser(null);
@@ -167,7 +176,7 @@ export const UserForm = forwardRef(
       <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
         {userCompanies &&
           userCompanies.companies.length > 1 &&
-          typeForm === 'create' && (
+          typeForm === "create" && (
             <Select
               options={userCompanies.companies}
               error={formErrors?.companyId}
@@ -179,30 +188,6 @@ export const UserForm = forwardRef(
               placeholder="Selecione uma empresa"
             />
           )}
-
-        <Select
-          options={gsafraUsers}
-          label="Usuário no sistema"
-          placeholder="Selecione um usuário"
-          error={formErrors?.externalId}
-          valueKey="id"
-          labelKey="name"
-          selected={selectedGsafraUser}
-          setSelected={setSelectedGsafraUser}
-          loading={gsafraUsersIsLoading}
-        />
-
-        <Input
-          label="Nome"
-          placeholder="Nome"
-          name="name"
-          error={formErrors?.name}
-          type="text"
-          value={newUserData.name}
-          onChange={(event) =>
-            handleChangeInput<INewUserData>(setNewUserData, event)
-          }
-        />
         <Input
           label="E-mail"
           placeholder="Seu e-mail"
@@ -212,11 +197,20 @@ export const UserForm = forwardRef(
           value={newUserData.email}
           onChange={(event) => handleChangeInput(setNewUserData, event)}
         />
-
+        <Select
+          options={gsafraPapers}
+          error={formErrors?.companyId}
+          labelKey="NOME"
+          valueKey="ID"
+          selected={selectedPaper}
+          setSelected={setSelectedPaper}
+          label="Papel usuário app"
+          placeholder="Selecione o papel do usúario no app"
+        />
         <Select
           options={roles}
-          label="Papel do usuário"
-          placeholder="Selecione o papel do usuário"
+          label="Papel do usuário web"
+          placeholder="Selecione o papel do usuário web"
           error={formErrors?.role}
           valueKey="role"
           labelKey="label"
@@ -238,4 +232,4 @@ export const UserForm = forwardRef(
   },
 );
 
-UserForm.displayName = 'UserForm';
+UserForm.displayName = "UserForm";

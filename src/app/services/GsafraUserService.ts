@@ -1,5 +1,5 @@
-import { IGetGsafraUserResponse } from '../../types/gsafraUser';
-import { api } from './utils/api';
+import { IGetGsafraUserResponse } from "../../types/gsafraPaper";
+import { api } from "./utils/api";
 
 export class GsafraUserService {
   static async getGsafraUsers(companyId: string) {

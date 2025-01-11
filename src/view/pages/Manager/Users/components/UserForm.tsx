@@ -5,7 +5,7 @@ import {
   useImperativeHandle,
   useState,
 } from 'react';
-import { IGetGsafraUserResponse } from '../../../../../types/gsafraUser';
+import { IGetGsafraUserResponse } from '../../../../../types/gsafraPaper';
 import { IUserPayload, IUserRole } from '../../../../../types/users';
 import { CompanyService } from '../../../../../app/services/CompanyService';
 import { APIError } from '../../../../../app/errors/APIError';

@@ -1,16 +1,16 @@
-import { IconUserPlus } from '@tabler/icons-react';
+import { IconUserPlus } from "@tabler/icons-react";
 import {
   ICreateUserResponse,
   IGetUserResponse,
   IUserPayload,
-} from '../../../../../types/users';
-import { Modal } from '../../../../components/Modal';
-import { IUserFormRef, UserForm } from '../components/UserForm';
-import { UserService } from '../../../../../app/services/UserService';
-import { APIError } from '../../../../../app/errors/APIError';
-import toast from 'react-hot-toast';
-import { useRef, useState } from 'react';
-import { Button } from '../../../../components/Button';
+} from "../../../../../types/users";
+import { Modal } from "../../../../components/Modal";
+import { IUserFormRef, UserForm } from "../components/UserForm";
+import { UserService } from "../../../../../app/services/UserService";
+import { APIError } from "../../../../../app/errors/APIError";
+import toast from "react-hot-toast";
+import { useRef, useState } from "react";
+import { Button } from "../../../../components/Button";
 
 interface CreateUserModalProps {
   visible: boolean;
@@ -31,7 +31,6 @@ export function CreateUserModal({
       const userCreated = (await UserService.managerCreateUser(
         payload,
       )) as ICreateUserResponse;
-
       onCreated({
         ...userCreated,
         companies: payload.company
@@ -39,7 +38,7 @@ export function CreateUserModal({
           : [],
       });
 
-      toast.success('Usuário criado com sucesso!');
+      toast.success("Usuário criado com sucesso!");
 
       setConcluded(true);
     } catch (err) {
@@ -57,11 +56,11 @@ export function CreateUserModal({
         setConcluded(false);
         userFormRef.current?.resetFields();
       }}
-      title={concluded ? 'Usuário Criado!' : 'Novo Usuário'}
+      title={concluded ? "Usuário Criado!" : "Novo Usuário"}
       description={
         concluded
-          ? 'Oriente seu usuário a entrar em seu e-mail cadastrado para finalizar o cadastro no portal.'
-          : 'Adicione um novo usuário para ter acesso ao portal.'
+          ? "Oriente seu usuário a entrar em seu e-mail cadastrado para finalizar o cadastro no portal."
+          : "Adicione um novo usuário para ter acesso ao portal."
       }
     >
       {concluded ? (

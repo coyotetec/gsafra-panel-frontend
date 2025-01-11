@@ -1,13 +1,13 @@
-import { useRef, useState } from 'react';
-import { Button } from '../../../../../../../components/Button';
-import { Modal } from '../../../../../../../components/Modal';
-import { IUserCompanySelect, IUserFormRef, UserForm } from '../UserForm';
-import toast from 'react-hot-toast';
-import { UserService } from '../../../../../../../../app/services/UserService';
-import { APIError } from '../../../../../../../../app/errors/APIError';
-import { usePanelContext } from '../../../../../../../../app/hooks/usePanelContext';
-import { UserRoleType } from '../../../../../../../../types/users';
-import { IconUserPlus } from '@tabler/icons-react';
+import { useRef, useState } from "react";
+import { Button } from "../../../../../../../components/Button";
+import { Modal } from "../../../../../../../components/Modal";
+import { IUserCompanySelect, IUserFormRef, UserForm } from "../UserForm";
+import toast from "react-hot-toast";
+import { UserService } from "../../../../../../../../app/services/UserService";
+import { APIError } from "../../../../../../../../app/errors/APIError";
+import { usePanelContext } from "../../../../../../../../app/hooks/usePanelContext";
+import { UserRoleType } from "../../../../../../../../types/users";
+import { IconUserPlus } from "@tabler/icons-react";
 
 interface NewUserModalProps {
   visible: boolean;
@@ -15,14 +15,14 @@ interface NewUserModalProps {
 }
 
 const headerNewUser = {
-  title: 'Novo Usuário',
-  description: 'Adicione um novo usuário para ter acesso ao portal',
+  title: "Novo Usuário",
+  description: "Adicione um novo usuário para ter acesso ao portal",
 };
 
 const headerSuccess = {
-  title: 'Usuário criado!',
+  title: "Usuário criado!",
   description:
-    'Oriente seu usuário a entrar em seu e-mail cadastrado para finalizar o cadastro no portal.',
+    "Oriente seu usuário a entrar em seu e-mail cadastrado para finalizar o cadastro no portal.",
 };
 
 export interface IUserData {
@@ -45,14 +45,11 @@ export function NewUserModal({ onClose, visible }: NewUserModalProps) {
         ...userData,
         companyId: userData.company?.id,
       });
-
       const formattedUser = {
-        ...user,
+        ...user[0],
         companies: userData.company ? [userData.company] : [],
       };
-
       updateUserState(formattedUser);
-
       setSuccess(true);
     } catch (err) {
       setSuccess(false);

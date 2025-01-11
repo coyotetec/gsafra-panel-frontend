@@ -5,8 +5,8 @@ import {
   IUserPayload,
   IUserStatusResponse,
   UserRoleType,
-} from '../../types/users';
-import { api } from './utils/api';
+} from "../../types/users";
+import { api } from "./utils/api";
 
 interface ICreateUserArgs {
   name: string;
@@ -25,7 +25,7 @@ interface IUpdateUserArgs {
 
 export class UserService {
   static async getUsers() {
-    const { data } = await api.get<IGetUserResponse[]>('/users');
+    const { data } = await api.get<IGetUserResponse[]>("/users");
 
     return data;
   }
@@ -33,24 +33,26 @@ export class UserService {
   static async managerCreateUser(payload: IUserPayload | IUserPayload[]) {
     if (Array.isArray(payload)) {
       const { data } = await api.post<ICreateUserResponse[]>(
-        '/users',
+        "/users",
         payload.map((item) => ({
           name: item.name,
           email: item.email,
           role: item.userRole?.value,
           companyId: item.company?.id,
           externalId: item.gsafraUser?.id,
+          idPapel: item.idPapel,
         })),
       );
 
       return data;
     } else {
-      const { data } = await api.post<ICreateUserResponse>('/users', {
+      const { data } = await api.post<ICreateUserResponse>("/users", {
         name: payload.name,
         email: payload.email,
         role: payload.userRole?.value,
         companyId: payload.company?.id,
         externalId: payload.gsafraUser?.id,
+        idPapel: payload.idPapel,
       });
 
       return data;
@@ -84,7 +86,7 @@ export class UserService {
   }
 
   static async createUser(payload: ICreateUserArgs) {
-    const { data } = await api.post<ICreateUserResponse>('/users', payload);
+    const { data } = await api.post<ICreateUserResponse[]>("/users", payload);
 
     return data;
   }
