@@ -1,25 +1,31 @@
+import { Icon } from "@tabler/icons-react";
 import {
   FormEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
-} from 'react';
-import { IGetGsafraUserResponse } from '../../../../../types/gsafraPaper';
-import { IUserPayload, IUserRole } from '../../../../../types/users';
-import { CompanyService } from '../../../../../app/services/CompanyService';
-import { APIError } from '../../../../../app/errors/APIError';
-import toast from 'react-hot-toast';
-import { GsafraUserService } from '../../../../../app/services/GsafraUserService';
-import { Select } from '../../../../components/Select';
-import { Input } from '../../../../components/Input';
-import { handleChangeInput } from '../../../../../app/utils/handleChangeInput';
-import { Button } from '../../../../components/Button';
-import { Icon } from '@tabler/icons-react';
-import { userSchema } from '../schemas';
-import { formatZodError } from '../../../../../app/utils/formatZodError';
-import { FormErrorType } from '../../../../../types/global';
-import { useManager } from '../../../../../app/hooks/useManager';
+} from "react";
+import toast from "react-hot-toast";
+import { APIError } from "../../../../../app/errors/APIError";
+import { useManager } from "../../../../../app/hooks/useManager";
+import { usePanelContext } from "../../../../../app/hooks/usePanelContext";
+import { CompanyService } from "../../../../../app/services/CompanyService";
+import { GsafraPapelService } from "../../../../../app/services/GsafraPapel";
+import { GsafraUserService } from "../../../../../app/services/GsafraUserService";
+import { formatZodError } from "../../../../../app/utils/formatZodError";
+import { handleChangeInput } from "../../../../../app/utils/handleChangeInput";
+import { FormErrorType } from "../../../../../types/global";
+import {
+  IGetGsafraPaperResponse,
+  IGetGsafraUserResponse,
+} from "../../../../../types/gsafraPaper";
+import { IUserPayload, IUserRole } from "../../../../../types/users";
+import { Button } from "../../../../components/Button";
+import { Input } from "../../../../components/Input";
+import { Select } from "../../../../components/Select";
+import { IUserCompanySelect } from "../../../User/Sidebar/content/Users/modals/UserForm";
+import { userSchema } from "../schemas";
 
 interface UserFormProps {
   onClose: () => void;
@@ -42,26 +48,34 @@ export interface IUserFormRef {
 }
 
 export const userRoles: IUserRole[] = [
-  { value: 'ADMIN', label: 'Administrador' },
-  { value: 'USER', label: 'Usuário Comum' },
-  { value: 'MANAGER', label: 'Gerenciador' },
+  { value: "ADMIN", label: "Administrador" },
+  { value: "USER", label: "Usuário Comum" },
+  { value: "MANAGER", label: "Gerenciador" },
 ];
 
 export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
   ({ onClose, onSubmit, submitButtonLabel, SubmitButtonIcon }, ref) => {
     const [isLoading, setIsLoading] = useState(false);
     const [companiesIsLoading, setCompaniesIsLoading] = useState(false);
-    const [gsafraUsersIsLoading, setGsafraUsersIsLoading] = useState(true);
     const [formErrors, setFormErrors] = useState<FormErrorType>(null);
     const [gsafraUsers, setGsafraUsers] = useState<IGetGsafraUserResponse[]>(
       [],
     );
+    const [selectedPaper, setSelectedPaper] = useState<Omit<
+      IGetGsafraPaperResponse,
+      "DESCRICAO"
+    > | null>(null);
+    const { userCompanies } = usePanelContext();
+    const [gsafraPapers, setGsafraPapers] = useState<IGetGsafraPaperResponse[]>(
+      [],
+    );
     const [userData, setUserData] = useState<IUserPayload>({
-      userRole: { value: 'ADMIN', label: 'Administrador' },
+      userRole: { value: "ADMIN", label: "Administrador" },
       company: undefined,
       gsafraUser: undefined,
-      name: '',
-      email: '',
+      name: "",
+      email: "",
+      idPapel: undefined,
     });
     const [companyId, setCompanyId] = useState<string | undefined>();
     const [gsafraUserId, setGsafraUserId] = useState<number | undefined>();
@@ -90,11 +104,11 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
       () => ({
         resetFields: () => {
           setUserData({
-            userRole: { value: 'ADMIN', label: 'Administrador' },
+            userRole: { value: "ADMIN", label: "Administrador" },
             company: undefined,
             gsafraUser: undefined,
-            name: '',
-            email: '',
+            name: "",
+            email: "",
           });
         },
         setFieldsValues: (data) => {
@@ -110,6 +124,24 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
       [],
     );
 
+    useEffect(() => {
+      if (!userData.company) return;
+      async function getGsafraUsers() {
+        try {
+          const gsafraUsers = await GsafraPapelService.getGsafraPapel(
+            userData?.company?.id,
+          );
+          setGsafraPapers(gsafraUsers);
+        } catch (err) {
+          onClose();
+          if (err instanceof APIError) toast.error(err.message);
+          setGsafraUsers([]);
+        } finally {
+        }
+      }
+
+      getGsafraUsers();
+    }, [userData, onClose]);
     useEffect(() => {
       async function loadCompanies() {
         try {
@@ -136,13 +168,10 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
 
       loadCompanies();
     }, [companies, companiesLoaded, companyId, setCompanies]);
-
     useEffect(() => {
       async function loadGsafraUsers() {
         try {
           if (gsafraUsers.length === 0) {
-            setGsafraUsersIsLoading(true);
-
             if (!userData.company) {
               return;
             }
@@ -163,7 +192,6 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
             toast.error(err.message);
           }
         } finally {
-          setGsafraUsersIsLoading(false);
         }
       }
 
@@ -187,14 +215,14 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
             setUserData((prevState) => ({
               ...prevState,
               userRole: value,
-              ...(value.value === 'MANAGER' && {
+              ...(value.value === "MANAGER" && {
                 company: undefined,
                 gsafraUser: undefined,
               }),
             }));
           }}
         />
-        {userData.userRole?.value !== 'MANAGER' && (
+        {userData.userRole?.value !== "MANAGER" && (
           <>
             <Select
               label="Empresa"
@@ -212,34 +240,20 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
               loading={companiesIsLoading}
               error={formErrors?.company}
             />
-            <Select
-              label="Usuário no  Sistema"
-              placeholder="Selecione um usuário"
-              options={gsafraUsers}
-              labelKey="name"
-              valueKey="id"
-              selected={userData.gsafraUser}
-              setSelected={(value) => {
-                setUserData((prevState) => ({
-                  ...prevState,
-                  gsafraUser: value,
-                  name: value.name,
-                  email: value.email || '',
-                }));
-              }}
-              loading={gsafraUsersIsLoading}
-              error={formErrors?.gsafraUser}
-            />
+            {gsafraPapers && gsafraPapers.length > 1 && (
+              <Select
+                options={gsafraPapers}
+                error={formErrors?.companyId}
+                labelKey="NOME"
+                valueKey="ID"
+                selected={selectedPaper}
+                setSelected={setSelectedPaper}
+                label="Papel usuário app"
+                placeholder="Selecione o papel do usúario no app"
+              />
+            )}
           </>
         )}
-        <Input
-          label="Nome"
-          placeholder="Nome do usuário"
-          name="name"
-          value={userData.name}
-          onChange={(e) => handleChangeInput<IUserPayload>(setUserData, e)}
-          error={formErrors?.name}
-        />
         <Input
           label="E-mail"
           placeholder="E-mail do usuário"
@@ -274,4 +288,4 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
   },
 );
 
-UserForm.displayName = 'UserForm';
+UserForm.displayName = "UserForm";

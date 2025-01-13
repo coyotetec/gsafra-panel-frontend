@@ -1,7 +1,7 @@
-import { IGetCompanyResponse } from './company';
-import { IGetGsafraUserResponse } from './gsafraPaper';
+import { IGetCompanyResponse } from "./company";
+import { IGetGsafraUserResponse } from "./gsafraPaper";
 
-export type UserRoleType = 'ADMIN' | 'USER' | 'MANAGER';
+export type UserRoleType = "ADMIN" | "USER" | "MANAGER";
 
 export interface IUserDataAuthenticated {
   id: string;
@@ -46,7 +46,7 @@ export interface IUserPayload {
   gsafraUser?: IGetGsafraUserResponse;
   name: string;
   email: string;
-  idPapel: string;
+  idPapel?: string;
 }
 
 export interface ICreateUserResponse {
