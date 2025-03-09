@@ -12,11 +12,6 @@ export const userSchema = z
         id: z.string(),
       })
       .optional(),
-    gsafraUser: z
-      .object({
-        id: z.number(),
-      })
-      .optional(),
     email: z.string().trim().email({
       message: 'Insira um endereço de email válido',
     }),
@@ -30,11 +25,5 @@ export const userSchema = z
       });
     }
 
-    if (val.userRole.value !== 'MANAGER' && !val.gsafraUser) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Usuário do sistema é obrigatório para este papel',
-        path: ['gsafraUser'],
-      });
-    }
+    
   });

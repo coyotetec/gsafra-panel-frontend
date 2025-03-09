@@ -83,9 +83,9 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
       setIsLoading(true);
 
       const userValidation = userSchema.safeParse(userData);
-
       if (!userValidation.success) {
         setIsLoading(false);
+        console.log(userValidation.error)
         return setFormErrors(formatZodError(userValidation.error));
       }
 
