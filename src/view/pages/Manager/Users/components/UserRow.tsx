@@ -42,7 +42,7 @@ export function UserRow({ data, onToggleStatus, onEdit }: UserRowProps) {
   return (
     <tr className="border-b bg-white" key={data.id}>
       <th scope="row" className="p-4 font-semibold">
-        {data.name}
+        {data.name || data.email}
       </th>
       <td className="p-4">
         {data.companies.map((company) => company.name).join(', ')}
