@@ -3,3 +3,4 @@ export interface IGetGsafraPaperResponse {
   NOME: string;
   DESCRICAO?: string;
 }
+export type IGetGsafraUserResponse = any

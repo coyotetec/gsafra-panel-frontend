@@ -73,13 +73,12 @@ export const UserForm = forwardRef(
     const { userCompanies } = usePanelContext();
 
     const [isLoading, setIsLoading] = useState(false);
-    const [gsafraUsersIsLoading, setGsafraUsersIsLoading] = useState(false);
     const [selectedGsafraUser, setSelectedGsafraUser] =
       useState<IGetGsafraUserResponse | null>(null);
     const [selectedUserRole, setSelectedUserRole] =
       useState<IUserRoleSelect | null>(null);
     const [selectedCompany, setSelectedCompany] =
-      useState<IUserCompanySelect | null>(
+      useState<any | null>(
         userCompanies && userCompanies.companies[0],
       );
     const [selectedPaper, setSelectedPaper] = useState<Omit<
@@ -121,7 +120,6 @@ export const UserForm = forwardRef(
     useEffect(() => {
       async function getGsafraUsers() {
         try {
-          setGsafraUsersIsLoading(true);
           const gsafraUsers = await GsafraPapelService.getGsafraPapel(
             selectedCompany?.id,
           );
@@ -129,9 +127,7 @@ export const UserForm = forwardRef(
         } catch (err) {
           onClose();
           if (err instanceof APIError) toast.error(err.message);
-          setGsafraUsers([]);
         } finally {
-          setGsafraUsersIsLoading(false);
         }
       }
 

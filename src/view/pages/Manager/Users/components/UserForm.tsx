@@ -24,7 +24,6 @@ import { IUserPayload, IUserRole } from "../../../../../types/users";
 import { Button } from "../../../../components/Button";
 import { Input } from "../../../../components/Input";
 import { Select } from "../../../../components/Select";
-import { IUserCompanySelect } from "../../../User/Sidebar/content/Users/modals/UserForm";
 import { userSchema } from "../schemas";
 
 interface UserFormProps {
@@ -65,11 +64,10 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
       IGetGsafraPaperResponse,
       "DESCRICAO"
     > | null>(null);
-    const { userCompanies } = usePanelContext();
     const [gsafraPapers, setGsafraPapers] = useState<IGetGsafraPaperResponse[]>(
       [],
     );
-    const [userData, setUserData] = useState<IUserPayload>({
+    const [userData, setUserData] = useState<any>({
       userRole: { value: "ADMIN", label: "Administrador" },
       company: undefined,
       gsafraUser: undefined,
@@ -152,7 +150,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
             setCompanies(companiesData);
             companiesLoaded.current = true;
           } else if (companyId) {
-            setUserData((prevState) => ({
+            setUserData((prevState: any) => ({
               ...prevState,
               company: companies.find((company) => company.id === companyId),
             }));
@@ -182,7 +180,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
 
             setGsafraUsers(gsafraUsersData);
           } else if (gsafraUserId) {
-            setUserData((prevState) => ({
+            setUserData((prevState: any) => ({
               ...prevState,
               gsafraUser: gsafraUsers.find((user) => user.id === gsafraUserId),
             }));
@@ -212,7 +210,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
           valueKey="value"
           selected={userData.userRole}
           setSelected={(value) => {
-            setUserData((prevState) => ({
+            setUserData((prevState: any) => ({
               ...prevState,
               userRole: value,
               ...(value.value === "MANAGER" && {
@@ -232,7 +230,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
               valueKey="id"
               selected={userData.company}
               setSelected={(value) => {
-                setUserData((prevState) => ({
+                setUserData((prevState: any) => ({
                   ...prevState,
                   company: value,
                 }));
