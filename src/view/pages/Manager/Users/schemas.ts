@@ -17,9 +17,6 @@ export const userSchema = z
         id: z.number(),
       })
       .optional(),
-    name: z.string().trim().min(1, {
-      message: 'Nome do usuário é obrigatório',
-    }),
     email: z.string().trim().email({
       message: 'Insira um endereço de email válido',
     }),
