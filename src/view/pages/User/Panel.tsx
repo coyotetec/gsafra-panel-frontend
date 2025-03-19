@@ -19,7 +19,7 @@ export function Panel() {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href={`https://acesso.gsafra.com//index2.html?userId=${userCompanies.userFirebirdId}&email=${user?.name}&companyId=${externalId}`}
+                href={`https://acesso.gsafra.com/index2.html?userId=${userCompanies.userFirebirdId}&email=${user?.name}&companyId=${externalId}`}
               >
                 <CardPanel
                   image={systemIcon}
