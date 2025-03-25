@@ -46,7 +46,9 @@ export interface IUserPayload {
   gsafraUser?: IGetGsafraUserResponse;
   name: string;
   email: string;
-  idPapel?: string;
+  idPapel?: {
+    ID: string;
+  };
 }
 
 export interface ICreateUserResponse {

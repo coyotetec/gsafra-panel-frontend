@@ -90,7 +90,7 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
 
       setFormErrors(null);
 
-      await onSubmit({...userData, idPapel: selectedPaper?.ID});
+      await onSubmit({...userData, idPapel: selectedPaper});
 
       setIsLoading(false);
     }

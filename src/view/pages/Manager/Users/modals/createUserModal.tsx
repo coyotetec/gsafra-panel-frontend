@@ -34,7 +34,7 @@ export function CreateUserModal({
         companyId: payload.company?.id,
         externalId: Number(payload.company?.externalId),
         company: payload.company,
-        idPapel: payload.idPapel,
+        idPapel: Number(payload?.idPapel?.ID),
       } as any)
       // const userCreated = (await UserService.managerCreateUser(
       //   payload,
