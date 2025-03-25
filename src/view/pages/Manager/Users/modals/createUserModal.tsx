@@ -32,7 +32,7 @@ export function CreateUserModal({
         name: payload.email,
         role: payload.userRole?.value,
         companyId: payload.company?.id,
-        externalId: payload.company?.id,
+        externalId: Number(payload.company?.externalId),
         company: payload.company,
         idPapel: payload.idPapel,
       } as any)
