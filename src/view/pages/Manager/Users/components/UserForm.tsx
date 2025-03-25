@@ -85,13 +85,12 @@ export const UserForm = forwardRef<IUserFormRef, UserFormProps>(
       const userValidation = userSchema.safeParse(userData);
       if (!userValidation.success) {
         setIsLoading(false);
-        console.log(userValidation.error)
         return setFormErrors(formatZodError(userValidation.error));
       }
 
       setFormErrors(null);
 
-      await onSubmit(userData);
+      await onSubmit({...userData, idPapel: selectedPaper});
 
       setIsLoading(false);
     }
