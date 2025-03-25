@@ -33,6 +33,8 @@ export function CreateUserModal({
         role: payload.userRole?.value,
         companyId: payload.company?.id,
         externalId: payload.company?.id,
+        company: payload.company,
+        idPapel: payload.idPapel,
       } as any)
       // const userCreated = (await UserService.managerCreateUser(
       //   payload,
