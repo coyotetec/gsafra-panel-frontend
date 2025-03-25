@@ -28,9 +28,16 @@ export function CreateUserModal({
 
   async function handleSubmit(payload: IUserPayload) {
     try {
-      const userCreated = (await UserService.managerCreateUser(
-        payload,
-      )) as ICreateUserResponse;
+      const userCreated: any = await UserService.createUser({
+        email: payload.email,
+        name: payload.email,
+        role: payload.userRole?.value,
+        companyId: payload.company?.id,
+        externalId: payload.company?.id,
+      } as any)
+      // const userCreated = (await UserService.managerCreateUser(
+      //   payload,
+      // )) as ICreateUserResponse;
       onCreated({
         ...userCreated,
         companies: payload.company
