@@ -1,6 +1,5 @@
 import { IconUserPlus } from "@tabler/icons-react";
 import {
-  ICreateUserResponse,
   IGetUserResponse,
   IUserPayload,
 } from "../../../../../types/users";
