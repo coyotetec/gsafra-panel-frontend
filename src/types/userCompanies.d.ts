@@ -7,6 +7,6 @@ export interface IUserCompany {
 
 export interface IGetUserCompaniesResponse {
   externalUserId: number;
-  userFirebirdId: number;
+  userFirebirdId: number[];
   companies: IUserCompany[];
 }
