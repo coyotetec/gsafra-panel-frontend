@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Sidebar } from '../pages/User/Sidebar';
 import { ContactWidget } from '../pages/User/ContactWidget';
 import { PanelProvider } from '../../app/contexts/PanelContext';
+import { Main } from '../components/Main';
 
 export type CurrentContentType = 'users' | 'notifications' | 'mobileAccess';
 
@@ -20,13 +21,13 @@ export function UserLayout() {
           currentContent={currentContent}
           setCurrentContent={setCurrentContent}
         />
-        <main className="relative ml-96 mt-28 min-h-calc-main px-9 py-10">
+        <Main>
           <section className="mx-auto w-full max-w-8xl">
             <Outlet />
           </section>
 
           <ContactWidget />
-        </main>
+        </Main>
       </PanelProvider>
     </div>
   );

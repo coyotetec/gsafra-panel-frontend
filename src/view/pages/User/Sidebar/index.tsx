@@ -7,6 +7,7 @@ import { useAuth } from '../../../../app/hooks/useAuth';
 import { useEffect } from 'react';
 import { Content } from './components/Content';
 import { MobileAccess } from './content/MobileAccess';
+import { usePanelContext } from '../../../../app/hooks/usePanelContext';
 
 interface IContent {
   current: CurrentContentType;
@@ -43,13 +44,13 @@ const contents: IContent[] = [
 
 export function Sidebar({ currentContent, setCurrentContent }: SidebarProps) {
   const { user } = useAuth();
-
+  const {hiddenPanel} = usePanelContext()
   useEffect(() => {
     if (user?.role === 'USER') {
       setCurrentContent('notifications');
     }
   }, [user?.role, setCurrentContent]);
-
+  if(hiddenPanel) return null
   return (
     <aside className="fixed left-0 top-28 z-40 flex h-calc-sidebar w-96">
       <nav className="flex h-full w-24 flex-col items-center gap-2 bg-primary-900 px-4 py-5">
