@@ -22,6 +22,7 @@ import { NotificationService } from "../services/NotificationService";
 
 interface IPanelContextValue {
   isLoading: boolean;
+  hiddenPanel: boolean;
   notificationIsLoading: boolean;
   users: IGetUserResponse[] | null;
   notifications: IGetNotificationResponse[] | undefined;
@@ -32,6 +33,7 @@ interface IPanelContextValue {
   updateUserState: (user: IGetUserResponse) => void;
   changeSelectedCompany: (event: ChangeEvent<HTMLSelectElement>) => void;
   getNotifications: () => void;
+  setHiddenPanel: any
 }
 
 export const PanelContext = createContext({} as IPanelContextValue);
@@ -52,7 +54,7 @@ export function PanelProvider({ children }: PanelProviderPros) {
   const [notifications, setNotifications] =
     useState<IGetNotificationResponse[]>();
   const [notificationIsLoading, setNotificationIsLoading] = useState(false);
-
+  const [hiddenPanel, setHiddenPanel] = useState(false);
   const { user } = useAuth();
 
   const filteredUsersByCompany = useMemo(() => {
@@ -154,9 +156,11 @@ export function PanelProvider({ children }: PanelProviderPros) {
     selectedCompany,
     notifications,
     userCompanies,
+    hiddenPanel,
     updateUserState,
     changeSelectedCompany,
     getNotifications,
+    setHiddenPanel
   };
   return (
     <PanelContext.Provider value={value}>{children}</PanelContext.Provider>
