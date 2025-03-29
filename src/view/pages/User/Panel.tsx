@@ -5,7 +5,7 @@ import systemIcon from "../../../assets/icon/system.svg";
 import { CardPanel } from "../../components/CardPanel";
 
 export function Panel() {
-  const { userCompanies, setHiddenPanel } = usePanelContext();
+  const { userCompanies,  } = usePanelContext();
   // const [iframe, setIfram] = useState('');
   const { user } = useAuth();
   // useEffect(() => {
