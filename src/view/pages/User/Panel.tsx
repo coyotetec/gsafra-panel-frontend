@@ -1,10 +1,8 @@
-import systemIcon from "../../../assets/icon/system.svg";
-import dashboardIcon from "../../../assets/icon/dashboard.svg";
-import { CardPanel } from "../../components/CardPanel";
-import { usePanelContext } from "../../../app/hooks/usePanelContext";
 import { useAuth } from "../../../app/hooks/useAuth";
-import { useEffect, useState } from "react";
-import { Iframe } from "../Iframe";
+import { usePanelContext } from "../../../app/hooks/usePanelContext";
+import dashboardIcon from "../../../assets/icon/dashboard.svg";
+import systemIcon from "../../../assets/icon/system.svg";
+import { CardPanel } from "../../components/CardPanel";
 
 export function Panel() {
   const { userCompanies, setHiddenPanel } = usePanelContext();
