@@ -8,16 +8,16 @@ import { Iframe } from "../Iframe";
 
 export function Panel() {
   const { userCompanies, setHiddenPanel } = usePanelContext();
-  const [iframe, setIfram] = useState('');
+  // const [iframe, setIfram] = useState('');
   const { user } = useAuth();
-  useEffect(() => {
-    if (!iframe) {
-      setHiddenPanel(false)
-    }
-  }, [])
-  if (iframe) {
-    return <Iframe />
-  }
+  // useEffect(() => {
+  //   if (!iframe) {
+  //     setHiddenPanel(false)
+  //   }
+  // }, [])
+  // if (iframe) {
+  //   return <Iframe />
+  // }
   return (
     <>
       <h1 className="text-3.5xl font-bold">Painel de Acessos</h1>
