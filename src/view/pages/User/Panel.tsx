@@ -28,19 +28,25 @@ export function Panel() {
             <div key={id}>
               <h2 className="text-lg font-medium">{name}</h2>
               <div className="mt-2 flex gap-3">
-                <button
+                <a
+                  href={`https://acesso.gsafra.com/index2.html?userId=${userCompanies.userFirebirdId[index]}&email=${user?.name}&companyId=${externalId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {/* <button
                   onClick={() => {
                     setHiddenPanel(true)
                     setIfram(`https://acesso.gsafra.com/index2.html?userId=${userCompanies.userFirebirdId[index]}&email=${user?.name}&companyId=${externalId}`)
                   }}
-                >
+                > */}
                   <CardPanel
                     image={systemIcon}
                     descriptionImg="Ícone do sistema"
                     title="Sistema"
                     farm={name}
                   />
-                </button>
+                  {/* </button> */}
+                </a>
                 <a
                   href={`https://dashboard.gsafra.com/?idEmpresa=${externalId}&idUsuario=${userCompanies.externalUserId[index]}`}
                   target="_blank"
