@@ -3,7 +3,7 @@ import { localStorageKeys } from "../../config/localStorageKeys";
 import { APIError } from "../../errors/APIError";
 
 export const api = axios.create({
-  baseURL: 'http://api.painel.gsafra.com',
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
   },
