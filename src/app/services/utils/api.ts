@@ -3,8 +3,15 @@ import { localStorageKeys } from "../../config/localStorageKeys";
 import { APIError } from "../../errors/APIError";
 
 export const api = axios.create({
-  baseURL: 'https://api.painel.gsafra.com', // Prod baseURL
+  baseURL: '/api', // Using proxy path
+//  baseURL: "92.246.130.170", // Iran baseURL
 //  baseURL: "http://localhost:3003", // Iran baseURL
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  httpsAgent: {
+    rejectUnauthorized: false
+  }
 });
 
 api.interceptors.request.use(function (config) {
