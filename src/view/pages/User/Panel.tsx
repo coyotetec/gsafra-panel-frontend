@@ -46,7 +46,7 @@ export function Panel() {
                   {/* </button> */}
                 </a>
                 <a
-                  href={`https://dashboard.gsafra.com/?idEmpresa=${externalId}&idUsuario=${userCompanies.externalUserId[index]}`}
+                  href={`https://dashboard.gsafra.com/?idEmpresa=${externalId}&idUsuario=${userCompanies.userFirebirdId[index]}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
