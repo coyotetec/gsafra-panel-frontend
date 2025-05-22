@@ -12,6 +12,11 @@ export class CompanyService {
 
     return data;
   }
+  static async getCompaniesById(id:string) {
+    const { data } = await api.get<IGetCompanyResponse>(`/companies/${id}`);
+
+    return data;
+  }
 
   static async createCompany(payload: ICompanyPayload) {
     const { data } = await api.post<ICreateCompanyResponse>('/companies', {

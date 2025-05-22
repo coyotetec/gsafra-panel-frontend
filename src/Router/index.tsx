@@ -10,6 +10,7 @@ import { UserLayout } from '../view/layouts/UserLayout';
 import { Panel } from '../view/pages/User/Panel';
 import AuthGuard from './AuthGuard';
 import { AppLinks } from '../view/pages/AppLinks';
+import { CompanyDetail } from '../view/pages/Company';
 
 export function Router() {
   return (
@@ -38,6 +39,7 @@ export function Router() {
             <Route path="/manager/companies" element={<Companies />} />
             <Route path="/manager/users" element={<Users />} />
             <Route path="/manager/notifications" element={<Notifications />} />
+            <Route path="/company/:id" element={<CompanyDetail />} />
           </Route>
         </Route>
 

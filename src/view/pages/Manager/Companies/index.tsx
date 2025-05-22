@@ -165,8 +165,14 @@ export function Companies() {
               <CompanyRow
                 key={company.id}
                 data={company}
-                onToggleStatus={() => handleToggleCompanyStatus(company.id)}
-                onEdit={() => {
+                onToggleStatus={(event) => {
+                  event.stopPropagation();
+                  console.log("company", event);
+                  handleToggleCompanyStatus(company.id)
+                }
+                }
+                onEdit={(event) => {
+                  event.stopPropagation();
                   setSelectedCompany(company);
                   setEditModalVisible(true);
                 }}

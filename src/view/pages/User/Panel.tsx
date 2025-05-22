@@ -5,17 +5,8 @@ import systemIcon from "../../../assets/icon/system.svg";
 import { CardPanel } from "../../components/CardPanel";
 
 export function Panel() {
-  const { userCompanies,  } = usePanelContext();
-  // const [iframe, setIfram] = useState('');
+  const { userCompanies, } = usePanelContext();
   const { user } = useAuth();
-  // useEffect(() => {
-  //   if (!iframe) {
-  //     setHiddenPanel(false)
-  //   }
-  // }, [])
-  // if (iframe) {
-  //   return <Iframe />
-  // }
   return (
     <>
       <h1 className="text-3.5xl font-bold">Painel de Acessos</h1>
@@ -31,19 +22,12 @@ export function Panel() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {/* <button
-                  onClick={() => {
-                    setHiddenPanel(true)
-                    setIfram(`https://acesso.gsafra.com/index2.html?userId=${userCompanies.userFirebirdId[index]}&email=${user?.name}&companyId=${externalId}`)
-                  }}
-                > */}
                   <CardPanel
                     image={systemIcon}
                     descriptionImg="Ícone do sistema"
                     title="Sistema"
                     farm={name}
                   />
-                  {/* </button> */}
                 </a>
                 <a
                   href={`https://dashboard.gsafra.com/?idEmpresa=${externalId}&idUsuario=${userCompanies.userFirebirdId[index]}`}

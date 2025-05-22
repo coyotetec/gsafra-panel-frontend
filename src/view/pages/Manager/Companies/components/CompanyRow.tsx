@@ -1,23 +1,24 @@
 import { IconEdit } from '@tabler/icons-react';
-import { IGetCompanyResponse } from '../../../../../types/company';
-import { Switch } from '../../../../components/Switch';
-import { cn } from '../../../../../app/utils/cn';
-import { useState } from 'react';
-import { APIError } from '../../../../../app/errors/APIError';
+import { ChangeEvent, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { APIError } from '../../../../../app/errors/APIError';
 import { CompanyService } from '../../../../../app/services/CompanyService';
+import { cn } from '../../../../../app/utils/cn';
+import { IGetCompanyResponse } from '../../../../../types/company';
 import { Spinner } from '../../../../components/Loaders/Spinner';
+import { Switch } from '../../../../components/Switch';
 
 interface CompanyRowProps {
   data: IGetCompanyResponse;
-  onToggleStatus: () => void;
-  onEdit: () => void;
+  onToggleStatus: (event: any) => void;
+  onEdit: (event: any) => void;
 }
 
 export function CompanyRow({ data, onToggleStatus, onEdit }: CompanyRowProps) {
   const [isLoading, setIsLoading] = useState(false);
-
-  async function handleToggleStatus() {
+  const navigate = useNavigate();
+  async function handleToggleStatus(event: ChangeEvent<HTMLInputElement>) {
     try {
       setIsLoading(true);
 
@@ -29,7 +30,7 @@ export function CompanyRow({ data, onToggleStatus, onEdit }: CompanyRowProps) {
         toast.success(message);
       }
 
-      onToggleStatus();
+      onToggleStatus(event);
     } catch (err) {
       if (err instanceof APIError) {
         toast.error(err.message);
@@ -38,16 +39,18 @@ export function CompanyRow({ data, onToggleStatus, onEdit }: CompanyRowProps) {
       setIsLoading(false);
     }
   }
-
+  const gotToCompanyDetail = (companyId: string) => {
+    navigate(`/company/${companyId}`);
+  }
   return (
-    <tr className="border-b bg-white">
-      <th scope="row" className="p-4 font-semibold">
+    <tr className="border-b bg-white hover:bg-slate-100">
+      <th scope="row" className="p-4 font-semibold cursor-pointer" onClick={() => gotToCompanyDetail(data.id)}>
         {data.name}
       </th>
-      <td className="p-4">{data.host}</td>
-      <td className="p-4">#{data.externalId}</td>
-      <td className="p-4">{data.usersQty}</td>
-      <td className="p-4">
+      <td className="p-4 cursor-pointer" onClick={() => gotToCompanyDetail(data.id)}>{data.host}</td>
+      <td className="p-4 cursor-pointer" onClick={() => gotToCompanyDetail(data.id)}>#{data.externalId}</td>
+      <td className="p-4 cursor-pointer" onClick={() => gotToCompanyDetail(data.id)}>{data.usersQty}</td>
+      <td className="p-4 cursor-pointer" onClick={() => gotToCompanyDetail(data.id)}>
         <span
           className={cn(
             'mr-2 inline-block h-2 w-2 rounded-full',
@@ -63,7 +66,7 @@ export function CompanyRow({ data, onToggleStatus, onEdit }: CompanyRowProps) {
         {isLoading ? (
           <Spinner className="ml-2.5 text-primary-500" />
         ) : (
-          <Switch checked={data.active} onChange={() => handleToggleStatus()} />
+          <Switch checked={data.active} onChange={handleToggleStatus} />
         )}
       </td>
     </tr>
