@@ -85,7 +85,7 @@ export const CompanyDetail = () => {
                     label="Novo usuário"
                     name="password"
                     // value={formData.password}
-                    onChange={(e) => setClientData(event => ({ ...event, userId: e.target.value }))}
+                    onChange={(e) => setClientData((event: any) => ({ ...event, userId: e.target.value }))}
                 />
                 <Button
                     type="submit"
