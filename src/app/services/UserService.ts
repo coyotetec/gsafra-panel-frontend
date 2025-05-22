@@ -90,6 +90,11 @@ export class UserService {
 
     return data;
   }
+  static async createExternalUser(payload: {userId: string, companyId: string}) {
+    const { data } = await api.post<ICreateUserResponse[]>("/user/create-api", payload);
+
+    return data;
+  }
 
   static async updateUser(payload: IUpdateUserArgs, userId: string) {
     const { data } = await api.put<IPutUserResponse>(

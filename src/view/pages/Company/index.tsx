@@ -7,6 +7,7 @@ import { CompanyService } from "../../../app/services/CompanyService";
 import { IGetCompanyResponse } from "../../../types/company";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
+import { UserService } from "../../../app/services/UserService";
 
 export const CompanyDetail = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -37,17 +38,7 @@ export const CompanyDetail = () => {
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-
-        toast.promise(fetch('http://acesso.gsafra.com:3004/create-user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                ...clientData, companyId: company?.externalId,
-                "email": "teste:@test.com",
-            })
-        }), {
+        toast.promise(UserService.createExternalUser({ userId: clientData.userId, companyId: String(company?.externalId) }), {
             loading: 'Criando usuário...',
             success: <b>Usuário criado com sucesso!</b>,
             error: <b>Erro ao criar o usuário</b>,
